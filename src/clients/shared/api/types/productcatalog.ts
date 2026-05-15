@@ -148,7 +148,9 @@ export type ListCustomerCollectionsResponse = Omit<ListCollectionsResponseBody, 
 export type ListProductsQuery = QueryParams<ListProductsOperation>;
 // 200 OK
 type ListProductsResponseBody = JsonResponse<ListProductsOperation>;
-export type CreateProductRequest = JsonRequestBody<CreateProductOperation>;
+export type CreateProductRequest = JsonRequestBody<CreateProductOperation> & {
+    summary?: string | null;
+};
 // 200 OK
 export type CreateProductResponse = ProductResponse;
 export type GetProductParams = { id: string };
@@ -160,6 +162,7 @@ export type VariantResponse = Omit<GeneratedVariantResponse, "id"> & {
 };
 export type ProductResponse = Omit<GeneratedProductResponse, "id" | "variants" | "lowestPrice" | "highestPrice"> & {
     id: string;
+    summary: string;
     lowestPrice: number;
     highestPrice: number;
     variants: VariantResponse[];
@@ -167,6 +170,7 @@ export type ProductResponse = Omit<GeneratedProductResponse, "id" | "variants" |
 export type ProductSummaryResponse = {
     id: string;
     name: string;
+    summary: string;
     slug: string;
     imageUrl: string;
     status: ProductResponse["status"];
@@ -205,6 +209,7 @@ export type ListCustomerProductsQuery = {
 export type CustomerProductSummaryResponse = {
     id: string;
     name: string;
+    summary: string;
     slug: string;
     imageUrl: string;
     categoryId: number;

@@ -27,8 +27,8 @@ const greatVibes = Great_Vibes({
 });
 
 export const metadata: Metadata = {
-  title: "Nekomin — Sống chậm, sống đẹp",
-  description: "Phụ kiện, detox & decor được chọn lọc cho lối sống có chủ ý.",
+  title: "Nekomin",
+  description: "Phụ kiện, decor, trang phục được chọn lọc theo chủ nghĩa tối giản và cầu toàn.",
   icons: { icon: "/favicon.svg" },
 };
 

@@ -4020,6 +4020,7 @@ export interface components {
             displayOrder: components["schemas"]["System.Int32"];
             id: components["schemas"]["System.String"];
             name: components["schemas"]["System.String"];
+            summary: components["schemas"]["System.String"];
             slug: components["schemas"]["System.String"];
             imageUrl: components["schemas"]["System.String"];
             categoryId: components["schemas"]["System.Int32"];
@@ -4057,6 +4058,7 @@ export interface components {
         "ProductCatalog.DTOs.Products.CreateProductRequest": {
             id?: null | components["schemas"]["System.String"];
             name: components["schemas"]["System.String"];
+            summary?: components["schemas"]["System.String"];
             description?: components["schemas"]["System.String"];
             categoryId: components["schemas"]["System.Int32"];
             imageUrl?: components["schemas"]["System.String"];
@@ -4108,6 +4110,7 @@ export interface components {
             variants: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.CustomerVariantResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
             id: components["schemas"]["System.String"];
             name: components["schemas"]["System.String"];
+            summary: components["schemas"]["System.String"];
             slug: components["schemas"]["System.String"];
             imageUrl: components["schemas"]["System.String"];
             categoryId: components["schemas"]["System.Int32"];
@@ -4120,6 +4123,7 @@ export interface components {
         "ProductCatalog.DTOs.Products.CustomerProductSummaryResponse": {
             id: components["schemas"]["System.String"];
             name: components["schemas"]["System.String"];
+            summary: components["schemas"]["System.String"];
             slug: components["schemas"]["System.String"];
             imageUrl: components["schemas"]["System.String"];
             categoryId: components["schemas"]["System.Int32"];
@@ -4151,6 +4155,7 @@ export interface components {
         "ProductCatalog.DTOs.Products.ProductResponse": {
             id: components["schemas"]["System.String"];
             name: components["schemas"]["System.String"];
+            summary: components["schemas"]["System.String"];
             description: components["schemas"]["System.String"];
             categoryId: components["schemas"]["System.Int32"];
             categoryName: components["schemas"]["System.String"];
@@ -4182,6 +4187,7 @@ export interface components {
         "ProductCatalog.DTOs.Products.ProductSummaryResponse": {
             id: components["schemas"]["System.String"];
             name: components["schemas"]["System.String"];
+            summary: components["schemas"]["System.String"];
             slug: components["schemas"]["System.String"];
             imageUrl: components["schemas"]["System.String"];
             status: components["schemas"]["ProductCatalog.Core.Entities.ProductStatus"];
@@ -4199,6 +4205,7 @@ export interface components {
         "ProductCatalog.DTOs.Products.UpdateProductRequest": {
             id?: null | components["schemas"]["System.String"];
             name: components["schemas"]["System.String"];
+            summary?: components["schemas"]["System.String"];
             description?: components["schemas"]["System.String"];
             categoryId: components["schemas"]["System.Int32"];
             imageUrl?: components["schemas"]["System.String"];

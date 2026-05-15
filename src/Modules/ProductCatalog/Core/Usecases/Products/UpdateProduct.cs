@@ -31,6 +31,7 @@ public class UpdateProduct(ProductCatalogDbContext db, IFileManager fileManager)
 
         product.Name = name;
         product.Slug = slug;
+        product.Summary = request.Summary?.Trim() ?? string.Empty;
         product.Description = request.Description.Trim();
         product.CategoryId = category.Id;
         product.Category = category;

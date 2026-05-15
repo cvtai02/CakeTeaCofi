@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using SharedKernel.Enums;
 
 namespace ProductCatalog.Core.Entities;
@@ -7,6 +8,8 @@ public class Product : AuditableEntity
     public string Id { get; set; } = string.Empty;
     public string Name { get; set; } = null!;
     public string Slug { get; set; } = null!;
+    [MaxLength(500)]
+    public string Summary { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int CategoryId { get; set; }
     public string ImageUrl { get; set; } = string.Empty;

@@ -27,6 +27,7 @@ public class ListCustomerProducts(ProductCatalogDbContext db, IFileManager fileM
             var search = request.Search.Trim().ToLower();
             query = query.Where(x =>
                 x.Name.ToLower().Contains(search) ||
+                x.Summary.ToLower().Contains(search) ||
                 x.Description.ToLower().Contains(search) ||
                 x.Slug.ToLower().Contains(search));
         }

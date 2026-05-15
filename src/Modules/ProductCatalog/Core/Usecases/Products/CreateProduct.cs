@@ -26,6 +26,7 @@ public class CreateProduct(ProductCatalogDbContext db, IFileManager fileManager,
         {
             Id = productId,
             Name = name,
+            Summary = request.Summary?.Trim() ?? string.Empty,
             Description = request.Description.Trim(),
             CategoryId = category.Id,
             Slug = slug,

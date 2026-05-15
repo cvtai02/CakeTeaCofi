@@ -46,6 +46,7 @@ internal static class CustomerCollectionMapper
                     {
                         Id = summary.Id,
                         Name = summary.Name,
+                        Summary = summary.Summary,
                         Slug = summary.Slug,
                         ImageUrl = summary.ImageUrl,
                         CategoryId = summary.CategoryId,

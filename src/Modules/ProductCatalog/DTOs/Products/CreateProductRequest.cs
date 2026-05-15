@@ -13,6 +13,9 @@ public class CreateProductRequest
     [MaxLength(200)]
     public string Name { get; set; } = string.Empty;
 
+    [MaxLength(500)]
+    public string Summary { get; set; } = string.Empty;
+
     [MaxLength(2000)]
     public string Description { get; set; } = string.Empty;
 

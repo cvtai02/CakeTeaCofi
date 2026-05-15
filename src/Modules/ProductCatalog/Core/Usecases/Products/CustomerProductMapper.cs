@@ -16,6 +16,7 @@ internal static class CustomerProductMapper
         {
             Id = product.Id,
             Name = product.Name,
+            Summary = product.Summary,
             Slug = product.Slug,
             ImageUrl = ResolveImageUrl(product, fileManager),
             CategoryId = product.CategoryId,
@@ -36,6 +37,7 @@ internal static class CustomerProductMapper
         {
             Id = summary.Id,
             Name = summary.Name,
+            Summary = summary.Summary,
             Slug = summary.Slug,
             ImageUrl = summary.ImageUrl,
             CategoryId = summary.CategoryId,
