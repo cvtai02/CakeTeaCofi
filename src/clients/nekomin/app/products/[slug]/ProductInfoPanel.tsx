@@ -97,10 +97,10 @@ export function ProductInfoPanel({ product }: { product: CustomerProductResponse
   const compareAt = variant?.compareAtPrice ?? product.compareAtPrice;
   const hasDiscount = compareAt > 0 && compareAt > price;
 
-  const priceLabel =
-    !variant && product.lowestPrice !== product.highestPrice
-      ? `${fmt(product.lowestPrice, currency)} – ${fmt(product.highestPrice, currency)}`
-      : fmt(price, currency);
+  const isRange = !variant && product.lowestPrice !== product.highestPrice;
+  const priceLabel = isRange
+    ? `${fmt(product.lowestPrice * qty, currency)} – ${fmt(product.highestPrice * qty, currency)}`
+    : fmt(price * qty, currency);
 
   function handleAddToCart() {
     const variantLabel = variant
@@ -129,16 +129,18 @@ export function ProductInfoPanel({ product }: { product: CustomerProductResponse
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-        <span style={{ fontSize: "1.35rem", fontWeight: 700, color: "var(--terra)" }}>
-          {priceLabel}
-        </span>
-        {hasDiscount && (
-          <span style={{ fontSize: "0.95rem", color: "var(--brown-md)", textDecoration: "line-through" }}>
-            {fmt(compareAt, currency)}
-          </span>
-        )}
-      </div>
+      {product.summary && (
+        <p
+          style={{
+            fontSize: "0.95rem",
+            color: "var(--brown-md)",
+            lineHeight: 1.6,
+            margin: 0,
+          }}
+        >
+          {product.summary}
+        </p>
+      )}
 
       {options.map((opt) => (
         <div key={opt.id}>
@@ -181,6 +183,7 @@ export function ProductInfoPanel({ product }: { product: CustomerProductResponse
         <p style={{ fontSize: "0.82rem", fontWeight: 500, color: "var(--brown)", margin: "0 0 8px" }}>
           Số lượng
         </p>
+        <div style={{ display: "flex", alignItems: "center", gap: 16, justifyContent: "space-between" }}>
         <div
           style={{
             display: "inline-flex",
@@ -217,6 +220,37 @@ export function ProductInfoPanel({ product }: { product: CustomerProductResponse
             +
           </button>
         </div>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+          <span style={{ fontSize: "1.35rem", fontWeight: 700, color: "var(--terra)" }}>
+            {priceLabel}
+          </span>
+          {hasDiscount && (
+            <span style={{ fontSize: "0.95rem", color: "var(--brown-md)", textDecoration: "line-through" }}>
+              {fmt(compareAt, currency)}
+            </span>
+          )}
+        </div>
+        </div>
+      </div>
+
+      <div>
+        <p style={{ fontSize: "0.82rem", fontWeight: 500, color: "var(--brown)", margin: "0 0 8px" }}>
+          Vận chuyển
+        </p>
+        {product.physicalProduct ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <span style={{ fontSize: "0.85rem", color: "var(--brown-md)" }}>Giao hàng toàn quốc</span>
+            {(product.weight > 0 || (product.width > 0 && product.height > 0 && product.length > 0)) && (
+              <span style={{ fontSize: "0.8rem", color: "var(--brown-md)", opacity: 0.7 }}>
+                {product.weight > 0 && `${product.weight} kg`}
+                {product.weight > 0 && product.width > 0 && product.height > 0 && product.length > 0 && " · "}
+                {product.width > 0 && product.height > 0 && product.length > 0 && `${product.length} × ${product.width} × ${product.height} cm`}
+              </span>
+            )}
+          </div>
+        ) : (
+          <span style={{ fontSize: "0.85rem", color: "var(--brown-md)" }}>Sản phẩm số — không cần vận chuyển</span>
+        )}
       </div>
 
       <div style={{ display: "flex", gap: 10 }}>
@@ -257,26 +291,7 @@ export function ProductInfoPanel({ product }: { product: CustomerProductResponse
         </button>
       </div>
 
-      {product.description && (
-        <div style={{ borderTop: "1px solid var(--linen)", paddingTop: 20, marginTop: 4 }}>
-          <p
-            style={{
-              fontSize: "0.78rem", fontWeight: 600, textTransform: "uppercase",
-              letterSpacing: "0.1em", color: "var(--brown-md)", margin: "0 0 10px",
-            }}
-          >
-            Mô tả sản phẩm
-          </p>
-          <p
-            style={{
-              fontSize: "0.9rem", color: "var(--brown-md)", lineHeight: 1.8,
-              whiteSpace: "pre-line", margin: 0,
-            }}
-          >
-            {product.description}
-          </p>
-        </div>
-      )}
+
     </div>
   );
 }

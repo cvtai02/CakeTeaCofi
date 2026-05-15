@@ -40,6 +40,7 @@ export type Variant = VariantOverride & {
 export type FormValues = {
   customId: string;
   name: string;
+  summary: string;
   categoryId: number;
   description: string;
   status: string;
@@ -63,6 +64,7 @@ export type FormValues = {
 export const DEFAULT_FORM_VALUES: FormValues = {
   customId: "",
   name: "",
+  summary: "",
   categoryId: 0,
   description: "",
   status: "Draft",

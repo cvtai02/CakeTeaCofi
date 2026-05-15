@@ -19,6 +19,19 @@ public class UpdateGallery(ContentDbContext db)
         if (gallery is null)
             return null;
 
+        var key = string.IsNullOrWhiteSpace(request.Key)
+            ? gallery.Key
+            : GalleryValidation.NormalizeKey(request.Key);
+        if (key != gallery.Key)
+        {
+            var exists = await db.Galleries
+                .ActiveOnly()
+                .AnyAsync(x => x.Key == key && x.Id != id, ct);
+            if (exists)
+                GalleryValidation.Throw("Key", "A gallery with this key already exists.");
+            gallery.Key = key;
+        }
+
         gallery.Name = GalleryValidation.NormalizeRequired(request.Name);
         gallery.Note = GalleryValidation.NormalizeOptional(request.Note);
         gallery.IsPublic = request.IsPublic;
@@ -41,7 +54,7 @@ public class UpdateGallery(ContentDbContext db)
             {
                 GalleryId = galleryId,
                 ImageKey = GalleryValidation.NormalizeRequired(item.ImageKey),
-                DisplayOrder = item.DisplayOrder <= 0 ? index + 1 : item.DisplayOrder,
+                DisplayOrder = index,
                 Name = GalleryValidation.NormalizeOptional(item.Name),
                 Note = GalleryValidation.NormalizeOptional(item.Note),
                 Link = GalleryValidation.NormalizeOptional(item.Link)

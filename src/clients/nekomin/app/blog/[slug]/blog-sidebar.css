@@ -174,10 +174,7 @@
   font-size: 0.79rem;
   color: oklch(40% 0.02 60);
   text-decoration: none;
-  line-height: 1.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.5;
   transition: background 0.14s, color 0.14s;
 }
 

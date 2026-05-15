@@ -34,8 +34,13 @@ export function ProductGallery({ products }: { products: CustomerProductSummaryR
                 </div>
                 <div className="product-overlay">
                   <div className="product-name">{product.name}</div>
-                  <div className="product-desc">
-                    <PriceRange product={product} />
+                  {product.summary && (
+                    <div className="product-desc">{product.summary}</div>
+                  )}
+                  <div className="product-footer">
+                    <span className="product-price">
+                      <PriceRange product={product} />
+                    </span>
                   </div>
                 </div>
               </div>

@@ -9,6 +9,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
@@ -53,6 +54,18 @@ export function GeneralSection({ register, control, errors, categories }: Props)
               placeholder="Short sleeve t-shirt"
             />
             {errors.name && <FieldError>{errors.name.message}</FieldError>}
+          </Field>
+
+          <Field>
+            <FieldLabel>Summary</FieldLabel>
+            <Textarea
+              {...register("summary", {
+                maxLength: { value: 500, message: "Max 500 characters" },
+              })}
+              placeholder="Short intro shown on product cards and previews."
+              rows={2}
+            />
+            {errors.summary && <FieldError>{errors.summary.message}</FieldError>}
           </Field>
 
           <Field>

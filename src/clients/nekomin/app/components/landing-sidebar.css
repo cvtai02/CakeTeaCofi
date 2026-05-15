@@ -127,6 +127,13 @@
   margin-bottom: 8px;
 }
 
+.landing-sidebar-section-subheading {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: oklch(40% 0.04 50);
+  margin: 10px 0 4px 10px;
+}
+
 .landing-sidebar-list {
   list-style: none;
   margin: 0;

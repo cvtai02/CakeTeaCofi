@@ -302,6 +302,7 @@ export type CreateGalleryRequest = {
 export type CreateGalleryResponse = GalleryResponse;
 
 export type UpdateGalleryRequest = {
+    key?: string | null;
     name: string;
     note?: string | null;
     isPublic: boolean;

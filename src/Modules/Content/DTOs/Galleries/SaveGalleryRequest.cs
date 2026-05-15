@@ -21,6 +21,9 @@ public class CreateGalleryRequest
 
 public class UpdateGalleryRequest
 {
+    [MaxLength(100)]
+    public string? Key { get; set; }
+
     [Required]
     [MaxLength(200)]
     public string Name { get; set; } = string.Empty;

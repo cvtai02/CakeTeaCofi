@@ -35,9 +35,11 @@ public class GetCustomerProductById(ProductCatalogDbContext db, IFileManager fil
     private IQueryable<Product> BuildCustomerProductQuery() => db.Products
         .AsNoTracking()
         .Include(x => x.Category)
+        .Include(x => x.ShippingInfo)
         .Include(x => x.Medias)
         .Include(x => x.Options).ThenInclude(x => x.OptionValues)
         .Include(x => x.Variants).ThenInclude(x => x.OptionValues)
+        .Include(x => x.Variants).ThenInclude(x => x.ShippingInfo)
         .Include(x => x.Metric)
         .Where(x => x.Status == ProductStatus.Active && x.Category.Status == CategoryStatus.Active);
 }

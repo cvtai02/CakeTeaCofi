@@ -33,6 +33,7 @@ export default function AddProductPage() {
     const created = await createProduct({
       id: values.customId.trim() || undefined,
       name: values.name,
+      summary: values.summary.trim() || undefined,
       categoryId: values.categoryId,
       description: values.description || undefined,
       ...buildMediaPayload(values.mediaUrls),

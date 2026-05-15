@@ -32,6 +32,7 @@ internal static class CustomerProductMapper
     {
         var summary = ToSummary(product, fileManager);
         var primaryVariant = product.Variants.OrderBy(x => x.Id).FirstOrDefault();
+        var primaryVariantShipping = primaryVariant?.ShippingInfo;
 
         return new CustomerProductResponse
         {
@@ -48,6 +49,11 @@ internal static class CustomerProductMapper
             Currency = summary.Currency,
             Description = product.Description,
             CompareAtPrice = primaryVariant?.CompareAtPrice ?? product.CompareAtPrice,
+            PhysicalProduct = product.ShippingInfo?.Physical ?? primaryVariantShipping?.Physical ?? false,
+            Weight = product.ShippingInfo?.Weight ?? primaryVariantShipping?.Weight ?? 0,
+            Width = product.ShippingInfo?.Width ?? primaryVariantShipping?.Width ?? 0,
+            Height = product.ShippingInfo?.Height ?? primaryVariantShipping?.Height ?? 0,
+            Length = product.ShippingInfo?.Length ?? primaryVariantShipping?.Length ?? 0,
             Medias = product.Medias
                 .OrderBy(x => x.DisplayOrder)
                 .Select(x => new ProductMediaResponse

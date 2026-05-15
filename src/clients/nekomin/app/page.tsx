@@ -24,7 +24,7 @@ export default async function Home() {
   const contentClient = new ContentClient(appFetch, process.env.NEXT_PUBLIC_API_BASE_URL ?? "");
 
   const [heroGallery, bestSellerGallery, blogCollection] = await Promise.all([
-    contentClient.getPublicGalleryByKey("herro").catch((err) => { console.error("[hero gallery]", err); return null; }),
+    contentClient.getPublicGalleryByKey("hero").catch((err) => { console.error("[hero gallery]", err); return null; }),
     contentClient.getPublicGalleryByKey("best-seller").catch((err) => { console.error("[best-seller gallery]", err); return null; }),
     contentClient.getPublicBlogPostCollectionByKey("landingpage").catch((err) => { console.error("[blog collection]", err); return null; }),
   ]);

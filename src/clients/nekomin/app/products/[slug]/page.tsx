@@ -55,6 +55,27 @@ export default async function ProductPage({
             <ProductInfoPanel product={product} />
           </div>
         </div>
+
+        {product.description && (
+          <div style={{ borderTop: "1px solid var(--linen)", marginTop: 56, paddingTop: 40 }}>
+            <p
+              style={{
+                fontSize: "0.78rem", fontWeight: 600, textTransform: "uppercase",
+                letterSpacing: "0.1em", color: "var(--brown-md)", margin: "0 0 16px",
+              }}
+            >
+              Mô tả sản phẩm
+            </p>
+            <p
+              style={{
+                fontSize: "0.9rem", color: "var(--brown-md)", lineHeight: 1.8,
+                whiteSpace: "pre-line", margin: 0, maxWidth: 800,
+              }}
+            >
+              {product.description}
+            </p>
+          </div>
+        )}
       </section>
     </div>
   );

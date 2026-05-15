@@ -231,6 +231,11 @@ export type CustomerVariantResponse = {
 export type CustomerProductResponse = CustomerProductSummaryResponse & {
     description: string;
     compareAtPrice: number;
+    physicalProduct: boolean;
+    weight: number;
+    width: number;
+    height: number;
+    length: number;
     medias: ProductResponse["medias"];
     options: ProductResponse["options"];
     variants: CustomerVariantResponse[];

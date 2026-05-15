@@ -39,7 +39,7 @@ public class CreateGallery(ContentDbContext db)
             .Select((item, index) => new GalleryItem
             {
                 ImageKey = GalleryValidation.NormalizeRequired(item.ImageKey),
-                DisplayOrder = item.DisplayOrder <= 0 ? index + 1 : item.DisplayOrder,
+                DisplayOrder = index,
                 Name = GalleryValidation.NormalizeOptional(item.Name),
                 Note = GalleryValidation.NormalizeOptional(item.Note),
                 Link = GalleryValidation.NormalizeOptional(item.Link)

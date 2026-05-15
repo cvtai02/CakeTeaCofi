@@ -42,6 +42,7 @@ export default function EditProductPage() {
       : product.imageUrl ? [product.imageUrl] : [];
     return {
       name: product.name ?? "",
+      summary: product.summary ?? "",
       categoryId: product.categoryId ?? 0,
       description: product.description ?? "",
       status: (product.status as string) ?? "Draft",
@@ -122,6 +123,7 @@ export default function EditProductPage() {
 
     const updated = await updateProduct({
       name: values.name,
+      summary: values.summary.trim() || undefined,
       categoryId: values.categoryId,
       description: values.description || undefined,
       ...buildMediaPayload(values.mediaUrls),

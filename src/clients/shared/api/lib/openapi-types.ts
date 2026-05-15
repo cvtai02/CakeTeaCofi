@@ -3718,6 +3718,7 @@ export interface components {
             link?: null | components["schemas"]["System.String"];
         };
         "Content.DTOs.Galleries.UpdateGalleryRequest": {
+            key?: null | components["schemas"]["System.String"];
             name: components["schemas"]["System.String"];
             note?: null | components["schemas"]["System.String"];
             isPublic?: components["schemas"]["System.Boolean"];
@@ -4105,6 +4106,11 @@ export interface components {
         "ProductCatalog.DTOs.Products.CustomerProductResponse": {
             description: components["schemas"]["System.String"];
             compareAtPrice: components["schemas"]["System.Decimal"];
+            physicalProduct: components["schemas"]["System.Boolean"];
+            weight: components["schemas"]["System.Single"];
+            width: components["schemas"]["System.Single"];
+            height: components["schemas"]["System.Single"];
+            length: components["schemas"]["System.Single"];
             medias: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.ProductMediaResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
             options: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.OptionResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
             variants: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.CustomerVariantResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];

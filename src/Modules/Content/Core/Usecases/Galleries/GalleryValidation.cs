@@ -19,7 +19,8 @@ public static class GalleryValidation
         if (request is null)
             Throw("request", "Request body is required.");
 
-        var errors = ValidateShape("existing-key", request!.Name, request.Items);
+        var key = string.IsNullOrWhiteSpace(request!.Key) ? "existing-key" : request.Key;
+        var errors = ValidateShape(key, request.Name, request.Items);
         ThrowIfInvalid(errors);
     }
 

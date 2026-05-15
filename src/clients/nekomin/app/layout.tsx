@@ -6,7 +6,7 @@ import { ApiClientProvider } from "./components/api-client-provider";
 import { NavigationProgress } from "./components/navigation-progress";
 import { LandingSidebar } from "./components/landing-sidebar";
 import { SidebarGuard } from "./components/sidebar-guard";
-import { ProductCatalogClient } from "@modular-monolith/clients-shared/api/clients";
+import { ContentClient, ProductCatalogClient } from "@modular-monolith/clients-shared/api/clients";
 import { appFetch } from "@/app/configs/appFetch";
 
 const beVietnam = Be_Vietnam_Pro({
@@ -38,12 +38,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const catalogClient = new ProductCatalogClient(appFetch, process.env.NEXT_PUBLIC_API_BASE_URL ?? "");
-  const [categoriesRes, collectionsRes] = await Promise.all([
+  const contentClient = new ContentClient(appFetch, process.env.NEXT_PUBLIC_API_BASE_URL ?? "");
+  const [categoriesRes, collectionsRes, blogCollectionsRes] = await Promise.all([
     catalogClient.listCustomerCategory({ pageSize: 50 }).catch(() => null),
     catalogClient.listCustomerCollection({ pageSize: 50 }).catch(() => null),
+    contentClient.listPublicBlogPostCollections({ pageSize: 50 }).catch(() => null),
   ]);
   const categories = categoriesRes?.items ?? [];
   const collections = collectionsRes?.items ?? [];
+  const blogCollections = (blogCollectionsRes?.items ?? []).filter((c) => c.items.length > 0);
 
   return (
     <html
@@ -53,7 +56,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <NavigationProgress />
         <SidebarGuard>
-          <LandingSidebar categories={categories} collections={collections} />
+          <LandingSidebar categories={categories} collections={collections} blogCollections={blogCollections} />
         </SidebarGuard>
         <ApiClientProvider>
 {children}

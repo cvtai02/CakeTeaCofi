@@ -29,7 +29,10 @@
       "Bash(dir app *)",
       "Bash(dir node_modules\\\\next\\\\dist)",
       "Bash(gh api *)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(xargs grep -l \"card\\\\|Card\\\\|item\\\\|Item\")",
+      "Bash(xargs grep -l \"CustomerProductSummary\\\\|product.*card\\\\|products.map\")",
+      "Bash(git mv *)"
     ],
     "deny": [
       "Read(.git/**)",

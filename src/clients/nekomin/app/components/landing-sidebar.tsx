@@ -1,4 +1,5 @@
 import type { CustomerCategoryResponse, CustomerCollectionResponse } from "@modular-monolith/clients-shared/api/types/productcatalog";
+import type { PublicBlogPostCollectionGroupResponse } from "@modular-monolith/clients-shared/api/types/content";
 import "./landing-sidebar.css";
 
 function IconCart() {
@@ -32,9 +33,11 @@ function IconBell() {
 export function LandingSidebar({
   categories,
   collections,
+  blogCollections,
 }: {
   categories: CustomerCategoryResponse[];
   collections: CustomerCollectionResponse[];
+  blogCollections: PublicBlogPostCollectionGroupResponse[];
 }) {
   return (
     <div className="landing-sidebar">
@@ -87,6 +90,25 @@ export function LandingSidebar({
                 ))}
               </ul>
             </div>
+          )}
+
+          {/* Blog collections */}
+          {blogCollections.length > 0 && (
+            <>
+              <div className="landing-sidebar-divider" />
+              <div className="landing-sidebar-section">
+                <div className="landing-sidebar-section-heading">Blog</div>
+                <ul className="landing-sidebar-list">
+                  {blogCollections.map((col) => (
+                    <li key={col.collectionId}>
+                      <a href={`/blog/${col.items[0].slug}`} className="landing-sidebar-link">
+                        {col.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
           )}
 
         </div>
