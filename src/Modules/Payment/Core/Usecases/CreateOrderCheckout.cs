@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Intermediary.Ordering;
 using Intermediary.Events.Payment;
-using Order;
-using Order.Core.Entities;
 using Payment.DTOs;
 using Payment.Core.Entities;
 using Payment.Core.Strategies;
@@ -13,7 +12,7 @@ namespace Payment.Core.Usecases;
 [UsecaseInject]
 public class CreateOrderCheckout(
     PaymentDbContext paymentDb,
-    OrderDbContext orderDb,
+    IOrderPaymentLookup orderLookup,
     IUser user,
     PaymentMethodStrategyResolver strategyResolver)
 {
@@ -25,9 +24,7 @@ public class CreateOrderCheckout(
         request ??= new CreateCheckoutRequest();
         var normalizedOrderCode = string.IsNullOrWhiteSpace(orderCode) ? string.Empty : orderCode.Trim();
 
-        var order = await orderDb.Orders
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Code == normalizedOrderCode && !x.IsDeleted, ct);
+        var order = await orderLookup.GetOrderForCheckoutAsync(normalizedOrderCode, ct);
 
         if (order is null)
             throw Validation("orderCode", "Order does not exist.");
@@ -42,7 +39,7 @@ public class CreateOrderCheckout(
             throw Validation("orderCode", "Order does not belong to the current user.");
         }
 
-        if (order.Status != OrderStatus.PendingPayment)
+        if (!order.IsPendingPayment)
             throw Validation("orderCode", "Order must be pending payment before checkout can be created.");
 
         var provider = string.IsNullOrWhiteSpace(request.Provider)

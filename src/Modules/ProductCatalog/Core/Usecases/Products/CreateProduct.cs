@@ -34,7 +34,6 @@ public class CreateProduct(ProductCatalogDbContext db, IFileManager fileManager,
                 ?? request.ImageUrl.Trim(),
             Status = request.Status,
             Category = category,
-            ShippingInfo = BuildProductShipping(request),
             Medias = medias,
             Options = BuildOptions(request),
             Metric = new ProductMetric { ProductId = productId },
@@ -59,26 +58,7 @@ public class CreateProduct(ProductCatalogDbContext db, IFileManager fileManager,
         product.Metric.Stock = variantMetrics.Sum(x => x.Stock);
         ApplyPriceRange(product, variants);
         db.VariantMetrics.AddRange(variantMetrics);
-
-        var shippingInfos = variants.Select(variant =>
-        {
-            var variantInput = request.Variants.FirstOrDefault(x => MatchesVariant(x, variant));
-            var useProductShipping = variantInput?.UseProductShipping ?? true;
-            var shipping = new VariantShipping { VariantId = variant.Id };
-            if (useProductShipping)
-                shipping.ApplyProductShipping(product.ShippingInfo!);
-            else
-                shipping.ApplyVariantShipping(
-                    variantInput?.PhysicalProduct ?? request.PhysicalProduct,
-                    variantInput?.Weight ?? request.Weight,
-                    variantInput?.Width ?? request.Width,
-                    variantInput?.Height ?? request.Height,
-                    variantInput?.Length ?? request.Length);
-            return shipping;
-        }).ToList();
-
-        if (shippingInfos.Count > 0)
-            db.VariantShippings.AddRange(shippingInfos);
+        product.Events.Add(ProductSyncEventFactory.Created(product, request, variants));
 
         await db.SaveChangesAsync(ct);
         await transaction.CommitAsync(ct);
@@ -86,11 +66,9 @@ public class CreateProduct(ProductCatalogDbContext db, IFileManager fileManager,
         var created = await db.Products
             .AsNoTracking()
             .Include(x => x.Category)
-            .Include(x => x.ShippingInfo)
             .Include(x => x.Medias)
             .Include(x => x.Options).ThenInclude(x => x.OptionValues)
             .Include(x => x.Variants).ThenInclude(x => x.OptionValues)
-            .Include(x => x.Variants).ThenInclude(x => x.ShippingInfo)
             .Include(x => x.Variants).ThenInclude(x => x.Metric)
             .Include(x => x.Metric)
             .FirstAsync(x => x.Id == product.Id, ct);
@@ -231,13 +209,6 @@ public class CreateProduct(ProductCatalogDbContext db, IFileManager fileManager,
             medias.Add(new MediaInput(NormalizeMediaKey(request.ImageUrl), 0));
 
         return OrderMedias(medias);
-    }
-
-    private static ProductShipping BuildProductShipping(CreateProductRequest request)
-    {
-        var shipping = new ProductShipping();
-        shipping.ApplyShipping(request.PhysicalProduct, request.Weight, request.Width, request.Height, request.Length);
-        return shipping;
     }
 
     private static List<Option> BuildOptions(CreateProductRequest request) =>

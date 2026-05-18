@@ -48,7 +48,6 @@ public class Product : AuditableEntity
     public ProductStatus Status { get; set; } = ProductStatus.Active;
     
     public Category Category { get; set; } = null!;
-    public ProductShipping? ShippingInfo { get; set; }
     public List<ProductMedia> Medias { get; set; } = [];
     public List<Option> Options { get; set; } = [];
     public List<Variant> Variants { get; set; } = [];

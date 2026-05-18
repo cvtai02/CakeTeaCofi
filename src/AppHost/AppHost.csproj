@@ -22,6 +22,7 @@
     <ProjectReference Include="..\Modules\Order\Order.csproj" />
     <ProjectReference Include="..\Modules\Payment\Payment.csproj" />
     <ProjectReference Include="..\Modules\ProductCatalog\ProductCatalog.csproj" />
+    <ProjectReference Include="..\Modules\Shipping\Shipping.csproj" />
     <ProjectReference Include="..\Modules\Identity\Identity.csproj" />
     <ProjectReference Include="..\Modules\Content\Content.csproj" />
   </ItemGroup>

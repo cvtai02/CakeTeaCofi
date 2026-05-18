@@ -23,11 +23,22 @@ const MARQUEE_ITEMS = [
 export default async function Home() {
   const contentClient = new ContentClient(appFetch, process.env.NEXT_PUBLIC_API_BASE_URL ?? "");
 
-  const [heroGallery, bestSellerGallery, blogCollection] = await Promise.all([
-    contentClient.getPublicGalleryByKey("hero").catch((err) => { console.error("[hero gallery]", err); return null; }),
-    contentClient.getPublicGalleryByKey("best-seller").catch((err) => { console.error("[best-seller gallery]", err); return null; }),
-    contentClient.getPublicBlogPostCollectionByKey("landingpage").catch((err) => { console.error("[blog collection]", err); return null; }),
+  const [heroResult, bestSellerResult, blogResult] = await Promise.all([
+    contentClient.getPublicGalleryByKey("hero")
+      .then((data) => ({ ok: true as const, data }))
+      .catch((err) => { console.error("[hero gallery]", err); return { ok: false as const, data: null }; }),
+    contentClient.getPublicGalleryByKey("best-seller")
+      .then((data) => ({ ok: true as const, data }))
+      .catch((err) => { console.error("[best-seller gallery]", err); return { ok: false as const, data: null }; }),
+    contentClient.getPublicBlogPostCollectionByKey("landingpage")
+      .then((data) => ({ ok: true as const, data }))
+      .catch((err) => { console.error("[blog collection]", err); return { ok: false as const, data: null }; }),
   ]);
+
+  const backendDown = !heroResult.ok || !bestSellerResult.ok || !blogResult.ok;
+  const heroGallery = heroResult.data;
+  const bestSellerGallery = bestSellerResult.data;
+  const blogCollection = blogResult.data;
 
   const heroSlides: HeroSlide[] = (heroGallery?.items ?? [])
     .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
@@ -57,7 +68,7 @@ export default async function Home() {
       </div>
 
       <div className="hero-viewport">
-        <HeroCarousel slides={heroSlides.length > 0 ? heroSlides : undefined} />
+        <HeroCarousel slides={heroSlides.length > 0 ? heroSlides : undefined} serverError={backendDown} />
         <PawCursor />
 
         <div className="marquee-strip">

@@ -15,7 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useProductCatalogClient, useInventoryClient } from "@/components/containers/api-client-provider";
+import { useProductCatalogClient } from "@/components/containers/api-client-provider";
 import { ROUTES } from "@/configs/routes";
 import { AdminErrorState } from "@/components/admin/admin-page";
 import { ProductDetailHeader } from "./view/ProductDetailHeader";
@@ -36,16 +36,10 @@ export default function ProductViewPage() {
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const productCatalogClient = useProductCatalogClient();
-  const inventoryClient = useInventoryClient();
 
   async function handleDelete() {
     setDeleting(true);
     setDeleteError(null);
-    try {
-      await inventoryClient.deleteProductInventory(productId);
-    } catch {
-      // inventory rows may already be missing — continue
-    }
     try {
       await productCatalogClient.deleteProduct(productId);
       navigate(ROUTES.products);

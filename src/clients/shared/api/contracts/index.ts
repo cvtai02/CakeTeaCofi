@@ -5,4 +5,5 @@ export type { IInventoryClient } from "./inventory";
 export type { IOrderClient } from "./order";
 export type { IPaymentClient } from "./payment";
 export type { IProductCatalogClient } from "./productcatalog";
+export type { IShippingClient } from "./shipping";
 export * from "./common-types"

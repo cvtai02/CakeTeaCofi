@@ -5,6 +5,7 @@ using Inventory;
 using Order;
 using Payment;
 using ProductCatalog;
+using Shipping;
 using SharedKernel.Abstractions.Contracts;
 
 namespace AppHost.Buildings;
@@ -17,6 +18,7 @@ public static class ModuleList
             new IdentityModule(builder),
             new AccountModule(builder),
             new ProductCatalogModule(builder),
+            new ShippingModule(builder),
             new ContentModule(builder),
             new InventoryModule(builder),
             new PaymentModule(builder),

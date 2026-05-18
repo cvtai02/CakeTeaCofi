@@ -10,13 +10,15 @@ public class DeleteProduct(ProductCatalogDbContext db)
         if (string.IsNullOrWhiteSpace(id))
             return false;
 
-        var product = await db.Products.FirstOrDefaultAsync(x => x.Id == id.Trim(), ct);
+        var product = await db.Products
+            .Include(x => x.Variants)
+            .FirstOrDefaultAsync(x => x.Id == id.Trim(), ct);
         if (product is null)
             return false;
 
+        product.Events.Add(ProductSyncEventFactory.Deleted(product));
         db.Products.Remove(product);
         await db.SaveChangesAsync(ct);
         return true;
     }
 }
-

@@ -11,9 +11,9 @@ Client contract: [ProductCatalogClient](../../../clients/shared/api/clients/prod
 - `GET /api/ProductCatalog/customer/products/by-slug/{slug}` - auth: public. DTOs: [CustomerProductResponse](../DTOs/Products/CustomerProductResponse.cs).
 - `GET /api/ProductCatalog/products` - auth: `TenantModeratorUp`. DTOs: [ListProductsRequest](../DTOs/Products/ListProductsRequest.cs), [ProductSummaryResponse](../DTOs/Products/ProductResponse.cs).
 - `GET /api/ProductCatalog/products/{id}` - auth: `TenantModeratorUp`. DTOs: [ProductResponse](../DTOs/Products/ProductResponse.cs).
-- `POST /api/ProductCatalog/products` - auth: `TenantAdminUp`. DTOs: [CreateProductRequest](../DTOs/Products/CreateProductRequest.cs), [ProductResponse](../DTOs/Products/ProductResponse.cs).
-- `PUT /api/ProductCatalog/products/{id}` - auth: `TenantAdminUp`. DTOs: [UpdateProductRequest](../DTOs/Products/UpdateProductRequest.cs), [ProductResponse](../DTOs/Products/ProductResponse.cs).
-- `DELETE /api/ProductCatalog/products/{id}` - auth: `TenantAdminUp`.
+- `POST /api/ProductCatalog/products` - auth: `TenantAdminUp`. DTOs: [CreateProductRequest](../DTOs/Products/CreateProductRequest.cs), [ProductResponse](../DTOs/Products/ProductResponse.cs). Publishes inventory/shipping sync event.
+- `PUT /api/ProductCatalog/products/{id}` - auth: `TenantAdminUp`. DTOs: [UpdateProductRequest](../DTOs/Products/UpdateProductRequest.cs), [ProductResponse](../DTOs/Products/ProductResponse.cs). Publishes inventory/shipping sync event.
+- `DELETE /api/ProductCatalog/products/{id}` - auth: `TenantAdminUp`. Publishes inventory/shipping delete event.
 
 
 ### Category

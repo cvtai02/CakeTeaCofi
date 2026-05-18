@@ -3444,6 +3444,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Shipping/products/{productId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    productId: components["schemas"]["System.String"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Shipping.DTOs.ProductShipping.ProductShippingResponse"];
+                        "application/json": components["schemas"]["Shipping.DTOs.ProductShipping.ProductShippingResponse"];
+                        "text/json": components["schemas"]["Shipping.DTOs.ProductShipping.ProductShippingResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -4106,11 +4145,6 @@ export interface components {
         "ProductCatalog.DTOs.Products.CustomerProductResponse": {
             description: components["schemas"]["System.String"];
             compareAtPrice: components["schemas"]["System.Decimal"];
-            physicalProduct: components["schemas"]["System.Boolean"];
-            weight: components["schemas"]["System.Single"];
-            width: components["schemas"]["System.Single"];
-            height: components["schemas"]["System.Single"];
-            length: components["schemas"]["System.Single"];
             medias: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.ProductMediaResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
             options: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.OptionResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
             variants: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.CustomerVariantResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
@@ -4181,11 +4215,6 @@ export interface components {
             allowBackorder: components["schemas"]["System.Boolean"];
             sold: components["schemas"]["System.Int32"];
             reserved: components["schemas"]["System.Int32"];
-            physicalProduct: components["schemas"]["System.Boolean"];
-            weight: components["schemas"]["System.Single"];
-            width: components["schemas"]["System.Single"];
-            height: components["schemas"]["System.Single"];
-            length: components["schemas"]["System.Single"];
             medias: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.ProductMediaResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
             options: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.OptionResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
             variants: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.VariantResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
@@ -4243,7 +4272,6 @@ export interface components {
         "ProductCatalog.DTOs.Products.VariantResponse": {
             id: components["schemas"]["System.String"];
             useProductPricing: components["schemas"]["System.Boolean"];
-            useProductShipping: components["schemas"]["System.Boolean"];
             price: components["schemas"]["System.Decimal"];
             compareAtPrice: components["schemas"]["System.Decimal"];
             costPrice: components["schemas"]["System.Decimal"];
@@ -4255,11 +4283,6 @@ export interface components {
             trackInventory: components["schemas"]["System.Boolean"];
             lowStockThreshold: components["schemas"]["System.Int32"];
             allowBackorder: components["schemas"]["System.Boolean"];
-            physicalProduct: components["schemas"]["System.Boolean"];
-            weight: components["schemas"]["System.Single"];
-            width: components["schemas"]["System.Single"];
-            height: components["schemas"]["System.Single"];
-            length: components["schemas"]["System.Single"];
             optionValues: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.VariantOptionValueDto, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
         };
         "SharedKernel.DTOs.Address": {
@@ -4396,6 +4419,28 @@ export interface components {
         };
         /** @enum {unknown} */
         "SharedKernel.Enums.Currency": "VND" | "USD";
+        /** @enum {unknown} */
+        "Shipping.Core.Services.PackageLevel": "Lite" | "Standard" | "Large" | "Bulky" | "Oversize";
+        "Shipping.DTOs.ProductShipping.ProductShippingResponse": {
+            productId: components["schemas"]["System.String"];
+            physicalProduct: components["schemas"]["System.Boolean"];
+            weight: components["schemas"]["System.Single"];
+            width: components["schemas"]["System.Single"];
+            height: components["schemas"]["System.Single"];
+            length: components["schemas"]["System.Single"];
+            packageLevel: components["schemas"]["Shipping.Core.Services.PackageLevel"];
+            variants: components["schemas"]["System.Collections.Generic.List`1[[Shipping.DTOs.ProductShipping.VariantShippingResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+        };
+        "Shipping.DTOs.ProductShipping.VariantShippingResponse": {
+            variantId: components["schemas"]["System.String"];
+            useProductShipping: components["schemas"]["System.Boolean"];
+            physicalProduct: components["schemas"]["System.Boolean"];
+            weight: components["schemas"]["System.Single"];
+            width: components["schemas"]["System.Single"];
+            height: components["schemas"]["System.Single"];
+            length: components["schemas"]["System.Single"];
+            packageLevel: components["schemas"]["Shipping.Core.Services.PackageLevel"];
+        };
         "System.Boolean": boolean;
         "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
             [key: string]: components["schemas"]["System.String"];
@@ -4442,6 +4487,7 @@ export interface components {
         "System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.ProductSummaryResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["ProductCatalog.DTOs.Products.ProductSummaryResponse"][];
         "System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.VariantOptionValueDto, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["ProductCatalog.DTOs.Products.VariantOptionValueDto"][];
         "System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.VariantResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["ProductCatalog.DTOs.Products.VariantResponse"][];
+        "System.Collections.Generic.List`1[[Shipping.DTOs.ProductShipping.VariantShippingResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.ProductShipping.VariantShippingResponse"][];
         "System.Collections.Generic.List`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": components["schemas"]["System.Int32"][];
         "System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": components["schemas"]["System.String"][];
         /** Format: date-time */

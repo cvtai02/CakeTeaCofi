@@ -5,3 +5,4 @@ export { InventoryClient } from "./inventory";
 export { OrderClient } from "./order";
 export { PaymentClient } from "./payment";
 export { ProductCatalogClient } from "./productcatalog";
+export { ShippingClient } from "./shipping";

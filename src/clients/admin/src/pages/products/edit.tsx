@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useInventoryClient, useProductCatalogClient } from "@/components/containers/api-client-provider";
+import { useProductCatalogClient } from "@/components/containers/api-client-provider";
 import { ROUTES } from "@/configs/routes";
 
 import type { FormValues, OptionEntry, Variant, VariantOverride } from "./components/types";
@@ -17,7 +17,6 @@ export default function EditProductPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const productCatalogClient = useProductCatalogClient();
-  const inventoryClient = useInventoryClient();
 
   const { data: product, isLoading: loadingProduct } = useQuery({
     queryKey: ["product", productId],
@@ -121,7 +120,7 @@ export default function EditProductPage() {
     const hasVariants = variants.length > 0;
     const activeOptions = options.filter((o) => o.name.trim() && o.values.length > 0);
 
-    const updated = await updateProduct({
+    await updateProduct({
       name: values.name,
       summary: values.summary.trim() || undefined,
       categoryId: values.categoryId,
@@ -135,6 +134,7 @@ export default function EditProductPage() {
       stock: !hasVariants && values.stock ? parseInt(values.stock) : undefined,
       trackInventory: values.trackInventory,
       allowBackorder: values.allowBackorder,
+      lowStockThreshold: values.lowStockThreshold ? parseInt(values.lowStockThreshold) : undefined,
       physicalProduct: values.isPhysical,
       weight: values.weight ? parseFloat(values.weight) : undefined,
       width: values.width ? parseFloat(values.width) : undefined,
@@ -149,35 +149,6 @@ export default function EditProductPage() {
       // (from newly-added option values) omit id and the backend generates one.
       variants: buildVariantsPayload(variants, hasVariants),
     });
-
-    // Second call: Inventory — uses IDs returned by the catalog.
-    try {
-      await inventoryClient.initializeProductInventory(updated.id!, {
-        trackInventory: values.trackInventory,
-        allowBackorder: values.allowBackorder,
-        lowStockThreshold: values.lowStockThreshold ? parseInt(values.lowStockThreshold) : 0,
-        variants: (updated.variants ?? []).map((rv) => {
-          const key = (rv.optionValues ?? [])
-            .map((ov) => `${ov.optionName}:${ov.value}`)
-            .join("|");
-          const draft = variants.find((v) => v.localId === key);
-          return {
-            variantId: rv.id!,
-            useProductInventory: draft?.useProductInventory ?? true,
-            trackInventory: draft?.trackInventory ?? true,
-            allowBackorder: draft?.allowBackorder ?? false,
-            lowStockThreshold: draft?.lowStockThreshold ? parseInt(draft.lowStockThreshold) : 0,
-            quantity: parseInt(draft?.stock ?? "0") || 0,
-          };
-        }),
-      });
-    } catch {
-      // Catalog succeeded; inventory setup failed. Navigate so the admin can retry.
-      toast.warning("Product saved, but inventory setup failed. Please retry by re-saving.");
-      await queryClient.invalidateQueries({ queryKey: ["products"] });
-      navigate(ROUTES.productDetail(productId));
-      return;
-    }
 
     toast.success("Product updated!");
     await queryClient.invalidateQueries({ queryKey: ["products"] });

@@ -44,7 +44,6 @@ internal static class ProductMapper
             .Select(MapVariantToResponse)
             .ToList();
         var primaryVariant = product.Variants.OrderBy(x => x.Id).FirstOrDefault();
-        var primaryVariantShipping = primaryVariant?.ShippingInfo;
         var displayPrice = primaryVariant?.Price ?? product.Price;
         var (lowestPrice, highestPrice) = ResolvePriceRange(product);
 
@@ -72,11 +71,6 @@ internal static class ProductMapper
             AllowBackorder = product.AllowBackorder,
             Sold = product.Metric?.Sold ?? 0,
             Reserved = 0,
-            PhysicalProduct = product.ShippingInfo?.Physical ?? primaryVariantShipping?.Physical ?? false,
-            Weight = product.ShippingInfo?.Weight ?? primaryVariantShipping?.Weight ?? 0,
-            Width = product.ShippingInfo?.Width ?? primaryVariantShipping?.Width ?? 0,
-            Height = product.ShippingInfo?.Height ?? primaryVariantShipping?.Height ?? 0,
-            Length = product.ShippingInfo?.Length ?? primaryVariantShipping?.Length ?? 0,
             Medias = product.Medias
                 .OrderBy(x => x.DisplayOrder)
                 .Select(x => new ProductMediaResponse
@@ -125,7 +119,6 @@ internal static class ProductMapper
     {
         Id = variant.Id,
         UseProductPricing = variant.UseProductPricing,
-        UseProductShipping = variant.ShippingInfo?.UseProductShipping ?? true,
         Price = variant.Price,
         CompareAtPrice = variant.CompareAtPrice ?? 0,
         CostPrice = variant.CostPrice,
@@ -137,11 +130,6 @@ internal static class ProductMapper
         TrackInventory = variant.TrackInventory,
         LowStockThreshold = 0,
         AllowBackorder = variant.AllowBackorder,
-        PhysicalProduct = variant.ShippingInfo?.Physical ?? false,
-        Weight = variant.ShippingInfo?.Weight ?? 0,
-        Width = variant.ShippingInfo?.Width ?? 0,
-        Height = variant.ShippingInfo?.Height ?? 0,
-        Length = variant.ShippingInfo?.Length ?? 0,
         OptionValues = variant.OptionValues
             .OrderBy(x => x.OptionName)
             .Select(x => new VariantOptionValueDto

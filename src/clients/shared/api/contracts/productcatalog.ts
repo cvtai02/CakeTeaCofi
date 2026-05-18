@@ -87,18 +87,21 @@ export interface IProductCatalogClient {
   getProduct(id: string): Promise<ProductResponse>;
 
   // Auth: TenantAdminUp.
+  // Contract method: createProduct - single product write endpoint; request includes catalog, inventory, and shipping input.
   // Request: src/Modules/ProductCatalog/DTOs/Products/CreateProductRequest.cs
   // Nested variant request: src/Modules/ProductCatalog/DTOs/Products/CreateVariantRequest.cs
   // Response: src/Modules/ProductCatalog/DTOs/Products/ProductResponse.cs
   createProduct(input: CreateProductRequest): Promise<CreateProductResponse>;
 
-  // Auth: TenantAdminUp. Supports adding new variants for newly added option values.
+  // Auth: TenantAdminUp.
+  // Contract method: updateProduct - single product write endpoint; request includes catalog, inventory, and shipping input.
+  // Supports adding new variants for newly added option values.
   // Request: src/Modules/ProductCatalog/DTOs/Products/UpdateProductRequest.cs
   // Nested variant request: src/Modules/ProductCatalog/DTOs/Products/CreateVariantRequest.cs
   // Response: src/Modules/ProductCatalog/DTOs/Products/ProductResponse.cs
   updateProduct(id: string, input: UpdateProductRequest): Promise<UpdateProductResponse>;
 
-  // Contract method: deleteProduct. Auth: TenantAdminUp. Deletes a product by id; returns 204/no body.
+  // Contract method: deleteProduct. Auth: TenantAdminUp. Deletes catalog product and publishes inventory/shipping cleanup event; returns 204/no body.
   deleteProduct(id: string): Promise<DeleteProductResponse>;
 
   // Auth: TenantModeratorUp.

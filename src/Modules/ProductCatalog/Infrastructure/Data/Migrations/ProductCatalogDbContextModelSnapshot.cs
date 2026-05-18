@@ -424,52 +424,6 @@ namespace ProductCatalog.Infrastructure.Data.Migrations
                     b.ToTable("ProductMetrics");
                 });
 
-            modelBuilder.Entity("ProductCatalog.Core.Entities.ProductShipping", b =>
-                {
-                    b.Property<string>("ProductId")
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<float>("Height")
-                        .HasColumnType("real");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<float>("Length")
-                        .HasColumnType("real");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("Physical")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("TenantId")
-                        .HasColumnType("integer");
-
-                    b.Property<float>("Weight")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Width")
-                        .HasColumnType("real");
-
-                    b.HasKey("ProductId");
-
-                    b.HasIndex("TenantId");
-
-                    b.ToTable("ProductShippings");
-                });
-
             modelBuilder.Entity("ProductCatalog.Core.Entities.Variant", b =>
                 {
                     b.Property<string>("Id")
@@ -609,55 +563,6 @@ namespace ProductCatalog.Infrastructure.Data.Migrations
                     b.ToTable("VariantOptionValues");
                 });
 
-            modelBuilder.Entity("ProductCatalog.Core.Entities.VariantShipping", b =>
-                {
-                    b.Property<string>("VariantId")
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<float>("Height")
-                        .HasColumnType("real");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<float>("Length")
-                        .HasColumnType("real");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("Physical")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("TenantId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("UseProductShipping")
-                        .HasColumnType("boolean");
-
-                    b.Property<float>("Weight")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Width")
-                        .HasColumnType("real");
-
-                    b.HasKey("VariantId");
-
-                    b.HasIndex("TenantId");
-
-                    b.ToTable("VariantShippings");
-                });
-
             modelBuilder.Entity("ProductCatalog.Core.Entities.Category", b =>
                 {
                     b.HasOne("ProductCatalog.Core.Entities.Category", "Parent")
@@ -739,17 +644,6 @@ namespace ProductCatalog.Infrastructure.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ProductCatalog.Core.Entities.ProductShipping", b =>
-                {
-                    b.HasOne("ProductCatalog.Core.Entities.Product", "Product")
-                        .WithOne("ShippingInfo")
-                        .HasForeignKey("ProductCatalog.Core.Entities.ProductShipping", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("ProductCatalog.Core.Entities.Variant", b =>
                 {
                     b.HasOne("ProductCatalog.Core.Entities.Product", "Product")
@@ -781,17 +675,6 @@ namespace ProductCatalog.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProductCatalog.Core.Entities.VariantShipping", b =>
-                {
-                    b.HasOne("ProductCatalog.Core.Entities.Variant", "Variant")
-                        .WithOne("ShippingInfo")
-                        .HasForeignKey("ProductCatalog.Core.Entities.VariantShipping", "VariantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Variant");
-                });
-
             modelBuilder.Entity("ProductCatalog.Core.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -813,8 +696,6 @@ namespace ProductCatalog.Infrastructure.Data.Migrations
 
                     b.Navigation("Options");
 
-                    b.Navigation("ShippingInfo");
-
                     b.Navigation("Variants");
                 });
 
@@ -823,8 +704,6 @@ namespace ProductCatalog.Infrastructure.Data.Migrations
                     b.Navigation("Metric");
 
                     b.Navigation("OptionValues");
-
-                    b.Navigation("ShippingInfo");
                 });
 #pragma warning restore 612, 618
         }

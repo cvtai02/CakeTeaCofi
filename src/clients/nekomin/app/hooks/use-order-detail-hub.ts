@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useLayoutEffect, useRef, useCallback } from "react";
 import * as SignalR from "@microsoft/signalr";
 
 import { ORDER_HUB_URL } from "@/app/lib/order-hub";
@@ -14,7 +14,7 @@ export function useOrderDetailHub(
   onNotification: (notification: OrderNotification) => void,
 ) {
   const onNotificationRef = useRef(onNotification);
-  onNotificationRef.current = onNotification;
+  useLayoutEffect(() => { onNotificationRef.current = onNotification; });
 
   const handleNotification = useCallback((n: OrderNotification) => {
     onNotificationRef.current(n);

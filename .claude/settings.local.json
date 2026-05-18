@@ -56,5 +56,9 @@
       "Read(**/package-lock.json)",
       "Read(**/openapi-types.ts)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "nekomin-app-agent"
+  ],
+  "enableAllProjectMcpServers": true
 }

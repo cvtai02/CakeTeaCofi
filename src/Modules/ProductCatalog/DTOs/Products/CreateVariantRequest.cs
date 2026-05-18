@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ProductCatalog.DTOs.Products;
 
 public class CreateVariantRequest
@@ -15,9 +17,17 @@ public class CreateVariantRequest
     public bool? AllowBackorder { get; set; }
     public bool UseProductShipping { get; set; } = true;
     public bool? PhysicalProduct { get; set; }
+
+    [Range(0, double.MaxValue)]
     public float? Weight { get; set; }
+
+    [Range(0, double.MaxValue)]
     public float? Width { get; set; }
+
+    [Range(0, double.MaxValue)]
     public float? Height { get; set; }
+
+    [Range(0, double.MaxValue)]
     public float? Length { get; set; }
     public List<VariantOptionValueDto> OptionValues { get; set; } = [];
 }

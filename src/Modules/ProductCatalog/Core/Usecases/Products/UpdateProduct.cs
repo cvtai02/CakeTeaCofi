@@ -13,10 +13,8 @@ public class UpdateProduct(ProductCatalogDbContext db, IFileManager fileManager)
     public async Task<ProductResponse?> ExecuteAsync(string id, UpdateProductRequest request, CancellationToken ct)
     {
         var product = await db.Products
-            .Include(x => x.ShippingInfo)
             .Include(x => x.Options).ThenInclude(x => x.OptionValues)
             .Include(x => x.Variants).ThenInclude(x => x.OptionValues)
-            .Include(x => x.Variants).ThenInclude(x => x.ShippingInfo)
             .Include(x => x.Variants).ThenInclude(x => x.Metric)
             .Include(x => x.Metric)
             .FirstOrDefaultAsync(x => x.Id == id, ct);
@@ -39,13 +37,6 @@ public class UpdateProduct(ProductCatalogDbContext db, IFileManager fileManager)
         product.ApplyPricing(request.Price, request.Currency, request.CompareAtPrice, request.CostPrice, request.ChargeTax);
         product.SetInventoryPolicy(request.TrackInventory, request.AllowBackorder);
 
-        if (product.ShippingInfo is null)
-        {
-            product.ShippingInfo = new ProductShipping { ProductId = product.Id };
-            db.ProductShippings.Add(product.ShippingInfo);
-        }
-        product.ShippingInfo.ApplyShipping(request.PhysicalProduct, request.Weight, request.Width, request.Height, request.Length);
-
         await ReplaceMediasAsync(product, request, ct);
         ApplyOptionValues(product, request);
         ApplyVariantUpdates(product, request);
@@ -56,17 +47,16 @@ public class UpdateProduct(ProductCatalogDbContext db, IFileManager fileManager)
         var productMetric = EnsureProductMetric(product);
         productMetric.Stock = product.Variants.Sum(x => x.Metric?.Stock ?? 0);
         ApplyPriceRange(product);
+        product.Events.Add(ProductSyncEventFactory.Updated(product, request));
 
         await db.SaveChangesAsync(ct);
 
         var updated = await db.Products
             .AsNoTracking()
             .Include(x => x.Category)
-            .Include(x => x.ShippingInfo)
             .Include(x => x.Medias)
             .Include(x => x.Options).ThenInclude(x => x.OptionValues)
             .Include(x => x.Variants).ThenInclude(x => x.OptionValues)
-            .Include(x => x.Variants).ThenInclude(x => x.ShippingInfo)
             .Include(x => x.Variants).ThenInclude(x => x.Metric)
             .Include(x => x.Metric)
             .FirstAsync(x => x.Id == id, ct);
@@ -324,11 +314,9 @@ public class UpdateProduct(ProductCatalogDbContext db, IFileManager fileManager)
                     Value = optionValue.Value.Trim()
                 };
             }).ToList(),
-            Metric = new VariantMetric { Stock = variantRequest.Quantity },
-            ShippingInfo = new VariantShipping()
+            Metric = new VariantMetric { Stock = variantRequest.Quantity }
         };
         variant.Metric.VariantId = variant.Id;
-        variant.ShippingInfo.VariantId = variant.Id;
 
         ApplyVariantRequest(product, request, variant, variantRequest, imageKeyByFirstOptionValue);
         return variant;
@@ -372,24 +360,6 @@ public class UpdateProduct(ProductCatalogDbContext db, IFileManager fileManager)
         if (variant.Metric is null)
             variant.Metric = new VariantMetric { VariantId = variant.Id };
         variant.Metric.Stock = variantRequest.Quantity;
-
-        if (variant.ShippingInfo is null)
-            variant.ShippingInfo = new VariantShipping { VariantId = variant.Id };
-
-        if (variantRequest.UseProductShipping)
-        {
-            if (product.ShippingInfo is not null)
-                variant.ShippingInfo.ApplyProductShipping(product.ShippingInfo);
-        }
-        else
-        {
-            variant.ShippingInfo.ApplyVariantShipping(
-                variantRequest.PhysicalProduct ?? product.ShippingInfo?.Physical ?? request.PhysicalProduct,
-                variantRequest.Weight ?? variant.ShippingInfo.Weight,
-                variantRequest.Width ?? variant.ShippingInfo.Width,
-                variantRequest.Height ?? variant.ShippingInfo.Height,
-                variantRequest.Length ?? variant.ShippingInfo.Length);
-        }
     }
 
     private static Dictionary<string, string?> BuildImageKeyByFirstOptionValue(

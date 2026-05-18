@@ -48,6 +48,5 @@ public class Variant : AuditableEntity
 
     public Product Product { get; set; } = null!;
     public VariantMetric? Metric { get; set; }
-    public VariantShipping? ShippingInfo { get; set; }
     public virtual ICollection<VariantOptionValue> OptionValues { get; set; } = [];
 }

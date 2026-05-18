@@ -60,7 +60,7 @@ const SLIDES = [
 
 const DURATION = 5000;
 
-export function HeroCarousel({ slides: gallerySlides }: { slides?: HeroSlide[] }) {
+export function HeroCarousel({ slides: gallerySlides, serverError }: { slides?: HeroSlide[]; serverError?: boolean }) {
   const slides = gallerySlides && gallerySlides.length > 0 ? gallerySlides : SLIDES;
   const [active, setActive] = useState(0);
   const barRef = useRef<HTMLDivElement>(null);
@@ -155,6 +155,23 @@ export function HeroCarousel({ slides: gallerySlides }: { slides?: HeroSlide[] }
       </div>
 
       <div className="shape-bg" ref={pawBgRef} />
+
+      {serverError && (
+        <div className="hero-server-notice">
+          <span className="hero-server-notice__icon">✦</span>
+          <span>
+            Server của chúng tôi hiện đang nâng cấp. Bạn có thể liên hệ với chúng tôi qua{" "}
+            <a
+              href="https://www.facebook.com/nekomin"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-server-notice__link"
+            >
+              Facebook
+            </a>
+          </span>
+        </div>
+      )}
 
       <div className="hero-dots">
         {slides.map((_, i) => (

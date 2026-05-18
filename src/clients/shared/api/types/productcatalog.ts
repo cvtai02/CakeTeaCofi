@@ -148,8 +148,25 @@ export type ListCustomerCollectionsResponse = Omit<ListCollectionsResponseBody, 
 export type ListProductsQuery = QueryParams<ListProductsOperation>;
 // 200 OK
 type ListProductsResponseBody = JsonResponse<ListProductsOperation>;
-export type CreateProductRequest = JsonRequestBody<CreateProductOperation> & {
+type GeneratedCreateProductRequest = JsonRequestBody<CreateProductOperation>;
+export type ProductShippingInput = {
+    physicalProduct?: boolean;
+    weight?: number;
+    width?: number;
+    height?: number;
+    length?: number;
+};
+export type VariantShippingInput = {
+    useProductShipping?: boolean;
+    physicalProduct?: boolean | null;
+    weight?: number | null;
+    width?: number | null;
+    height?: number | null;
+    length?: number | null;
+};
+export type CreateProductRequest = GeneratedCreateProductRequest & ProductShippingInput & {
     summary?: string | null;
+    variants?: Array<NonNullable<GeneratedCreateProductRequest["variants"]>[number] & VariantShippingInput>;
 };
 // 200 OK
 export type CreateProductResponse = ProductResponse;
@@ -157,10 +174,10 @@ export type GetProductParams = { id: string };
 // 200 OK
 type GeneratedProductResponse = JsonResponse<GetProductOperation>;
 type GeneratedVariantResponse = GeneratedProductResponse extends { variants?: Array<infer TVariant> } ? TVariant : never;
-export type VariantResponse = Omit<GeneratedVariantResponse, "id"> & {
+export type VariantResponse = Omit<GeneratedVariantResponse, "id" | "useProductShipping" | "physicalProduct" | "packageLevel" | "weight" | "width" | "height" | "length"> & {
     id: string;
 };
-export type ProductResponse = Omit<GeneratedProductResponse, "id" | "variants" | "lowestPrice" | "highestPrice"> & {
+export type ProductResponse = Omit<GeneratedProductResponse, "id" | "variants" | "lowestPrice" | "highestPrice" | "physicalProduct" | "packageLevel" | "weight" | "width" | "height" | "length"> & {
     id: string;
     summary: string;
     lowestPrice: number;
@@ -231,11 +248,6 @@ export type CustomerVariantResponse = {
 export type CustomerProductResponse = CustomerProductSummaryResponse & {
     description: string;
     compareAtPrice: number;
-    physicalProduct: boolean;
-    weight: number;
-    width: number;
-    height: number;
-    length: number;
     medias: ProductResponse["medias"];
     options: ProductResponse["options"];
     variants: CustomerVariantResponse[];

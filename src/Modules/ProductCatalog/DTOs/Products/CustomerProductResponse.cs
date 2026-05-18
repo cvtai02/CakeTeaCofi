@@ -21,11 +21,6 @@ public class CustomerProductResponse : CustomerProductSummaryResponse
 {
     public string Description { get; set; } = string.Empty;
     public decimal CompareAtPrice { get; set; }
-    public bool PhysicalProduct { get; set; }
-    public float Weight { get; set; }
-    public float Width { get; set; }
-    public float Height { get; set; }
-    public float Length { get; set; }
     public List<ProductMediaResponse> Medias { get; set; } = [];
     public List<OptionResponse> Options { get; set; } = [];
     public List<CustomerVariantResponse> Variants { get; set; } = [];

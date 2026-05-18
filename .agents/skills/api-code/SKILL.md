@@ -4,7 +4,7 @@ description: Implement/Update API endpoints.
 ---
 
 # Important
-- If you are Codex, do not run, build, test, restore, migrate, or scaffold with `dotnet`.
+- If you are Codex, run `dotnet` and EF migration commands only outside the sandbox with explicit escalation/approval.
 
 # Context
 - `src/Modules/*/Api/` for API implementation
@@ -52,5 +52,5 @@ description: Implement/Update API endpoints.
    - Do not edit files already under a `done/` folder.
 
 # Migrations
-- If entity/schema changes require a migration, do not run migration commands.
-- At the end of the task, provide a migration handoff .md in requirements/migrations that only include commands to run for migrations.
+- If entity/schema changes require a migration, create/update the EF migration yourself using the repository devtools outside the sandbox with explicit escalation/approval.
+- Do not create migration handoff files for normal EF migration work.
