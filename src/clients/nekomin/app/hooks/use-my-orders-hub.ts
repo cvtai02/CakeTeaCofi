@@ -40,7 +40,6 @@ export function useMyOrdersHub(
         .build();
 
       connection.on("OrderNotification", addNotification);
-      connection.on("OrderPlaced", addNotification);
 
       try {
         await connection.start();

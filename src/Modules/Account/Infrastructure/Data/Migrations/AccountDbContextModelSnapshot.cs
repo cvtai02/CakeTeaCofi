@@ -33,22 +33,10 @@ namespace Account.Infrastructure.Data.Migrations
                     b.Property<int>("AccountProfileId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -64,39 +52,11 @@ namespace Account.Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Line1")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Line2")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<string>("OwnerName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("State")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("TenantId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -259,6 +219,83 @@ namespace Account.Infrastructure.Data.Migrations
                         .WithMany("Addresses")
                         .HasForeignKey("AccountProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("SharedKernel.ValueObjects.Address", "Address", b1 =>
+                        {
+                            b1.Property<int>("AccountAddressId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("AdministrativeArea")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("AdministrativeArea");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasMaxLength(2)
+                                .HasColumnType("character varying(2)")
+                                .HasColumnName("Country");
+
+                            b1.Property<string>("Email")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("Email");
+
+                            b1.Property<string>("Line1")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("Line1");
+
+                            b1.Property<string>("Line2")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("Line2");
+
+                            b1.Property<string>("Locality")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("Locality");
+
+                            b1.Property<string>("OwnerName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("OwnerName");
+
+                            b1.Property<string>("PhoneNumber")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("PhoneNumber");
+
+                            b1.Property<string>("PostalCode")
+                                .HasMaxLength(20)
+                                .HasColumnType("character varying(20)")
+                                .HasColumnName("PostalCode");
+
+                            b1.Property<string>("SubLocality")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("SubLocality");
+
+                            b1.Property<string>("Type")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("Type");
+
+                            b1.HasKey("AccountAddressId");
+
+                            b1.ToTable("Addresses");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AccountAddressId");
+                        });
+
+                    b.Navigation("Address")
                         .IsRequired();
 
                     b.Navigation("Profile");

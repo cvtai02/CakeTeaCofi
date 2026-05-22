@@ -8,6 +8,8 @@ import {
   OrderClient,
   PaymentClient,
   ProductCatalogClient,
+  SystemClient,
+  TenantManagementClient,
 } from "@shared/api/clients";
 import type {
   IAccountClient,
@@ -17,6 +19,8 @@ import type {
   IOrderClient,
   IPaymentClient,
   IProductCatalogClient,
+  ISystemClient,
+  ITenantManagementClient,
 } from "@shared/api/contracts";
 import { appFetch } from "@/configs/appFetch";
 
@@ -31,6 +35,8 @@ type ApiClients = {
   order: IOrderClient;
   payment: IPaymentClient;
   productCatalog: IProductCatalogClient;
+  system: ISystemClient;
+  tenantManagement: ITenantManagementClient;
 };
 
 const ApiClientContext = createContext<ApiClients | null>(null);
@@ -45,6 +51,8 @@ export function ApiClientProvider({ children }: { children: ReactNode }) {
       order: new OrderClient(appFetch, API_BASE_URL),
       payment: new PaymentClient(appFetch, API_BASE_URL),
       productCatalog: new ProductCatalogClient(appFetch, API_BASE_URL),
+      system: new SystemClient(appFetch, API_BASE_URL),
+      tenantManagement: new TenantManagementClient(appFetch, API_BASE_URL),
     }),
     []
   );
@@ -65,3 +73,5 @@ export const useInventoryClient = () => useApiClients().inventory;
 export const useOrderClient = () => useApiClients().order;
 export const usePaymentClient = () => useApiClients().payment;
 export const useProductCatalogClient = () => useApiClients().productCatalog;
+export const useSystemClient = () => useApiClients().system;
+export const useTenantManagementClient = () => useApiClients().tenantManagement;

@@ -1,6 +1,7 @@
 using Account.DTOs.Notifications;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel.Abstractions.Services;
+using SharedKernel.Authorization;
 using SharedKernel.DTOs;
 
 namespace Account.Core.Usecases.Notifications;
@@ -11,7 +12,12 @@ public class MarkAllAdminNotificationsRead(AccountDbContext db, IUser user)
     public async Task<PaginatedList<NotificationResponse>> ExecuteAsync(CancellationToken ct)
     {
         var notifications = await db.Notifications
-            .Where(x => !x.IsDeleted && !x.IsRead)
+            .Where(x => !x.IsDeleted
+                && !x.IsRead
+                && x.RecipientUserId == null
+                && (x.RecipientRole == null
+                    || x.RecipientRole == Roles.TenantAdmin
+                    || x.RecipientRole == Roles.SystemAdmin))
             .OrderByDescending(x => x.Created)
             .ToListAsync(ct);
 

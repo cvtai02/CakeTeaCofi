@@ -1,9 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { marked } from "marked";
 import { ContentClient } from "@modular-monolith/clients-shared/api/clients";
 import { appFetch } from "@/app/configs/appFetch";
 import { resolveMediaUrl } from "@/app/lib/media";
 import { BlogSidebar, type BlogSidebarGroup } from "@/app/components/blog-sidebar";
+import { apiCall } from "@/app/lib/api-call";
 import "../../landing.css";
 import "./blog-sidebar.css";
 
@@ -17,8 +19,8 @@ export default async function BlogPostPage({
   const client = new ContentClient(appFetch, process.env.NEXT_PUBLIC_API_BASE_URL ?? "");
 
   const [post, collections] = await Promise.all([
-    client.getPublishedBlogPostBySlug(decodedSlug).catch(() => null),
-    client.listPublicBlogPostCollections({ pageSize: 100 }).catch(() => null),
+    apiCall(client.getPublishedBlogPostBySlug(decodedSlug)),
+    apiCall(client.listPublicBlogPostCollections({ pageSize: 100 })),
   ]);
 
   if (!post) {
@@ -45,7 +47,7 @@ export default async function BlogPostPage({
     <div className="landing-root">
       <div className="site-logo-bar">
         <Link href="/" className="site-logo">
-          <img src="/nekomin.svg" alt="Nekomin" width={108} height={108} />
+          <Image src="/nekomin.svg" alt="Nekomin" width={108} height={108} />
         </Link>
         <span className="site-section-label" style={{ background: "oklch(97% 0.018 68)", borderRadius: 20, padding: "2px 14px 4px" }}>{post.title}</span>
       </div>
@@ -67,9 +69,11 @@ export default async function BlogPostPage({
 
         {coverUrl && (
           <div style={{ marginTop: 48, borderRadius: 18, overflow: "hidden" }}>
-            <img
+            <Image
               src={coverUrl}
               alt={post.title}
+              width={1200}
+              height={630}
               style={{ width: "100%", height: "auto", display: "block" }}
             />
           </div>

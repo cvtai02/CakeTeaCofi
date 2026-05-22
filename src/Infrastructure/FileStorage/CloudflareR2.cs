@@ -73,13 +73,43 @@ public class CloudflareR2 : IFileManager
             {
                 Key = key,
                 ContentType = response.Headers.ContentType ?? string.Empty,
-                Size = response.ContentLength
+                Size = response.ContentLength,
+                LastModified = response.LastModified
             };
         }
         catch (AmazonS3Exception ex) when (ex.StatusCode is HttpStatusCode.NotFound)
         {
             return null;
         }
+    }
+
+    public async Task<IReadOnlyList<FileObjectMetadata>> ListObjectsAsync(
+        string? prefix = null,
+        CancellationToken cancellationToken = default)
+    {
+        var objects = new List<FileObjectMetadata>();
+        string? continuationToken = null;
+
+        do
+        {
+            var response = await _client.ListObjectsV2Async(new ListObjectsV2Request
+            {
+                BucketName = GetBucketName(),
+                Prefix = string.IsNullOrWhiteSpace(prefix) ? null : prefix.Trim(),
+                ContinuationToken = continuationToken
+            }, cancellationToken);
+
+            objects.AddRange(response.S3Objects.Select(x => new FileObjectMetadata
+            {
+                Key = x.Key,
+                Size = x.Size.GetValueOrDefault(),
+                LastModified = x.LastModified
+            }));
+
+            continuationToken = response.IsTruncated == true ? response.NextContinuationToken : null;
+        } while (continuationToken is not null);
+
+        return objects;
     }
 
     public async Task<string> UploadAsync(IEnumerable<UploadFileDto> dto, CancellationToken cancellationToken = default)

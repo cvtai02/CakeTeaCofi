@@ -25,6 +25,7 @@
     <ProjectReference Include="..\Modules\Shipping\Shipping.csproj" />
     <ProjectReference Include="..\Modules\Identity\Identity.csproj" />
     <ProjectReference Include="..\Modules\Content\Content.csproj" />
+    <ProjectReference Include="..\Modules\TenantManagement\TenantManagement.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,12 +6,14 @@ using Intermediary.Events.Order;
 using Microsoft.AspNetCore.SignalR;
 using SharedKernel.Authorization;
 using SharedKernel.Abstractions.Contracts;
+using SharedKernel.Abstractions.Services;
 
 namespace Account.Core.EventHandlers;
 
 public class AdminOrderPlacedHandler(
     AccountDbContext db,
-    IHubContext<NotificationHub> hubContext) : IIntegrationEventHandler<AdminOrderPlaced>
+    IHubContext<NotificationHub> hubContext,
+    ITenant tenant) : IIntegrationEventHandler<AdminOrderPlaced>
 {
     private static readonly JsonSerializerOptions PayloadJsonOptions = new(JsonSerializerDefaults.Web);
 
@@ -41,6 +43,8 @@ public class AdminOrderPlacedHandler(
         db.Notifications.Add(notification);
         await db.SaveChangesAsync(ct);
 
-        await hubContext.Clients.All.SendAsync("NotificationReceived", message, ct);
+        await hubContext.Clients
+            .Group(NotificationRealtimeGroups.TenantAdminUp(tenant.Id))
+            .SendAsync("NotificationReceived", message, ct);
     }
 }

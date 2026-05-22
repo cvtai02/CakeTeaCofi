@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel.Abstractions.Services;
+using SharedKernel.EnumsConstants;
 
 namespace SharedKernel.Abstractions.Contracts;
 
@@ -42,5 +43,6 @@ public abstract class TenancyDbContext : DbContext
         public string Name => throw new NotImplementedException();
         public string Signature => throw new NotImplementedException();
         public string Domain => throw new NotImplementedException();
+        public CountryCode CountryCode => throw new NotImplementedException();
     }
 }

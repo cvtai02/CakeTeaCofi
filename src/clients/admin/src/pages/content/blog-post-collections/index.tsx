@@ -51,6 +51,7 @@ import {
 import { useContentClient } from "@/components/containers/api-client-provider";
 import { AdminErrorState } from "@/components/admin/admin-page";
 import { ROUTES } from "@/configs/routes";
+import { toastApiError } from "@/lib/form-error";
 import type { BlogPostCollectionSummaryResponse } from "@shared/api/contracts/content";
 
 const QUERY_KEY = "blog-post-collections";
@@ -81,19 +82,19 @@ export default function BlogPostCollectionsPage() {
 
   const collections = (data?.items ?? []) as BlogPostCollectionSummaryResponse[];
 
-  const { mutateAsync: deleteCollection } = useMutation({
+  const { mutateAsync: deleteCollection, isPending: isDeleting } = useMutation({
     mutationFn: (id: number) => contentClient.deleteBlogPostCollection(id),
   });
 
   async function confirmDelete() {
-    if (!deleteTarget) return;
+    if (!deleteTarget || isDeleting) return;
     try {
       await deleteCollection(deleteTarget.id);
       toast.success(`"${deleteTarget.title}" deleted`);
       setDeleteTarget(null);
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY] });
-    } catch {
-      toast.error("Failed to delete collection.");
+    } catch (err) {
+      toastApiError(err, "Failed to delete collection.");
     }
   }
 
@@ -296,8 +297,9 @@ export default function BlogPostCollectionsPage() {
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={confirmDelete}
+              disabled={isDeleting}
             >
-              Delete
+              {isDeleting ? "Deleting…" : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -7,6 +7,7 @@ using Payment;
 using ProductCatalog;
 using Shipping;
 using SharedKernel.Abstractions.Contracts;
+using TenantManagement;
 
 namespace AppHost.Buildings;
 
@@ -16,6 +17,7 @@ public static class ModuleList
     {
         return [
             new IdentityModule(builder),
+            new TenantManagementModule(builder),
             new AccountModule(builder),
             new ProductCatalogModule(builder),
             new ShippingModule(builder),

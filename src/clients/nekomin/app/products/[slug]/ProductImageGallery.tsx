@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 interface Props {
   images: string[];
@@ -19,13 +20,15 @@ export function ProductImageGallery({ images, name }: Props) {
           background: "var(--linen)",
           aspectRatio: "1/1",
           marginBottom: 12,
+          position: "relative",
         }}
       >
         {main ? (
-          <img
+          <Image
             src={main}
             alt={name}
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            fill
+            style={{ objectFit: "cover" }}
           />
         ) : (
           <div style={{ width: "100%", height: "100%" }} />
@@ -50,10 +53,12 @@ export function ProductImageGallery({ images, name }: Props) {
                 background: "var(--linen)",
               }}
             >
-              <img
+              <Image
                 src={url}
                 alt=""
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                width={64}
+                height={64}
+                style={{ objectFit: "cover", display: "block", width: "100%", height: "100%" }}
               />
             </button>
           ))}

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using SharedKernel.Abstractions.Services;
-using SharedKernel.DTOs;
+using SharedKernel.ValueObjects;
 
 namespace Order.Core.Entities;
 

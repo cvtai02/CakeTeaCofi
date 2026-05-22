@@ -1,6 +1,7 @@
 using Account.Core.Entities;
 using Account.DTOs.Notifications;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Authorization;
 using SharedKernel.DTOs;
 
 namespace Account.Core.Usecases.Notifications;
@@ -16,7 +17,11 @@ public class ListAdminNotifications(AccountDbContext db)
 
         var query = db.Notifications
             .AsNoTracking()
-            .Where(x => !x.IsDeleted);
+            .Where(x => !x.IsDeleted)
+            .Where(x => x.RecipientUserId == null
+                && (x.RecipientRole == null
+                    || x.RecipientRole == Roles.TenantAdmin
+                    || x.RecipientRole == Roles.SystemAdmin));
 
         if (request.IsRead.HasValue)
             query = query.Where(x => x.IsRead == request.IsRead.Value);

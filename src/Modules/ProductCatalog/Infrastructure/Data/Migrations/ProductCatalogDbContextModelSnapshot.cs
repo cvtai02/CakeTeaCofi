@@ -295,7 +295,6 @@ namespace ProductCatalog.Infrastructure.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsDeleted")

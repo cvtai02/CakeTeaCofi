@@ -1,5 +1,5 @@
 using ProductCatalog.Core.Entities;
-using SharedKernel.Enums;
+using SharedKernel.EnumsConstants;
 
 namespace ProductCatalog.DTOs.Collections;
 

@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using SharedKernel.Enums;
+using SharedKernel.EnumsConstants;
 
 namespace ProductCatalog.Core.Entities;
 
@@ -12,7 +12,7 @@ public class Product : AuditableEntity
     public string Summary { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int CategoryId { get; set; }
-    public string ImageUrl { get; set; } = string.Empty;
+    public string? ImageUrl { get; set; }
 
     // Pricing
     public decimal Price { get; private set; }

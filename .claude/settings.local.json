@@ -32,7 +32,8 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(xargs grep -l \"card\\\\|Card\\\\|item\\\\|Item\")",
       "Bash(xargs grep -l \"CustomerProductSummary\\\\|product.*card\\\\|products.map\")",
-      "Bash(git mv *)"
+      "Bash(git mv *)",
+      "Bash(grep -E \"unused-files|system/index|system\\\\\\\\\\\\\\\\index|api-client-provider|routes\\\\.tsx|configs/routes|configs\\\\\\\\\\\\\\\\routes|app-layout\")"
     ],
     "deny": [
       "Read(.git/**)",
@@ -57,8 +58,8 @@
       "Read(**/openapi-types.ts)"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "nekomin-app-agent"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }

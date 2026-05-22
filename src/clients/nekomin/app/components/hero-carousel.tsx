@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { resolveMediaUrl } from "@/app/lib/media";
+import { ContactLinks } from "./contact-links";
 
 export type HeroSlide = {
   imageKey: string;
@@ -17,57 +19,19 @@ const PAW_SVG = `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" fil
   <ellipse cx="24" cy="12" rx="3" ry="2.5"/>
 </svg>`;
 
-const SLIDES = [
-  {
-    bg: "oklch(84% 0.05 60)",
-    pattern: (
-      <pattern id="s1" width="28" height="28" patternUnits="userSpaceOnUse">
-        <line x1="0" y1="28" x2="28" y2="0" stroke="oklch(75% 0.06 60)" strokeWidth="0.7" />
-      </pattern>
-    ),
-    tag: "phụ kiện · được chọn lọc kỹ lưỡng",
-  },
-  {
-    bg: "oklch(91% 0.035 75)",
-    pattern: (
-      <pattern id="s2" width="24" height="24" patternUnits="userSpaceOnUse">
-        <rect x="0" y="0" width="12" height="12" fill="oklch(85% 0.04 75)" opacity="0.6" />
-        <rect x="12" y="12" width="12" height="12" fill="oklch(85% 0.04 75)" opacity="0.6" />
-      </pattern>
-    ),
-    tag: "detox · nghi thức thanh lọc",
-  },
-  {
-    bg: "oklch(80% 0.06 48)",
-    pattern: (
-      <pattern id="s3" width="32" height="32" patternUnits="userSpaceOnUse">
-        <circle cx="16" cy="16" r="2" fill="oklch(68% 0.08 48)" />
-      </pattern>
-    ),
-    tag: "decor · không gian sống chậm",
-  },
-  {
-    bg: "oklch(82% 0.055 55)",
-    pattern: (
-      <pattern id="s4" width="20" height="20" patternUnits="userSpaceOnUse">
-        <line x1="0" y1="0" x2="20" y2="20" stroke="oklch(72% 0.07 55)" strokeWidth="0.8" />
-        <line x1="20" y1="0" x2="0" y2="20" stroke="oklch(72% 0.07 55)" strokeWidth="0.8" />
-      </pattern>
-    ),
-    tag: "nekomin · sống chậm, sống đẹp",
-  },
-];
-
 const DURATION = 5000;
 
-export function HeroCarousel({ slides: gallerySlides, serverError }: { slides?: HeroSlide[]; serverError?: boolean }) {
-  const slides = gallerySlides && gallerySlides.length > 0 ? gallerySlides : SLIDES;
+export function HeroCarousel({ slides: gallerySlides }: { slides?: HeroSlide[] }) {
+  const hasSlides = (gallerySlides?.length ?? 0) > 0;
+  const slides = gallerySlides ?? [];
+
   const [active, setActive] = useState(0);
   const barRef = useRef<HTMLDivElement>(null);
   const pawBgRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef(0);
 
   useEffect(() => {
+    if (!hasSlides) return;
     const bar = barRef.current;
     if (!bar) return;
     const start = performance.now();
@@ -85,7 +49,7 @@ export function HeroCarousel({ slides: gallerySlides, serverError }: { slides?: 
     };
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [active]);
+  }, [active, hasSlides, slides.length]);
 
   useEffect(() => {
     const pawBg = pawBgRef.current;
@@ -115,39 +79,59 @@ export function HeroCarousel({ slides: gallerySlides, serverError }: { slides?: 
     return () => clearInterval(interval);
   }, []);
 
+  if (!hasSlides) {
+    return (
+      <section className="hero" id="hero">
+        <div className="hero-slides">
+          <div className="hero-slide active">
+            <div className="slide-fill">
+              <svg
+                viewBox="0 0 1440 900"
+                preserveAspectRatio="xMidYMid slice"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <pattern id="mp" width="28" height="28" patternUnits="userSpaceOnUse">
+                    <line x1="0" y1="28" x2="28" y2="0" stroke="oklch(75% 0.06 60)" strokeWidth="0.7" />
+                  </pattern>
+                </defs>
+                <rect width="1440" height="900" fill="oklch(84% 0.05 60)" />
+                <rect width="1440" height="900" fill="url(#mp)" opacity="0.45" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="shape-bg" ref={pawBgRef} />
+
+        <div className="hero-maintenance">
+          <p className="hero-maintenance__title">
+            Server của chúng tôi hiện đang nâng cấp.
+          </p>
+          <p className="hero-maintenance__sub">Bạn có thể liên hệ với chúng tôi qua</p>
+          <ContactLinks />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="hero" id="hero">
       <div className="hero-slides">
         {slides.map((slide, i) => {
-          const isGallery = "imageKey" in slide;
-          const imageUrl = isGallery ? resolveMediaUrl((slide as HeroSlide).imageKey) : "";
-          const tag = isGallery ? (slide as HeroSlide).tag : (slide as typeof SLIDES[0]).tag;
-          const staticSlide = isGallery ? null : (slide as typeof SLIDES[0]);
-          const link = isGallery ? (slide as HeroSlide).link : "";
+          const imageUrl = resolveMediaUrl(slide.imageKey);
           const inner = (
             <>
               <div className="slide-fill">
-                {imageUrl ? (
-                  <img src={imageUrl} alt={tag} className="slide-img" />
-                ) : staticSlide ? (
-                  <svg
-                    viewBox="0 0 1440 900"
-                    preserveAspectRatio="xMidYMid slice"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <defs>{staticSlide.pattern}</defs>
-                    <rect width="1440" height="900" fill={staticSlide.bg} />
-                    <rect width="1440" height="900" fill={`url(#s${i + 1})`} opacity="0.45" />
-                  </svg>
-                ) : null}
+                {imageUrl && <Image src={imageUrl} alt={slide.tag} fill style={{ objectFit: "cover" }} />}
               </div>
-              <div className="slide-tag">{tag}</div>
+              <div className="slide-tag">{slide.tag}</div>
             </>
           );
           return (
             <div key={i} className={`hero-slide${i === active ? " active" : ""}`}>
-              {link ? (
-                <a href={link} className="slide-link" aria-label={tag}>{inner}</a>
+              {slide.link ? (
+                <a href={slide.link} className="slide-link" aria-label={slide.tag}>{inner}</a>
               ) : inner}
             </div>
           );
@@ -155,23 +139,6 @@ export function HeroCarousel({ slides: gallerySlides, serverError }: { slides?: 
       </div>
 
       <div className="shape-bg" ref={pawBgRef} />
-
-      {serverError && (
-        <div className="hero-server-notice">
-          <span className="hero-server-notice__icon">✦</span>
-          <span>
-            Server của chúng tôi hiện đang nâng cấp. Bạn có thể liên hệ với chúng tôi qua{" "}
-            <a
-              href="https://www.facebook.com/nekomin"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-server-notice__link"
-            >
-              Facebook
-            </a>
-          </span>
-        </div>
-      )}
 
       <div className="hero-dots">
         {slides.map((_, i) => (

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { CustomerProductSummaryResponse } from "@modular-monolith/clients-shared/api/types/productcatalog";
 
 function formatPrice(amount: number, currency: string) {
@@ -29,7 +30,7 @@ export function ProductGallery({ products }: { products: CustomerProductSummaryR
               <div className="product-card">
                 <div className="product-image">
                   {product.imageUrl && (
-                    <img src={product.imageUrl} alt={product.name} className="product-img" />
+                    <Image src={product.imageUrl} alt={product.name} width={600} height={600} className="product-img" />
                   )}
                 </div>
                 <div className="product-overlay">

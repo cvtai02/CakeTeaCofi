@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ProductCatalogClient } from "@modular-monolith/clients-shared/api/clients";
 import { appFetch } from "@/app/configs/appFetch";
 import { ProductGallery } from "@/app/components/product-gallery";
+import { apiCall } from "@/app/lib/api-call";
 import "../../landing.css";
 
 export default async function CollectionPage({
@@ -13,7 +15,7 @@ export default async function CollectionPage({
   const decodedSlug = decodeURIComponent(slug);
   const client = new ProductCatalogClient(appFetch, process.env.NEXT_PUBLIC_API_BASE_URL ?? "");
 
-  const collection = await client.getCustomerCollectionBySlug(decodedSlug).catch(() => null);
+  const collection = await apiCall(client.getCustomerCollectionBySlug(decodedSlug));
 
   if (!collection) {
     return (
@@ -29,7 +31,7 @@ export default async function CollectionPage({
     <div className="landing-root">
       <div className="site-logo-bar">
         <Link href="/" className="site-logo">
-          <img src="/nekomin.svg" alt="Nekomin" width={108} height={108} />
+          <Image src="/nekomin.svg" alt="Nekomin" width={108} height={108} />
         </Link>
         <span className="site-section-label">{collection.title}</span>
       </div>
@@ -37,7 +39,7 @@ export default async function CollectionPage({
       <section className="shop" style={{ paddingTop: 120 }}>
         {collection.imageUrl && (
           <div style={{ marginBottom: 40, borderRadius: 18, overflow: "hidden", maxHeight: 340 }}>
-            <img src={collection.imageUrl} alt={collection.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            <Image src={collection.imageUrl} alt={collection.title} width={1200} height={340} style={{ width: "100%", height: "auto", objectFit: "cover", display: "block" }} />
           </div>
         )}
 

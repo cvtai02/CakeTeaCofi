@@ -154,19 +154,19 @@ namespace Order.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Order.Core.Entities.Order", b =>
                 {
-                    b.OwnsOne("SharedKernel.DTOs.Address", "ShippingAddress", b1 =>
+                    b.OwnsOne("SharedKernel.ValueObjects.Address", "ShippingAddress", b1 =>
                         {
                             b1.Property<string>("OrderCode")
                                 .HasColumnType("character varying(64)");
 
-                            b1.Property<string>("City")
+                            b1.Property<string>("AdministrativeArea")
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)");
 
                             b1.Property<string>("Country")
                                 .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)");
+                                .HasMaxLength(2)
+                                .HasColumnType("character varying(2)");
 
                             b1.Property<string>("Email")
                                 .IsRequired()
@@ -182,6 +182,10 @@ namespace Order.Infrastructure.Data.Migrations
                                 .HasMaxLength(500)
                                 .HasColumnType("character varying(500)");
 
+                            b1.Property<string>("Locality")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)");
+
                             b1.Property<string>("OwnerName")
                                 .IsRequired()
                                 .HasMaxLength(200)
@@ -196,7 +200,7 @@ namespace Order.Infrastructure.Data.Migrations
                                 .HasMaxLength(20)
                                 .HasColumnType("character varying(20)");
 
-                            b1.Property<string>("State")
+                            b1.Property<string>("SubLocality")
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)");
 

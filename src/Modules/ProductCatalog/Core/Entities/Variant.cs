@@ -1,5 +1,3 @@
-using SharedKernel.Enums;
-
 namespace ProductCatalog.Core.Entities;
 
 public class Variant : AuditableEntity

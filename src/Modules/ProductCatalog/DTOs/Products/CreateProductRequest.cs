@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using ProductCatalog.Core.Entities;
-using SharedKernel.Enums;
+using SharedKernel.EnumsConstants;
 
 namespace ProductCatalog.DTOs.Products;
 

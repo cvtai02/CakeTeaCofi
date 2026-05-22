@@ -22,6 +22,15 @@ type ConfirmUploadOperation =
 
 type DeleteOperation =
     ContentPaths["/api/Content/file-objects"]["delete"];
+type DeleteByKeysOperation =
+    Operation<"/api/Content/file-objects/by-keys", "delete">;
+
+type ListUnusedMediaFilesOperation =
+    Operation<"/api/Content/file-objects/unused", "get">;
+type DeleteUnusedMediaFilesOperation =
+    Operation<"/api/Content/file-objects/unused", "delete">;
+type ImportUnusedMediaFilesOperation =
+    Operation<"/api/Content/file-objects/unused/import", "post">;
 
 type ListPublishedBlogPostsOperation =
     Operation<"/api/Content/blog-posts", "get">;
@@ -62,6 +71,26 @@ export type DeleteMediaFilesRequest =
     JsonRequestBody<DeleteOperation>;
 // No content
 export type DeleteMediaFilesResponse = void;
+export type DeleteMediaFilesByKeysRequest =
+    JsonRequestBody<DeleteByKeysOperation>;
+export type DeleteMediaFilesByKeysResponse =
+    JsonResponse<DeleteByKeysOperation>;
+
+export type ListUnusedMediaFilesQuery =
+    QueryParams<ListUnusedMediaFilesOperation>;
+
+export type ListUnusedMediaFilesResponse =
+    JsonResponse<ListUnusedMediaFilesOperation>;
+export type UnusedMediaFileResponse =
+    ListUnusedMediaFilesResponse["items"][number];
+export type DeleteUnusedMediaFilesRequest =
+    JsonRequestBody<DeleteUnusedMediaFilesOperation>;
+export type DeleteUnusedMediaFilesResponse =
+    JsonResponse<DeleteUnusedMediaFilesOperation>;
+export type ImportUnusedMediaFilesRequest =
+    JsonRequestBody<ImportUnusedMediaFilesOperation>;
+export type ImportUnusedMediaFilesResponse =
+    JsonResponse<ImportUnusedMediaFilesOperation>;
 
 export type ListPublishedBlogPostsQuery =
     QueryParams<ListPublishedBlogPostsOperation>;

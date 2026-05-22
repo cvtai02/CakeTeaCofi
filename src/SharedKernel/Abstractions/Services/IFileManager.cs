@@ -9,6 +9,7 @@ public interface IFileManager
     string? BuildPublicUrl(string? key);
     Task<List<string>> GetPresignedUploadBulkUrlAsync(IEnumerable<PresignedUploadParameters> parameters, TimeSpan expiresIn, CancellationToken cancellationToken = default);
     Task<FileObjectMetadata?> GetObjectMetadataAsync(string key, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<FileObjectMetadata>> ListObjectsAsync(string? prefix = null, CancellationToken cancellationToken = default);
     Task DeleteBulkAsync(IEnumerable<string> keys, CancellationToken cancellationToken = default);
 
     Task<string> UploadAsync(IEnumerable<UploadFileDto> dto, CancellationToken cancellationToken = default);
@@ -36,4 +37,5 @@ public class FileObjectMetadata
     public string Key { get; set; } = string.Empty;
     public string ContentType { get; set; } = string.Empty;
     public long Size { get; set; }
+    public DateTimeOffset? LastModified { get; set; }
 }

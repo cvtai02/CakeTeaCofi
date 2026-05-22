@@ -3,6 +3,7 @@ using Amazon.S3;
 using Infrastructure.Cache;
 using Infrastructure.Data;
 using Infrastructure.Data.Interceptors;
+using Infrastructure.DatabaseBackups;
 using Infrastructure.EventBus;
 using Infrastructure.FileStorage;
 using MediatR;
@@ -56,6 +57,7 @@ public static class InfrastructureInjection
 
             // use CloudflareR2 for all modules, can use factory later if want to support multiple providers
             services.AddScoped<IFileManager, CloudflareR2>();
+            services.AddSingleton<IDatabaseBackupService, PostgresR2DatabaseBackupService>();
 
             // EventBus
             services.AddScoped<IPublisher, Mediator>();

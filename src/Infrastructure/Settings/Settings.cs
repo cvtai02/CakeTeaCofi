@@ -8,6 +8,7 @@ public class Settings
     public DatabaseSettings? Database { get; set; } = null;
     public JwtSettings? Jwt { get; set; } = null;
     public ObjectStorageSettings? FileStorage { get; set; } = null;
+    public DatabaseBackupSettings? DatabaseBackup { get; set; } = null;
     public EventBusSettings? EventBus { get; set; } = null;
     public CacheSettings? Cache { get; set; } = null;
     public RetrySettings? Retry { get; set; } = null;
@@ -43,6 +44,7 @@ public class Settings
         Database ??= defaultSettings.Database;
         Jwt ??= defaultSettings.Jwt;
         FileStorage ??= defaultSettings.FileStorage;
+        DatabaseBackup ??= defaultSettings.DatabaseBackup;
         EventBus ??= defaultSettings.EventBus;
         Cache ??= defaultSettings.Cache;
         Retry ??= defaultSettings.Retry;
@@ -70,6 +72,15 @@ public class ObjectStorageSettings
     public string ApiUrl { get; set; } = null!;
     public string AccessKeyId { get; set; } = null!;
     public string SecretAccessKey { get; set; } = null!;
+}
+
+public class DatabaseBackupSettings
+{
+    public bool Enabled { get; set; } = true;
+    public string PgDumpPath { get; set; } = "pg_dump";
+    public string? BucketName { get; set; }
+    public string KeyPrefix { get; set; } = "backups/database";
+    public int TimeoutMinutes { get; set; } = 30;
 }
 
 

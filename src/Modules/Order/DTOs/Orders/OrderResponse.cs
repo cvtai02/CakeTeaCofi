@@ -1,5 +1,5 @@
 using Order.Core.Entities;
-using SharedKernel.DTOs;
+using SharedKernel.ValueObjects;
 
 namespace Order.DTOs.Orders;
 

@@ -9,9 +9,11 @@ import { getAccessToken } from "@/app/lib/auth";
 
 // Use on the order detail page alongside useMyOrdersHub in the layout.
 // Deduplicate with the session-wide hook via the notificationKey before acting.
+// Pass guestEmail for anonymous order tracking (no auth token available).
 export function useOrderDetailHub(
   orderCode: string,
   onNotification: (notification: OrderNotification) => void,
+  guestEmail?: string,
 ) {
   const onNotificationRef = useRef(onNotification);
   useLayoutEffect(() => { onNotificationRef.current = onNotification; });
@@ -28,21 +30,28 @@ export function useOrderDetailHub(
 
     async function start() {
       const token = await getAccessToken();
-      if (!token || !mounted) return;
+      if (!mounted) return;
+      if (!token && !guestEmail) return;
 
       connection = new SignalR.HubConnectionBuilder()
-        .withUrl(ORDER_HUB_URL, { accessTokenFactory: () => token })
+        .withUrl(
+          ORDER_HUB_URL,
+          token ? { accessTokenFactory: () => token } : {},
+        )
         .withAutomaticReconnect()
         .configureLogging(SignalR.LogLevel.Warning)
         .build();
 
       connection.on("OrderNotification", handleNotification);
-      connection.on("OrderPlaced", handleNotification);
 
       try {
         await connection.start();
         if (!mounted) { await connection.stop(); return; }
-        await connection.invoke("JoinOrder", orderCode);
+        if (token) {
+          await connection.invoke("JoinOrder", orderCode);
+        } else {
+          await connection.invoke("JoinGuestOrder", orderCode, guestEmail);
+        }
       } catch {
         // User does not own this order or server unreachable.
       }
@@ -57,5 +66,5 @@ export function useOrderDetailHub(
         connection.stop().catch(() => {});
       }
     };
-  }, [orderCode, handleNotification]);
+  }, [orderCode, handleNotification, guestEmail]);
 }

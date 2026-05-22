@@ -32,7 +32,7 @@ public class ConfirmUpload(ContentDbContext db, IFileManager fileManager, ICache
             var existing = await db.Files.FirstOrDefaultAsync(x => x.Key == key, cancellationToken);
             if (existing is not null)
             {
-                responses.Add(ToResponse(existing));
+                responses.Add(FileObjectResponseMapper.ToUploadResponse(existing, fileManager));
                 await cache.RemoveAsync(GetPresignedUpload.GetCacheKey(uploadId));
                 continue;
             }
@@ -60,7 +60,7 @@ public class ConfirmUpload(ContentDbContext db, IFileManager fileManager, ICache
             await db.SaveChangesAsync(cancellationToken);
             await cache.RemoveAsync(GetPresignedUpload.GetCacheKey(uploadId));
 
-            responses.Add(ToResponse(fileObject));
+            responses.Add(FileObjectResponseMapper.ToUploadResponse(fileObject, fileManager));
         }
 
         return new ConfirmUploadResponse { Files = responses };
@@ -85,17 +85,6 @@ public class ConfirmUpload(ContentDbContext db, IFileManager fileManager, ICache
         if (errors.Count > 0)
             throw new ValidationException("Validation failed", errors);
     }
-
-    private UploadResponse ToResponse(FileObject fileObject) => new()
-    {
-        Id = fileObject.Id,
-        Key = fileObject.Key,
-        Category = fileObject.Category,
-        Name = fileObject.Name,
-        ContentType = fileObject.ContentType,
-        Size = fileObject.Size,
-        PublicUrl = fileManager.BuildPublicUrl(fileObject.Key)!
-    };
 
     private static ValidationException Validation(string key, string message)
         => new("Validation failed", new Dictionary<string, string[]> { [key] = [message] });

@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { Controller, useForm, useFieldArray, useWatch } from "react-hook-form";
-import { ArrowLeftIcon, GripVerticalIcon, ImageIcon, PlusIcon, Trash2Icon } from "lucide-react";
+import { ArrowLeftIcon, GlobeIcon, GripVerticalIcon, ImageIcon, LockIcon, PlusIcon, Trash2Icon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -160,6 +160,8 @@ export function GalleryFormLayout({
     control,
     handleSubmit,
     setError,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<GalleryFormValues>({
     defaultValues: {
@@ -211,6 +213,7 @@ export function GalleryFormLayout({
   });
 
   const busy = isPending || isSubmitting;
+  const isPublic = watch("isPublic");
 
   return (
     <div className="flex min-h-0 flex-col bg-muted/30">
@@ -225,11 +228,32 @@ export function GalleryFormLayout({
         <Separator orientation="vertical" className="h-5" />
         <h1 className="text-sm font-semibold">{pageTitle}</h1>
         <div className="ml-auto flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            type="button"
+            onClick={() => setValue("isPublic", !isPublic, { shouldDirty: true })}
+          >
+            {isPublic
+              ? <><GlobeIcon className="size-3.5" /> Public</>
+              : <><LockIcon className="size-3.5" /> Private</>}
+          </Button>
           <Button variant="ghost" size="sm" type="button" onClick={onDiscard}>
             Discard
           </Button>
           <Button size="sm" type="button" disabled={busy} onClick={doSubmit}>
-            {isPending ? "Saving…" : "Save"}
+            {busy ? "Saving…" : "Save"}
+          </Button>
+          <Button
+            size="sm"
+            type="button"
+            disabled={busy}
+            onClick={() => {
+              setValue("isPublic", true, { shouldDirty: true });
+              doSubmit();
+            }}
+          >
+            {busy ? "Saving…" : "Public & Save"}
           </Button>
         </div>
       </div>

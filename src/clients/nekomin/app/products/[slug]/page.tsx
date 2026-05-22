@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ProductCatalogClient } from "@modular-monolith/clients-shared/api/clients";
 import { appFetch } from "@/app/configs/appFetch";
+import { apiCall } from "@/app/lib/api-call";
 import "../../landing.css";
 import { ProductImageGallery } from "./ProductImageGallery";
 import { ProductInfoPanel } from "./ProductInfoPanel";
@@ -14,7 +16,7 @@ export default async function ProductPage({
   const decodedSlug = decodeURIComponent(slug);
   const client = new ProductCatalogClient(appFetch, process.env.NEXT_PUBLIC_API_BASE_URL ?? "");
 
-  const product = await client.getCustomerProductBySlug(decodedSlug).catch(() => null);
+  const product = await apiCall(client.getCustomerProductBySlug(decodedSlug));
 
   if (!product) {
     return (
@@ -36,7 +38,7 @@ export default async function ProductPage({
     <div className="landing-root">
       <div className="site-logo-bar">
         <Link href="/" className="site-logo">
-          <img src="/nekomin.svg" alt="Nekomin" width={108} height={108} />
+          <Image src="/nekomin.svg" alt="Nekomin" width={108} height={108} />
         </Link>
         <span className="site-section-label">{product.name}</span>
       </div>

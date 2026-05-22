@@ -7,8 +7,8 @@ $project = "src/Modules/$Module/$Module.csproj"
 $startup = "src/AppHost/AppHost.csproj"
 $context = "$Module.${Module}DbContext"
 
-$updateCmd = "dotnet ef database update $PreviousMigration --project $project --startup-project $startup --context $context"
-$removeCmd = "dotnet ef migrations remove --project $project --startup-project $startup --context $context"
+$updateCmd = "dotnet ef database update $PreviousMigration --project $project --startup-project $startup --context $context --no-build"
+$removeCmd = "dotnet ef migrations remove --project $project --startup-project $startup --context $context --no-build"
 
 Write-Host "Resetting to '$PreviousMigration' for module '$Module'..." -ForegroundColor Yellow
 

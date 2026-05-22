@@ -28,29 +28,29 @@ description: Implement/Update API endpoints.
 2. Implement APIs:
    - Add or update DTOs under `src/Modules/<ModuleName>/DTOs/**`.
    - Add or update use cases/controllers under `src/Modules/<ModuleName>/Api/**` using the module's existing style.
-   - Register use cases in `src/Modules/<ModuleName>/<ModuleName>Module.cs` or the module registration file already used by that module.
-   - move the backend-plan to `requirements/done` after implementation.
 3. Update `src/Modules/<ModuleName>/Api/api.md` with endpoint summaries only:
    - route and method
    - auth requirement
    - DTO links by file path
    - short behavior notes
    - do not inline full request/response property details
-4. Update API clients for frontend when backend API shape changes:
+4. If there is any changes in DTOs, Controllers:
+   1. run the project with http port
+   2. run the api-typescript.ps1 in devtools at workspace folder.
+   3. stop the project
+
+5. Update API clients for frontend when backend API shape changes:
    - type aliases live in `src/clients/shared/api/types/<modulename>.ts`
    - shared client implementation lives in `src/clients/shared/api/clients/<modulename>.ts`
    - interface contracts live in `src/clients/shared/api/contracts/<modulename>.ts`
    - comments above each interface method should point to the exact backend DTO `.cs` file for each request/response type
    - comments above added or changed interface methods should also mention the contract method name and short behavior note
    - do not edit `src/clients/shared/api/lib/**`
+   - check if there is any typescript warning/error in updated files.
 
-5. Write a Frontend-handoff document under `requirements/frontend-handoff/`.
-   - Use the title format `<feature>-frontend-handoff.md`.
+6. Write a Frontend-handoff document under `requirements/frontend-handoff/`.
+   - Use the title format `<feature>.md`.
    - Keep these handoffs focused on API behavior and frontend UX.
    - Mention the API client contract file path and the client methods should be used.
    - Tell Claude to move the file to `requirements/frontend-handoff/done/` after implementation.
    - Do not edit files already under a `done/` folder.
-
-# Migrations
-- If entity/schema changes require a migration, create/update the EF migration yourself using the repository devtools outside the sandbox with explicit escalation/approval.
-- Do not create migration handoff files for normal EF migration work.

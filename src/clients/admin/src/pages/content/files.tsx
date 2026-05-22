@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   FileIcon,
@@ -44,6 +45,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { AdminErrorState } from "@/components/admin/admin-page";
 import { useContentClient } from "@/components/containers/api-client-provider";
+import { ROUTES } from "@/configs/routes";
 import { cn } from "@/lib/utils";
 import type { GetAllQuery, GetAllResponse } from "@shared/api/types/content";
 
@@ -227,6 +229,7 @@ function UploadDialog({
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ContentFilesPage() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string>("all");
   const [page, setPage] = useState(1);
@@ -326,6 +329,13 @@ export default function ContentFilesPage() {
               </Button>
             </>
           )}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate(ROUTES.contentUnusedFiles)}
+          >
+            Unused files
+          </Button>
           <Button
             variant="outline"
             size="sm"

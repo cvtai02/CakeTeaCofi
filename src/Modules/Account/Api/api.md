@@ -10,10 +10,10 @@ Client contract: [AccountClient](../../../clients/shared/api/clients/account.ts)
 - [UpdateMe](AccountProfileController.cs#L23)
 
 ### Current Account Addresses
-- [GetAll](AccountAddressController.cs#L20)
-- [Create](AccountAddressController.cs#L24)
-- [Update](AccountAddressController.cs#L30)
-- [Delete](AccountAddressController.cs#L40)
+- `GET /api/Account/addresses` - auth: `AuthenticatedUserUp`. DTO: [AccountAddressResponse](../DTOs/AccountAddresses/AccountAddressResponse.cs). Returns current user's saved addresses; address fields are nested under `address`.
+- `POST /api/Account/addresses` - auth: `AuthenticatedUserUp`. DTOs: [SaveAccountAddressRequest](../DTOs/AccountAddresses/SaveAccountAddressRequest.cs), [AccountAddressResponse](../DTOs/AccountAddresses/AccountAddressResponse.cs). Creates a saved address using `SharedKernel.ValueObjects.Address`.
+- `PUT /api/Account/addresses/{id}` - auth: `AuthenticatedUserUp`. DTOs: [SaveAccountAddressRequest](../DTOs/AccountAddresses/SaveAccountAddressRequest.cs), [AccountAddressResponse](../DTOs/AccountAddresses/AccountAddressResponse.cs). Updates a saved address using `SharedKernel.ValueObjects.Address`.
+- `DELETE /api/Account/addresses/{id}` - auth: `AuthenticatedUserUp`. Soft deletes a saved address.
 
 ### Tenant Admin Profiles
 - [Create](AccountProfileController.cs#L51) - auth: `TenantAdminUp`. DTOs: [AdminCreateAccountProfileRequest](../DTOs/AccountProfiles/AdminCreateAccountProfileRequest.cs), [AccountProfileResponse](../DTOs/AccountProfiles/AccountProfileResponse.cs). Creates a customer profile.

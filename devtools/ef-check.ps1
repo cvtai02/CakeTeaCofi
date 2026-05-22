@@ -7,7 +7,7 @@ $project = "src/Modules/$Module/$Module.csproj"
 $startup = "src/AppHost/AppHost.csproj"
 $context = "$Module.${Module}DbContext"
 
-$command = "dotnet ef migrations has-pending-model-changes $Name --project $project --startup-project $startup --context $context"
+$command = "dotnet ef migrations has-pending-model-changes $Name --project $project --startup-project $startup --context $context --no-build"
 
 Write-Host "Updating database for module '$Module'$(if ($Name) { " to '$Name'" })..." -ForegroundColor Cyan
 Invoke-Expression $command

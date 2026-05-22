@@ -22,7 +22,7 @@ public class OrderModule(IHostApplicationBuilder b) : Module(b)
 
     public override void Run(WebApplication app)
     {
-        app.MapHub<OrderHub>("/hubs/orders").RequireAuthorization();
+        app.MapHub<OrderHub>("/hubs/orders");
     }
 }
 

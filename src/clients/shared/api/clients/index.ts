@@ -6,3 +6,5 @@ export { OrderClient } from "./order";
 export { PaymentClient } from "./payment";
 export { ProductCatalogClient } from "./productcatalog";
 export { ShippingClient } from "./shipping";
+export { SystemClient } from "./system";
+export { TenantManagementClient } from "./tenantmanagement";

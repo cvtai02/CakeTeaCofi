@@ -1,7 +1,20 @@
 import type { FieldValues, Path, UseFormSetError } from "react-hook-form";
 import { toast } from "sonner";
 
-import { ValidationError } from "@shared/api/contracts/common-types";
+import { ApiError, ValidationError } from "@shared/api/contracts/common-types";
+
+/**
+ * Shows a toast for any API call error.
+ * - Non-ApiError (network failure, DNS, etc.) → "Cannot connect to server"
+ * - ApiError / ValidationError → uses the error message
+ */
+export function toastApiError(err: unknown, fallback = "Something went wrong"): void {
+  if (!(err instanceof ApiError)) {
+    toast.error("Cannot connect to server");
+    return;
+  }
+  toast.error(err.message || fallback);
+}
 
 /**
  * Handles a ValidationError (400) by binding field messages to the form and

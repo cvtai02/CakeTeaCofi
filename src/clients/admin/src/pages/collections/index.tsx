@@ -42,6 +42,7 @@ import {
 import { useProductCatalogClient } from "@/components/containers/api-client-provider";
 import { AdminErrorState } from "@/components/admin/admin-page";
 import { ROUTES } from "@/configs/routes";
+import { toastApiError } from "@/lib/form-error";
 import type { CollectionResponse } from "@shared/api/contracts/productcatalog";
 
 export default function CollectionsPage() {
@@ -58,19 +59,19 @@ export default function CollectionsPage() {
 
   const collections = data?.items ?? [];
 
-  const { mutateAsync: deleteCollection } = useMutation({
+  const { mutateAsync: deleteCollection, isPending: isDeleting } = useMutation({
     mutationFn: productCatalogClient.deleteCollection.bind(productCatalogClient),
   });
 
   async function confirmDelete() {
-    if (!deleteTarget) return;
+    if (!deleteTarget || isDeleting) return;
     try {
       await deleteCollection(deleteTarget.id!);
       toast.success(`"${deleteTarget.title}" deleted`);
       setDeleteTarget(null);
       queryClient.invalidateQueries({ queryKey: ["collections"] });
-    } catch {
-      toast.error("Failed to delete collection.");
+    } catch (err) {
+      toastApiError(err, "Failed to delete collection.");
     }
   }
 
@@ -224,8 +225,9 @@ export default function CollectionsPage() {
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={confirmDelete}
+              disabled={isDeleting}
             >
-              Delete
+              {isDeleting ? "Deleting…" : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,11 +1,10 @@
 using Intermediary.Events.Order;
 using Intermediary.Ordering;
-using Microsoft.EntityFrameworkCore;
 using Order.DTOs.Orders;
 using System.Security.Cryptography;
 using SharedKernel.Abstractions.Services;
-using SharedKernel.DTOs;
-using SharedKernel.Enums;
+using SharedKernel.ValueObjects;
+using SharedKernel.EnumsConstants;
 using SharedKernel.Exceptions;
 
 namespace Order.Core.Usecases.Orders;
@@ -175,8 +174,8 @@ public class CreateOrder(
         if (string.IsNullOrWhiteSpace(address.PhoneNumber))
             errors[$"{nameof(CreateOrderRequest.ShippingAddress)}.{nameof(Address.PhoneNumber)}"] = ["Phone number is required."];
 
-        if (string.IsNullOrWhiteSpace(address.Country))
-            errors[$"{nameof(CreateOrderRequest.ShippingAddress)}.{nameof(Address.Country)}"] = ["Country is required."];
+        if (!Enum.IsDefined(address.Country))
+            errors[$"{nameof(CreateOrderRequest.ShippingAddress)}.{nameof(Address.Country)}"] = ["Country is invalid."];
 
         if (string.IsNullOrWhiteSpace(address.Line1))
             errors[$"{nameof(CreateOrderRequest.ShippingAddress)}.{nameof(Address.Line1)}"] = ["Address line 1 is required."];
@@ -190,9 +189,10 @@ public class CreateOrder(
         Type = address.Type?.Trim() ?? string.Empty,
         PhoneNumber = address.PhoneNumber?.Trim() ?? string.Empty,
         Email = address.Email?.Trim() ?? string.Empty,
-        Country = address.Country?.Trim() ?? string.Empty,
-        State = address.State?.Trim(),
-        City = address.City?.Trim(),
+        Country = Enum.IsDefined(address.Country) ? address.Country : CountryCode.VN,
+        AdministrativeArea = address.AdministrativeArea?.Trim(),
+        Locality = address.Locality?.Trim(),
+        SubLocality = address.SubLocality?.Trim(),
         PostalCode = address.PostalCode?.Trim(),
         Line1 = address.Line1?.Trim() ?? string.Empty,
         Line2 = address.Line2?.Trim()

@@ -30,9 +30,10 @@ public class OrderDbContext : TenancyDbContext
                 sa.Property(a => a.OwnerName).HasMaxLength(200);
                 sa.Property(a => a.PhoneNumber).HasMaxLength(50);
                 sa.Property(a => a.Email).HasMaxLength(200);
-                sa.Property(a => a.Country).HasMaxLength(100);
-                sa.Property(a => a.State).HasMaxLength(100);
-                sa.Property(a => a.City).HasMaxLength(100);
+                sa.Property(a => a.Country).HasConversion<string>().HasMaxLength(2);
+                sa.Property(a => a.AdministrativeArea).HasMaxLength(100);
+                sa.Property(a => a.Locality).HasMaxLength(100);
+                sa.Property(a => a.SubLocality).HasMaxLength(100);
                 sa.Property(a => a.PostalCode).HasMaxLength(20);
                 sa.Property(a => a.Line1).HasMaxLength(500);
                 sa.Property(a => a.Line2).HasMaxLength(500);

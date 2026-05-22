@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using SharedKernel.DTOs;
+using SharedKernel.ValueObjects;
 
 namespace Order.DTOs.Orders;
 

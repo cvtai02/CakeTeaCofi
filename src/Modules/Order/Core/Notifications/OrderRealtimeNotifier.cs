@@ -7,17 +7,6 @@ public class OrderRealtimeNotifier(IHubContext<OrderHub> orderHubContext)
 {
     public async Task NotifyOrderPlacedAsync(Entities.Order order, int? reservationId, CancellationToken ct)
     {
-        var placedMessage = new OrderPlacedNotification
-        {
-            OrderCode = order.Code,
-            ReservationId = reservationId,
-            Status = order.Status.ToString()
-        };
-
-        await orderHubContext.Clients
-            .Group(OrderRealtimeGroups.Order(order.Code))
-            .SendAsync("OrderPlaced", placedMessage, ct);
-
         await NotifyOrderChangedAsync(
             order,
             "OrderPlaced",

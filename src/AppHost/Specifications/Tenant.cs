@@ -1,4 +1,5 @@
 using SharedKernel.Abstractions.Services;
+using SharedKernel.EnumsConstants;
 
 namespace AppHost.Specifications;
 
@@ -8,5 +9,6 @@ public class Tenant : ITenant
     public int Id => 1;
     public string Name => "Nekomin";    
     public string Signature => "nekomin"; 
-    public string Domain => "nekomin.com"; 
+    public string Domain => "nekomin.com";
+    public CountryCode CountryCode => CountryCode.VN; 
 }

@@ -15,13 +15,21 @@ import type {
   DeleteBlogPostCollectionResponse,
   DeleteBlogPostResponse,
   DeleteGalleryResponse,
+  DeleteMediaFilesByKeysRequest,
+  DeleteMediaFilesByKeysResponse,
   DeleteMediaFilesRequest,
   DeleteMediaFilesResponse,
+  DeleteUnusedMediaFilesRequest,
+  DeleteUnusedMediaFilesResponse,
   GalleryResponse,
   GetAllQuery,
   GetAllResponse,
   GetAdminBlogPostByIdResponse,
   GetPresignedUploadBulkUrlRequest,
+  ImportUnusedMediaFilesRequest,
+  ImportUnusedMediaFilesResponse,
+  ListUnusedMediaFilesQuery,
+  ListUnusedMediaFilesResponse,
   ListAdminGalleriesResponse,
   ListAdminBlogPostsByCollectionQuery,
   ListAdminBlogPostsByCollectionResponse,
@@ -66,6 +74,38 @@ export class ContentClient implements IContentClient {
     return requireData(data, "Media files response was empty.");
   }
 
+  async listUnusedMediaFiles(query?: ListUnusedMediaFilesQuery): Promise<ListUnusedMediaFilesResponse> {
+    return this.requestJson<ListUnusedMediaFilesResponse>(
+      `/api/Content/file-objects/unused${this.toQueryString(query)}`,
+      undefined,
+      "Unused media files response was empty.",
+    );
+  }
+
+  async deleteUnusedMediaFiles(input: DeleteUnusedMediaFilesRequest): Promise<DeleteUnusedMediaFilesResponse> {
+    return this.requestJson<DeleteUnusedMediaFilesResponse>(
+      "/api/Content/file-objects/unused",
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
+      },
+      "Delete unused media files response was empty.",
+    );
+  }
+
+  async importUnusedMediaFiles(input: ImportUnusedMediaFilesRequest): Promise<ImportUnusedMediaFilesResponse> {
+    return this.requestJson<ImportUnusedMediaFilesResponse>(
+      "/api/Content/file-objects/unused/import",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
+      },
+      "Import unused media files response was empty.",
+    );
+  }
+
   async getPresignedUploadBulkUrl(
     input: GetPresignedUploadBulkUrlRequest,
   ): Promise<PresignedUploadBulkUrlResponse> {
@@ -84,6 +124,18 @@ export class ContentClient implements IContentClient {
     const { error } = await this.client.DELETE("/api/Content/file-objects", { body: input });
     if (error) throw error;
     return undefined as DeleteMediaFilesResponse;
+  }
+
+  async deleteMediaFilesByKeys(input: DeleteMediaFilesByKeysRequest): Promise<DeleteMediaFilesByKeysResponse> {
+    return this.requestJson<DeleteMediaFilesByKeysResponse>(
+      "/api/Content/file-objects/by-keys",
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
+      },
+      "Delete media files by keys response was empty.",
+    );
   }
 
   async listPublishedBlogPosts(query?: ListPublishedBlogPostsQuery): Promise<ListPublishedBlogPostsResponse> {

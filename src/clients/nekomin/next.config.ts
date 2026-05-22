@@ -7,6 +7,11 @@ if (process.env.NODE_ENV !== "production") {
 
 const nextConfig: NextConfig = {
   transpilePackages: ["@modular-monolith/clients-shared"],
+  images: {
+    remotePatterns: [
+      { hostname: "**" },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -26,6 +26,24 @@ public class AccountDbContext(DbContextOptions<AccountDbContext> options, ITenan
             .HasForeignKey(x => x.AccountProfileId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<AccountAddress>(builder =>
+        {
+            builder.OwnsOne(x => x.Address, address =>
+            {
+                address.Property(x => x.OwnerName).HasColumnName("OwnerName").HasMaxLength(200);
+                address.Property(x => x.Type).HasColumnName("Type").HasMaxLength(100);
+                address.Property(x => x.PhoneNumber).HasColumnName("PhoneNumber").HasMaxLength(50);
+                address.Property(x => x.Email).HasColumnName("Email").HasMaxLength(200);
+                address.Property(x => x.Country).HasColumnName("Country").HasConversion<string>().HasMaxLength(2);
+                address.Property(x => x.AdministrativeArea).HasColumnName("AdministrativeArea").HasMaxLength(100);
+                address.Property(x => x.Locality).HasColumnName("Locality").HasMaxLength(100);
+                address.Property(x => x.SubLocality).HasColumnName("SubLocality").HasMaxLength(100);
+                address.Property(x => x.PostalCode).HasColumnName("PostalCode").HasMaxLength(20);
+                address.Property(x => x.Line1).HasColumnName("Line1").HasMaxLength(500);
+                address.Property(x => x.Line2).HasColumnName("Line2").HasMaxLength(500);
+            });
+        });
+
         modelBuilder.Entity<Notification>(builder =>
         {
             builder.Property(x => x.RecipientUserId).HasMaxLength(450);

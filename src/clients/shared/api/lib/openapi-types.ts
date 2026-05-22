@@ -505,6 +505,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/internal/database-backups": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["AppHost.DTOs.DatabaseBackups.DatabaseBackupResponse"];
+                        "application/json": components["schemas"]["AppHost.DTOs.DatabaseBackups.DatabaseBackupResponse"];
+                        "text/json": components["schemas"]["AppHost.DTOs.DatabaseBackups.DatabaseBackupResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/Account/addresses": {
         parameters: {
             query?: never;
@@ -1670,6 +1707,163 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Content/file-objects/unused": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    PageNumber?: components["schemas"]["System.Int32"];
+                    PageSize?: components["schemas"]["System.Int32"];
+                    Prefix?: components["schemas"]["System.String"];
+                    Search?: components["schemas"]["System.String"];
+                    SortBy?: components["schemas"]["System.String"];
+                    SortDirection?: components["schemas"]["System.String"];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[Content.DTOs.FileObjects.UnusedMediaFileResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "application/json": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[Content.DTOs.FileObjects.UnusedMediaFileResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "text/json": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[Content.DTOs.FileObjects.UnusedMediaFileResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Content.DTOs.FileObjects.DeleteUnusedMediaFilesRequest"];
+                    "text/json": components["schemas"]["Content.DTOs.FileObjects.DeleteUnusedMediaFilesRequest"];
+                    "application/*+json": components["schemas"]["Content.DTOs.FileObjects.DeleteUnusedMediaFilesRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Content.DTOs.FileObjects.DeleteUnusedMediaFilesResponse"];
+                        "application/json": components["schemas"]["Content.DTOs.FileObjects.DeleteUnusedMediaFilesResponse"];
+                        "text/json": components["schemas"]["Content.DTOs.FileObjects.DeleteUnusedMediaFilesResponse"];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Content/file-objects/unused/import": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Content.DTOs.FileObjects.ImportUnusedMediaFilesRequest"];
+                    "text/json": components["schemas"]["Content.DTOs.FileObjects.ImportUnusedMediaFilesRequest"];
+                    "application/*+json": components["schemas"]["Content.DTOs.FileObjects.ImportUnusedMediaFilesRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Content.DTOs.FileObjects.ImportUnusedMediaFilesResponse"];
+                        "application/json": components["schemas"]["Content.DTOs.FileObjects.ImportUnusedMediaFilesResponse"];
+                        "text/json": components["schemas"]["Content.DTOs.FileObjects.ImportUnusedMediaFilesResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Content/file-objects/by-keys": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Content.DTOs.FileObjects.DeleteMediaFilesByKeysRequest"];
+                    "text/json": components["schemas"]["Content.DTOs.FileObjects.DeleteMediaFilesByKeysRequest"];
+                    "application/*+json": components["schemas"]["Content.DTOs.FileObjects.DeleteMediaFilesByKeysRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Content.DTOs.FileObjects.DeleteMediaFilesByKeysResponse"];
+                        "application/json": components["schemas"]["Content.DTOs.FileObjects.DeleteMediaFilesByKeysResponse"];
+                        "text/json": components["schemas"]["Content.DTOs.FileObjects.DeleteMediaFilesByKeysResponse"];
+                    };
                 };
             };
         };
@@ -3483,6 +3677,306 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Shipping/addresses/countries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Shipping.DTOs.Addresses.ShippingCountriesResponse"];
+                        "application/json": components["schemas"]["Shipping.DTOs.Addresses.ShippingCountriesResponse"];
+                        "text/json": components["schemas"]["Shipping.DTOs.Addresses.ShippingCountriesResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Shipping/addresses/administrative-areas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Country?: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Shipping.DTOs.Addresses.ShippingAdministrativeAreasResponse"];
+                        "application/json": components["schemas"]["Shipping.DTOs.Addresses.ShippingAdministrativeAreasResponse"];
+                        "text/json": components["schemas"]["Shipping.DTOs.Addresses.ShippingAdministrativeAreasResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Shipping/addresses/localities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Country?: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+                    AdministrativeAreaCode?: components["schemas"]["System.String"];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Shipping.DTOs.Addresses.ShippingLocalitiesResponse"];
+                        "application/json": components["schemas"]["Shipping.DTOs.Addresses.ShippingLocalitiesResponse"];
+                        "text/json": components["schemas"]["Shipping.DTOs.Addresses.ShippingLocalitiesResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Shipping/addresses/sublocalities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Country?: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+                    AdministrativeAreaCode?: components["schemas"]["System.String"];
+                    LocalityCode?: components["schemas"]["System.String"];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Shipping/addresses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Country?: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Shipping.DTOs.Addresses.ShippingAddressCatalogResponse"];
+                        "application/json": components["schemas"]["Shipping.DTOs.Addresses.ShippingAddressCatalogResponse"];
+                        "text/json": components["schemas"]["Shipping.DTOs.Addresses.ShippingAddressCatalogResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    PageNumber?: components["schemas"]["System.Int32"];
+                    PageSize?: components["schemas"]["System.Int32"];
+                    Search?: components["schemas"]["System.String"];
+                    IsActive?: components["schemas"]["System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[TenantManagement.DTOs.Tenants.TenantResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "application/json": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[TenantManagement.DTOs.Tenants.TenantResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "text/json": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[TenantManagement.DTOs.Tenants.TenantResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.CreateTenantRequest"];
+                    "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.CreateTenantRequest"];
+                    "application/*+json": components["schemas"]["TenantManagement.DTOs.Tenants.CreateTenantRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -3494,30 +3988,12 @@ export interface components {
         "Account.DTOs.AccountAddresses.AccountAddressResponse": {
             id: components["schemas"]["System.Int32"];
             accountProfileId: components["schemas"]["System.Int32"];
-            ownerName: components["schemas"]["System.String"];
-            type: components["schemas"]["System.String"];
-            phoneNumber: components["schemas"]["System.String"];
-            email: components["schemas"]["System.String"];
-            country: components["schemas"]["System.String"];
-            state: components["schemas"]["System.String"];
-            city: components["schemas"]["System.String"];
-            postalCode: components["schemas"]["System.String"];
-            line1: components["schemas"]["System.String"];
-            line2: components["schemas"]["System.String"];
+            address: components["schemas"]["SharedKernel.ValueObjects.Address"];
             isDefaultShipping: components["schemas"]["System.Boolean"];
             isDefaultBilling: components["schemas"]["System.Boolean"];
         };
         "Account.DTOs.AccountAddresses.SaveAccountAddressRequest": {
-            ownerName: components["schemas"]["System.String"];
-            type: components["schemas"]["System.String"];
-            phoneNumber: components["schemas"]["System.String"];
-            email: components["schemas"]["System.String"];
-            country: components["schemas"]["System.String"];
-            state: components["schemas"]["System.String"];
-            city: components["schemas"]["System.String"];
-            postalCode: components["schemas"]["System.String"];
-            line1: components["schemas"]["System.String"];
-            line2: components["schemas"]["System.String"];
+            address: components["schemas"]["SharedKernel.ValueObjects.Address"];
             isDefaultShipping: components["schemas"]["System.Boolean"];
             isDefaultBilling: components["schemas"]["System.Boolean"];
         };
@@ -3570,6 +4046,14 @@ export interface components {
             readAt: null | components["schemas"]["System.Nullable`1[[System.DateTimeOffset, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
             readByUserId: null | components["schemas"]["System.String"];
             created: components["schemas"]["System.DateTimeOffset"];
+        };
+        "AppHost.DTOs.DatabaseBackups.DatabaseBackupResponse": {
+            bucketName: components["schemas"]["System.String"];
+            objectKey: components["schemas"]["System.String"];
+            size: components["schemas"]["System.Int64"];
+            startedAt: components["schemas"]["System.DateTimeOffset"];
+            completedAt: components["schemas"]["System.DateTimeOffset"];
+            durationSeconds: components["schemas"]["System.Double"];
         };
         /** @enum {unknown} */
         "Content.Core.Entities.BlogPostStatus": "Draft" | "Published" | "Archived";
@@ -3676,12 +4160,32 @@ export interface components {
             contentType: components["schemas"]["System.String"];
             size?: components["schemas"]["System.Int64"];
         };
+        "Content.DTOs.FileObjects.DeleteMediaFilesByKeysRequest": {
+            keys: components["schemas"]["System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
+        };
+        "Content.DTOs.FileObjects.DeleteMediaFilesByKeysResponse": {
+            deletedCount: components["schemas"]["System.Int32"];
+            deletedKeys: components["schemas"]["System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
+        };
         "Content.DTOs.FileObjects.DeleteMediaFilesRequest": {
             ids: components["schemas"]["System.Collections.Generic.List`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
+        };
+        "Content.DTOs.FileObjects.DeleteUnusedMediaFilesRequest": {
+            keys: components["schemas"]["System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
+        };
+        "Content.DTOs.FileObjects.DeleteUnusedMediaFilesResponse": {
+            deletedCount: components["schemas"]["System.Int32"];
+            deletedKeys: components["schemas"]["System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
         };
         "Content.DTOs.FileObjects.GetPresignedUploadBulkUrlRequest": {
             files: components["schemas"]["System.Collections.Generic.List`1[[Content.DTOs.FileObjects.CreatePresignedUploadFileRequest, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
             expiryMinutes?: components["schemas"]["System.Int32"];
+        };
+        "Content.DTOs.FileObjects.ImportUnusedMediaFilesRequest": {
+            keys: components["schemas"]["System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
+        };
+        "Content.DTOs.FileObjects.ImportUnusedMediaFilesResponse": {
+            files: components["schemas"]["System.Collections.Generic.List`1[[Content.DTOs.FileObjects.UploadResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
         };
         "Content.DTOs.FileObjects.MediaFileResponse": {
             id: components["schemas"]["System.Int32"];
@@ -3704,6 +4208,14 @@ export interface components {
             method: components["schemas"]["System.String"];
             headers: components["schemas"]["System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
             expiresAt: components["schemas"]["System.DateTimeOffset"];
+        };
+        "Content.DTOs.FileObjects.UnusedMediaFileResponse": {
+            key: components["schemas"]["System.String"];
+            url: components["schemas"]["System.String"];
+            category: components["schemas"]["System.String"];
+            contentType: components["schemas"]["System.String"];
+            size: components["schemas"]["System.Int64"];
+            lastModified: null | components["schemas"]["System.Nullable`1[[System.DateTimeOffset, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
         };
         "Content.DTOs.FileObjects.UploadResponse": {
             id: components["schemas"]["System.Int32"];
@@ -3893,7 +4405,7 @@ export interface components {
             customerProfileId?: null | components["schemas"]["System.Nullable`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
             currencyCode?: null | components["schemas"]["System.String"];
             paymentProvider?: null | components["schemas"]["System.String"];
-            shippingAddress: components["schemas"]["SharedKernel.DTOs.Address"];
+            shippingAddress: components["schemas"]["SharedKernel.ValueObjects.Address"];
             items?: components["schemas"]["System.Collections.Generic.List`1[[Order.DTOs.Orders.CreateOrderItemRequest, Order, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
         };
         "Order.DTOs.Orders.CreateOrderItemRequest": {
@@ -3903,7 +4415,7 @@ export interface components {
         "Order.DTOs.Orders.CreateOrderRequest": {
             currencyCode?: null | components["schemas"]["System.String"];
             paymentProvider?: null | components["schemas"]["System.String"];
-            shippingAddress: components["schemas"]["SharedKernel.DTOs.Address"];
+            shippingAddress: components["schemas"]["SharedKernel.ValueObjects.Address"];
             items?: components["schemas"]["System.Collections.Generic.List`1[[Order.DTOs.Orders.CreateOrderItemRequest, Order, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
         };
         "Order.DTOs.Orders.OrderLineResponse": {
@@ -3925,7 +4437,7 @@ export interface components {
             paymentProvider: components["schemas"]["System.String"];
             totalAmount: components["schemas"]["System.Decimal"];
             rejectionReason: null | components["schemas"]["System.String"];
-            shippingAddress: null | components["schemas"]["SharedKernel.DTOs.Address"];
+            shippingAddress: null | components["schemas"]["SharedKernel.ValueObjects.Address"];
             lines: components["schemas"]["System.Collections.Generic.List`1[[Order.DTOs.Orders.OrderLineResponse, Order, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
         };
         "Order.DTOs.Orders.OrderSummaryResponse": {
@@ -4029,7 +4541,7 @@ export interface components {
             imageUrl: components["schemas"]["System.String"];
             status: components["schemas"]["ProductCatalog.Core.Entities.ProductStatus"];
             price: components["schemas"]["System.Decimal"];
-            currency: components["schemas"]["SharedKernel.Enums.Currency"];
+            currency: components["schemas"]["SharedKernel.EnumsConstants.Currency"];
             displayOrder: components["schemas"]["System.Int32"];
         };
         "ProductCatalog.DTOs.Collections.CollectionResponse": {
@@ -4068,7 +4580,7 @@ export interface components {
             price: components["schemas"]["System.Decimal"];
             lowestPrice: components["schemas"]["System.Decimal"];
             highestPrice: components["schemas"]["System.Decimal"];
-            currency: components["schemas"]["SharedKernel.Enums.Currency"];
+            currency: components["schemas"]["SharedKernel.EnumsConstants.Currency"];
         };
         "ProductCatalog.DTOs.Collections.CustomerCollectionResponse": {
             id: components["schemas"]["System.Int32"];
@@ -4107,7 +4619,7 @@ export interface components {
             compareAtPrice?: components["schemas"]["System.Decimal"];
             costPrice?: components["schemas"]["System.Decimal"];
             chargeTax?: components["schemas"]["System.Boolean"];
-            currency?: components["schemas"]["SharedKernel.Enums.Currency"];
+            currency?: components["schemas"]["SharedKernel.EnumsConstants.Currency"];
             stock?: components["schemas"]["System.Int32"];
             trackInventory?: components["schemas"]["System.Boolean"];
             lowStockThreshold?: components["schemas"]["System.Int32"];
@@ -4158,7 +4670,7 @@ export interface components {
             price: components["schemas"]["System.Decimal"];
             lowestPrice: components["schemas"]["System.Decimal"];
             highestPrice: components["schemas"]["System.Decimal"];
-            currency: components["schemas"]["SharedKernel.Enums.Currency"];
+            currency: components["schemas"]["SharedKernel.EnumsConstants.Currency"];
         };
         "ProductCatalog.DTOs.Products.CustomerProductSummaryResponse": {
             id: components["schemas"]["System.String"];
@@ -4171,7 +4683,7 @@ export interface components {
             price: components["schemas"]["System.Decimal"];
             lowestPrice: components["schemas"]["System.Decimal"];
             highestPrice: components["schemas"]["System.Decimal"];
-            currency: components["schemas"]["SharedKernel.Enums.Currency"];
+            currency: components["schemas"]["SharedKernel.EnumsConstants.Currency"];
         };
         "ProductCatalog.DTOs.Products.CustomerVariantResponse": {
             id: components["schemas"]["System.String"];
@@ -4205,7 +4717,7 @@ export interface components {
             price: components["schemas"]["System.Decimal"];
             lowestPrice: components["schemas"]["System.Decimal"];
             highestPrice: components["schemas"]["System.Decimal"];
-            currency: components["schemas"]["SharedKernel.Enums.Currency"];
+            currency: components["schemas"]["SharedKernel.EnumsConstants.Currency"];
             compareAtPrice: components["schemas"]["System.Decimal"];
             costPrice: components["schemas"]["System.Decimal"];
             chargeTax: components["schemas"]["System.Boolean"];
@@ -4231,7 +4743,7 @@ export interface components {
             price: components["schemas"]["System.Decimal"];
             lowestPrice: components["schemas"]["System.Decimal"];
             highestPrice: components["schemas"]["System.Decimal"];
-            currency: components["schemas"]["SharedKernel.Enums.Currency"];
+            currency: components["schemas"]["SharedKernel.EnumsConstants.Currency"];
             stock: components["schemas"]["System.Int32"];
             sold: components["schemas"]["System.Int32"];
             created: components["schemas"]["System.DateTimeOffset"];
@@ -4249,7 +4761,7 @@ export interface components {
             compareAtPrice?: components["schemas"]["System.Decimal"];
             costPrice?: components["schemas"]["System.Decimal"];
             chargeTax?: components["schemas"]["System.Boolean"];
-            currency?: components["schemas"]["SharedKernel.Enums.Currency"];
+            currency?: components["schemas"]["SharedKernel.EnumsConstants.Currency"];
             stock?: components["schemas"]["System.Int32"];
             trackInventory?: components["schemas"]["System.Boolean"];
             lowStockThreshold?: components["schemas"]["System.Int32"];
@@ -4284,18 +4796,6 @@ export interface components {
             lowStockThreshold: components["schemas"]["System.Int32"];
             allowBackorder: components["schemas"]["System.Boolean"];
             optionValues: components["schemas"]["System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.VariantOptionValueDto, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
-        };
-        "SharedKernel.DTOs.Address": {
-            ownerName: components["schemas"]["System.String"];
-            type: components["schemas"]["System.String"];
-            phoneNumber: components["schemas"]["System.String"];
-            email: components["schemas"]["System.String"];
-            country: components["schemas"]["System.String"];
-            state: null | components["schemas"]["System.String"];
-            city: null | components["schemas"]["System.String"];
-            postalCode: null | components["schemas"]["System.String"];
-            line1: components["schemas"]["System.String"];
-            line2: null | components["schemas"]["System.String"];
         };
         "SharedKernel.DTOs.PaginatedList`1[[Account.DTOs.AccountProfiles.AccountProfileResponse, Account, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
             items: components["schemas"]["System.Collections.Generic.List`1[[Account.DTOs.AccountProfiles.AccountProfileResponse, Account, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
@@ -4347,6 +4847,14 @@ export interface components {
         };
         "SharedKernel.DTOs.PaginatedList`1[[Content.DTOs.FileObjects.MediaFileResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
             items: components["schemas"]["System.Collections.Generic.List`1[[Content.DTOs.FileObjects.MediaFileResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+            pageNumber: components["schemas"]["System.Int32"];
+            totalPages: components["schemas"]["System.Int32"];
+            totalCount: components["schemas"]["System.Int32"];
+            hasPreviousPage: components["schemas"]["System.Boolean"];
+            hasNextPage: components["schemas"]["System.Boolean"];
+        };
+        "SharedKernel.DTOs.PaginatedList`1[[Content.DTOs.FileObjects.UnusedMediaFileResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+            items: components["schemas"]["System.Collections.Generic.List`1[[Content.DTOs.FileObjects.UnusedMediaFileResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
             pageNumber: components["schemas"]["System.Int32"];
             totalPages: components["schemas"]["System.Int32"];
             totalCount: components["schemas"]["System.Int32"];
@@ -4417,10 +4925,90 @@ export interface components {
             hasPreviousPage: components["schemas"]["System.Boolean"];
             hasNextPage: components["schemas"]["System.Boolean"];
         };
+        "SharedKernel.DTOs.PaginatedList`1[[TenantManagement.DTOs.Tenants.TenantResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+            items: components["schemas"]["System.Collections.Generic.List`1[[TenantManagement.DTOs.Tenants.TenantResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+            pageNumber: components["schemas"]["System.Int32"];
+            totalPages: components["schemas"]["System.Int32"];
+            totalCount: components["schemas"]["System.Int32"];
+            hasPreviousPage: components["schemas"]["System.Boolean"];
+            hasNextPage: components["schemas"]["System.Boolean"];
+        };
         /** @enum {unknown} */
-        "SharedKernel.Enums.Currency": "VND" | "USD";
+        "SharedKernel.EnumsConstants.CountryCode": "VN" | "US";
+        /** @enum {unknown} */
+        "SharedKernel.EnumsConstants.Currency": "VND" | "USD";
+        "SharedKernel.ValueObjects.Address": {
+            ownerName: components["schemas"]["System.String"];
+            type: components["schemas"]["System.String"];
+            phoneNumber: components["schemas"]["System.String"];
+            email: components["schemas"]["System.String"];
+            country: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+            administrativeArea: null | components["schemas"]["System.String"];
+            locality: null | components["schemas"]["System.String"];
+            subLocality: null | components["schemas"]["System.String"];
+            postalCode: null | components["schemas"]["System.String"];
+            line1: components["schemas"]["System.String"];
+            line2: null | components["schemas"]["System.String"];
+        };
         /** @enum {unknown} */
         "Shipping.Core.Services.PackageLevel": "Lite" | "Standard" | "Large" | "Bulky" | "Oversize";
+        "Shipping.DTOs.Addresses.ShippingAddressCatalogResponse": {
+            country: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+            provinces: components["schemas"]["System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingProvinceResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+        };
+        "Shipping.DTOs.Addresses.ShippingAdministrativeAreaResponse": {
+            code: components["schemas"]["System.String"];
+            name: components["schemas"]["System.String"];
+            type: components["schemas"]["System.String"];
+            region: components["schemas"]["System.String"];
+            displayName: components["schemas"]["System.String"];
+            nextAdministrativeLevel: null | components["schemas"]["System.String"];
+            nextEndpoint: null | components["schemas"]["System.String"];
+        };
+        "Shipping.DTOs.Addresses.ShippingAdministrativeAreasResponse": {
+            country: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+            currentAdministrativeLevel: components["schemas"]["System.String"];
+            nextAdministrativeLevel: null | components["schemas"]["System.String"];
+            nextEndpointTemplate: null | components["schemas"]["System.String"];
+            administrativeAreas: components["schemas"]["System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingAdministrativeAreaResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+        };
+        "Shipping.DTOs.Addresses.ShippingCountriesResponse": {
+            currentAdministrativeLevel: components["schemas"]["System.String"];
+            nextAdministrativeLevel: null | components["schemas"]["System.String"];
+            nextEndpoint: null | components["schemas"]["System.String"];
+            countries: components["schemas"]["System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingCountryResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+        };
+        "Shipping.DTOs.Addresses.ShippingCountryResponse": {
+            code: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+            name: components["schemas"]["System.String"];
+            displayName: components["schemas"]["System.String"];
+            isSupported: components["schemas"]["System.Boolean"];
+            nextAdministrativeLevel: null | components["schemas"]["System.String"];
+            nextEndpoint: null | components["schemas"]["System.String"];
+        };
+        "Shipping.DTOs.Addresses.ShippingLocalitiesResponse": {
+            country: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+            administrativeAreaCode: components["schemas"]["System.String"];
+            currentAdministrativeLevel: components["schemas"]["System.String"];
+            nextAdministrativeLevel: null | components["schemas"]["System.String"];
+            nextEndpointTemplate: null | components["schemas"]["System.String"];
+            localities: components["schemas"]["System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingLocalityResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+        };
+        "Shipping.DTOs.Addresses.ShippingLocalityResponse": {
+            code: components["schemas"]["System.String"];
+            name: components["schemas"]["System.String"];
+            type: components["schemas"]["System.String"];
+            displayName: components["schemas"]["System.String"];
+            nextAdministrativeLevel: null | components["schemas"]["System.String"];
+            nextEndpoint: null | components["schemas"]["System.String"];
+        };
+        "Shipping.DTOs.Addresses.ShippingProvinceResponse": {
+            code: components["schemas"]["System.String"];
+            name: components["schemas"]["System.String"];
+            type: components["schemas"]["System.String"];
+            region: components["schemas"]["System.String"];
+            displayName: components["schemas"]["System.String"];
+        };
         "Shipping.DTOs.ProductShipping.ProductShippingResponse": {
             productId: components["schemas"]["System.String"];
             physicalProduct: components["schemas"]["System.Boolean"];
@@ -4460,6 +5048,7 @@ export interface components {
         "System.Collections.Generic.List`1[[Content.DTOs.FileObjects.CreatePresignedUploadFileRequest, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Content.DTOs.FileObjects.CreatePresignedUploadFileRequest"][];
         "System.Collections.Generic.List`1[[Content.DTOs.FileObjects.MediaFileResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Content.DTOs.FileObjects.MediaFileResponse"][];
         "System.Collections.Generic.List`1[[Content.DTOs.FileObjects.PresignedUploadUrlResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Content.DTOs.FileObjects.PresignedUploadUrlResponse"][];
+        "System.Collections.Generic.List`1[[Content.DTOs.FileObjects.UnusedMediaFileResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Content.DTOs.FileObjects.UnusedMediaFileResponse"][];
         "System.Collections.Generic.List`1[[Content.DTOs.FileObjects.UploadResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Content.DTOs.FileObjects.UploadResponse"][];
         "System.Collections.Generic.List`1[[Content.DTOs.Galleries.GalleryItemResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Content.DTOs.Galleries.GalleryItemResponse"][];
         "System.Collections.Generic.List`1[[Content.DTOs.Galleries.GallerySummaryResponse, Content, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Content.DTOs.Galleries.GallerySummaryResponse"][];
@@ -4487,13 +5076,20 @@ export interface components {
         "System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.ProductSummaryResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["ProductCatalog.DTOs.Products.ProductSummaryResponse"][];
         "System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.VariantOptionValueDto, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["ProductCatalog.DTOs.Products.VariantOptionValueDto"][];
         "System.Collections.Generic.List`1[[ProductCatalog.DTOs.Products.VariantResponse, ProductCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["ProductCatalog.DTOs.Products.VariantResponse"][];
+        "System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingAdministrativeAreaResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.Addresses.ShippingAdministrativeAreaResponse"][];
+        "System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingCountryResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.Addresses.ShippingCountryResponse"][];
+        "System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingLocalityResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.Addresses.ShippingLocalityResponse"][];
+        "System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingProvinceResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.Addresses.ShippingProvinceResponse"][];
         "System.Collections.Generic.List`1[[Shipping.DTOs.ProductShipping.VariantShippingResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.ProductShipping.VariantShippingResponse"][];
         "System.Collections.Generic.List`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": components["schemas"]["System.Int32"][];
         "System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": components["schemas"]["System.String"][];
+        "System.Collections.Generic.List`1[[TenantManagement.DTOs.Tenants.TenantResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"][];
         /** Format: date-time */
         "System.DateTimeOffset": string;
         /** Format: double */
         "System.Decimal": number;
+        /** Format: double */
+        "System.Double": number;
         /** Format: int32 */
         "System.Int32": number;
         /** Format: int64 */
@@ -4523,6 +5119,29 @@ export interface components {
         "System.Single": number;
         "System.String": string;
         "System.String[]": components["schemas"]["System.String"][];
+        "TenantManagement.DTOs.Tenants.CreateTenantRequest": {
+            name: components["schemas"]["System.String"];
+            signature: components["schemas"]["System.String"];
+            domain: components["schemas"]["System.String"];
+            cdnBaseUrl?: null | components["schemas"]["System.String"];
+            logoKey?: null | components["schemas"]["System.String"];
+            adminDashboardUrl?: null | components["schemas"]["System.String"];
+            countryCode?: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+        };
+        "TenantManagement.DTOs.Tenants.TenantResponse": {
+            id: components["schemas"]["System.Int32"];
+            name: components["schemas"]["System.String"];
+            signature: components["schemas"]["System.String"];
+            domain: components["schemas"]["System.String"];
+            cdnBaseUrl: components["schemas"]["System.String"];
+            logoKey: null | components["schemas"]["System.String"];
+            logoUrl: null | components["schemas"]["System.String"];
+            adminDashboardUrl: components["schemas"]["System.String"];
+            countryCode: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+            isActive: components["schemas"]["System.Boolean"];
+            created: components["schemas"]["System.DateTimeOffset"];
+            lastModified: components["schemas"]["System.DateTimeOffset"];
+        };
     };
     responses: never;
     parameters: never;

@@ -52,7 +52,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useProductCatalogClient } from "@/components/containers/api-client-provider";
 import { AdminErrorState } from "@/components/admin/admin-page";
-import { applyValidationErrors } from "@/lib/form-error";
+import { applyValidationErrors, toastApiError } from "@/lib/form-error";
 import type { CategoryResponse } from "@shared/api/types/productcatalog";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -95,7 +95,7 @@ export default function CategoriesPage() {
       productCatalogClient.updateCategory(name, input),
   });
 
-  const { mutateAsync: deleteCategory } = useMutation({
+  const { mutateAsync: deleteCategory, isPending: isDeleting } = useMutation({
     mutationFn: productCatalogClient.deleteCategory.bind(productCatalogClient),
   });
 
@@ -156,14 +156,14 @@ export default function CategoriesPage() {
   });
 
   async function confirmDelete() {
-    if (!deleteTarget) return;
+    if (!deleteTarget || isDeleting) return;
     try {
       await deleteCategory(deleteTarget.name!);
       toast.success(`"${deleteTarget.name}" deleted`);
       setDeleteTarget(null);
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-    } catch {
-      toast.error("Failed to delete category.");
+    } catch (err) {
+      toastApiError(err, "Failed to delete category.");
     }
   }
 
@@ -368,8 +368,9 @@ export default function CategoriesPage() {
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={confirmDelete}
+              disabled={isDeleting}
             >
-              Delete
+              {isDeleting ? "Deleting…" : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

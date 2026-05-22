@@ -1,12 +1,18 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { ValidationError } from "@modular-monolith/clients-shared/api/contracts";
+import type {
+  ShippingCountryResponse,
+  ShippingAdministrativeAreaResponse,
+  ShippingLocalityResponse,
+} from "@modular-monolith/clients-shared/api/contracts";
 import {
   useOrderClient,
   usePaymentClient,
+  useShippingClient,
 } from "@/app/components/api-client-provider";
 import { usePaymentMethods } from "@/app/hooks/use-payment-methods";
 
@@ -16,8 +22,9 @@ type AddressFields = {
   phoneNumber: string;
   email: string;
   country: string;
-  state: string;
-  city: string;
+  administrativeArea: string;
+  locality: string;
+  subLocality: string;
   postalCode: string;
   line1: string;
   line2: string;
@@ -29,8 +36,9 @@ const DEFAULT_ADDRESS: AddressFields = {
   phoneNumber: "",
   email: "",
   country: "VN",
-  state: "",
-  city: "",
+  administrativeArea: "",
+  locality: "",
+  subLocality: "",
   postalCode: "",
   line1: "",
   line2: "",
@@ -67,6 +75,7 @@ function CheckoutPage() {
   const searchParams = useSearchParams();
   const orderClient = useOrderClient();
   const paymentClient = usePaymentClient();
+  const shippingClient = useShippingClient();
   const { methods, loading: methodsLoading, error: methodsError } = usePaymentMethods();
 
   const items = useMemo(
@@ -78,11 +87,105 @@ function CheckoutPage() {
   const [provider, setProvider] = useState<string>("");
   const [result, setResult] = useState<ResultState>({ kind: "idle" });
 
+  // --- Cascading address catalog state ---
+  const [countries, setCountries] = useState<ShippingCountryResponse[]>([]);
+  const [adminAreas, setAdminAreas] = useState<ShippingAdministrativeAreaResponse[]>([]);
+  const [localities, setLocalities] = useState<ShippingLocalityResponse[]>([]);
+  // Start as loading=true so we never need a synchronous setState in the effect body.
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  const [catalogError, setCatalogError] = useState<string | null>(null);
+
+  // Load countries on mount — all setState calls are inside async callbacks.
+  useEffect(() => {
+    let cancelled = false;
+    shippingClient.listShippingCountries()
+      .then((res) => {
+        if (cancelled) return;
+        setCountries(res.countries);
+        setCatalogLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setCatalogError("Failed to load country list.");
+        setCatalogLoading(false);
+      });
+    return () => { cancelled = true; };
+  }, [shippingClient]);
+
+  // Load administrative areas when country changes — no synchronous setState.
+  // Guard clause early-returns without touching state; stale list is hidden via
+  // displayedAdminAreas below.
+  useEffect(() => {
+    if (!address.country) return;
+    let cancelled = false;
+    shippingClient
+      .listShippingAdministrativeAreas({ Country: address.country as "VN" | "US" })
+      .then((res) => {
+        if (cancelled) return;
+        setAdminAreas(res.administrativeAreas);
+      })
+      .catch(() => {
+        if (!cancelled) setAdminAreas([]);
+      });
+    return () => { cancelled = true; };
+  }, [shippingClient, address.country]);
+
+  // Load localities when administrative area changes — no synchronous setState.
+  useEffect(() => {
+    if (!address.country || !address.administrativeArea) return;
+    let cancelled = false;
+    shippingClient
+      .listShippingLocalities({
+        Country: address.country as "VN" | "US",
+        AdministrativeAreaCode: address.administrativeArea,
+      })
+      .then((res) => {
+        if (cancelled) return;
+        setLocalities(res.localities);
+      })
+      .catch(() => {
+        if (!cancelled) setLocalities([]);
+      });
+    return () => { cancelled = true; };
+  }, [shippingClient, address.country, address.administrativeArea]);
+
+  // Derived display lists — hide stale data when a parent selection has been cleared
+  // without needing any synchronous setState in the effects above.
+  const displayedAdminAreas = useMemo(
+    () => (address.country ? adminAreas : []),
+    [address.country, adminAreas],
+  );
+  const displayedLocalities = useMemo(
+    () => (address.country && address.administrativeArea ? localities : []),
+    [address.country, address.administrativeArea, localities],
+  );
+
   function field<K extends keyof AddressFields>(key: K) {
     return {
       value: address[key],
       onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
         setAddress((p) => ({ ...p, [key]: e.target.value })),
+    };
+  }
+
+  function selectField<K extends keyof AddressFields>(key: K) {
+    return {
+      value: address[key],
+      onChange: (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const next = { ...address, [key]: e.target.value };
+        // Reset downstream selections when a parent changes
+        if (key === "country") {
+          next.administrativeArea = "";
+          next.locality = "";
+          next.subLocality = "";
+        } else if (key === "administrativeArea") {
+          next.locality = "";
+          next.subLocality = "";
+        } else if (key === "locality") {
+          next.subLocality = "";
+        }
+        setAddress(next);
+      },
     };
   }
 
@@ -111,8 +214,9 @@ function CheckoutPage() {
           phoneNumber: address.phoneNumber,
           email: address.email,
           country: address.country,
-          state: address.state || null,
-          city: address.city || null,
+          administrativeArea: address.administrativeArea || null,
+          locality: address.locality || null,
+          subLocality: address.subLocality || null,
           postalCode: address.postalCode || null,
           line1: address.line1,
           line2: address.line2 || null,
@@ -212,16 +316,62 @@ function CheckoutPage() {
       <form onSubmit={handlePlaceOrder} className="flex flex-col gap-6">
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold">Shipping address</h2>
+
+          {catalogError && (
+            <p className="text-sm text-red-600">{catalogError}</p>
+          )}
+
           <div className="grid grid-cols-2 gap-3">
             <Input label="Name *" required {...field("ownerName")} />
             <Input label="Phone *" required {...field("phoneNumber")} />
             <Input label="Email *" type="email" required {...field("email")} />
-            <Input label="Country *" required {...field("country")} />
-            <Input label="State" {...field("state")} />
-            <Input label="City" {...field("city")} />
-            <Input label="Postal code" {...field("postalCode")} />
             <Input label="Address type" {...field("type")} />
           </div>
+
+          {/* Cascading address selects */}
+          <div className="flex flex-col gap-3">
+            <Select
+              label="Country *"
+              required
+              disabled={catalogLoading || countries.length === 0}
+              {...selectField("country")}
+            >
+              <option value="">— Select country —</option>
+              {countries.map((c) => (
+                <option key={c.code} value={c.code} disabled={!c.isSupported}>
+                  {c.displayName}{!c.isSupported ? " (unsupported)" : ""}
+                </option>
+              ))}
+            </Select>
+
+            <Select
+              label="Province / City"
+              disabled={displayedAdminAreas.length === 0}
+              {...selectField("administrativeArea")}
+            >
+              <option value="">— Select province / city —</option>
+              {displayedAdminAreas.map((a) => (
+                <option key={a.code} value={a.code}>
+                  {a.displayName}
+                </option>
+              ))}
+            </Select>
+
+            <Select
+              label="District"
+              disabled={displayedLocalities.length === 0}
+              {...selectField("locality")}
+            >
+              <option value="">— Select district —</option>
+              {displayedLocalities.map((l) => (
+                <option key={l.code} value={l.code}>
+                  {l.displayName}
+                </option>
+              ))}
+            </Select>
+          </div>
+
+          <Input label="Postal code" {...field("postalCode")} />
           <Input label="Address line 1 *" required {...field("line1")} />
           <Input label="Address line 2" {...field("line2")} />
         </section>
@@ -291,6 +441,24 @@ function Input({
         {...props}
         className="rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-zinc-400"
       />
+    </label>
+  );
+}
+
+function Select({
+  label,
+  children,
+  ...props
+}: React.SelectHTMLAttributes<HTMLSelectElement> & { label: string; children: React.ReactNode }) {
+  return (
+    <label className="flex flex-col gap-1 text-sm">
+      <span className="text-xs text-zinc-600">{label}</span>
+      <select
+        {...props}
+        className="rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-zinc-400 disabled:opacity-50"
+      >
+        {children}
+      </select>
     </label>
   );
 }

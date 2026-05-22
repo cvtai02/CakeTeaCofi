@@ -31,16 +31,7 @@ public static class AccountMapper
     {
         Id = address.Id,
         AccountProfileId = address.AccountProfileId,
-        OwnerName = address.OwnerName,
-        Type = address.Type,
-        PhoneNumber = address.PhoneNumber,
-        Email = address.Email,
-        Country = address.Country,
-        State = address.State,
-        City = address.City,
-        PostalCode = address.PostalCode,
-        Line1 = address.Line1,
-        Line2 = address.Line2,
+        Address = address.Address,
         IsDefaultShipping = address.IsDefaultShipping,
         IsDefaultBilling = address.IsDefaultBilling
     };

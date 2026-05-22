@@ -9,6 +9,7 @@ import { PawCursor } from "./components/paw-cursor";
 import { RevealOnScroll } from "./components/reveal-on-scroll";
 import { SectionLabel } from "./components/section-label";
 import { resolveMediaUrl } from "./lib/media";
+import { apiCall, ApiErrorResult } from "./lib/api-call";
 
 
 const MARQUEE_ITEMS = [
@@ -23,35 +24,27 @@ const MARQUEE_ITEMS = [
 export default async function Home() {
   const contentClient = new ContentClient(appFetch, process.env.NEXT_PUBLIC_API_BASE_URL ?? "");
 
-  const [heroResult, bestSellerResult, blogResult] = await Promise.all([
-    contentClient.getPublicGalleryByKey("hero")
-      .then((data) => ({ ok: true as const, data }))
-      .catch((err) => { console.error("[hero gallery]", err); return { ok: false as const, data: null }; }),
-    contentClient.getPublicGalleryByKey("best-seller")
-      .then((data) => ({ ok: true as const, data }))
-      .catch((err) => { console.error("[best-seller gallery]", err); return { ok: false as const, data: null }; }),
-    contentClient.getPublicBlogPostCollectionByKey("landingpage")
-      .then((data) => ({ ok: true as const, data }))
-      .catch((err) => { console.error("[blog collection]", err); return { ok: false as const, data: null }; }),
+  const [heroGallery, bestSellerGallery, blogCollection] = await Promise.all([
+    apiCall(contentClient.getPublicGalleryByKey("hero")),
+    apiCall(contentClient.getPublicGalleryByKey("best-sellers")),
+    apiCall(contentClient.getPublicBlogPostCollectionByKey("landingpage")),
   ]);
 
-  const backendDown = !heroResult.ok || !bestSellerResult.ok || !blogResult.ok;
-  const heroGallery = heroResult.data;
-  const bestSellerGallery = bestSellerResult.data;
-  const blogCollection = blogResult.data;
-
-  const heroSlides: HeroSlide[] = (heroGallery?.items ?? [])
-    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
+  const heroSlides: HeroSlide[] = (heroGallery instanceof ApiErrorResult ? null : heroGallery)
+    ?.items
+    ?.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
     .map((item) => ({
       imageKey: item.imageKey ?? "",
       tag: item.note || item.name || "",
       link: item.link ?? "",
-    }));
+    })) ?? [];
 
-  const bestSellerItems = (bestSellerGallery?.items ?? [])
-    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
+  const bestSellerError = bestSellerGallery instanceof ApiErrorResult ? bestSellerGallery.title : null;
+  const bestSellerItems = (bestSellerGallery instanceof ApiErrorResult ? null : bestSellerGallery)
+    ?.items?.sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)) ?? [];
 
-  const blogPosts = blogCollection?.items ?? [];
+  const blogError = blogCollection instanceof ApiErrorResult ? blogCollection.title : null;
+  const blogPosts = (blogCollection instanceof ApiErrorResult ? null : blogCollection)?.items ?? [];
 
   const marqueeItems = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
 
@@ -68,7 +61,7 @@ export default async function Home() {
       </div>
 
       <div className="hero-viewport">
-        <HeroCarousel slides={heroSlides.length > 0 ? heroSlides : undefined} serverError={backendDown} />
+        <HeroCarousel slides={heroSlides.length > 0 ? heroSlides : undefined} />
         <PawCursor />
 
         <div className="marquee-strip">
@@ -83,7 +76,11 @@ export default async function Home() {
         </div>
       </div>
 
-      {bestSellerItems.length > 0 && (() => {
+      {bestSellerError ? (
+        <section className="shop" id="lookbook">
+          <p className="api-error-msg">{bestSellerError}</p>
+        </section>
+      ) : bestSellerItems.length > 0 && (() => {
         const cols: typeof bestSellerItems[] = [[], [], []];
         bestSellerItems.forEach((item, i) => cols[i % 3].push(item));
         return (
@@ -97,7 +94,7 @@ export default async function Home() {
                       const card = (
                         <div className="product-card">
                           <div className="product-image">
-                            {imageUrl && <img src={imageUrl} alt={item.name ?? ""} className="product-img" />}
+                            {imageUrl && <Image src={imageUrl} alt={item.name ?? ""} width={600} height={600} className="product-img" />}
                           </div>
                           <div className="product-overlay">
                             <div className="product-name">{item.name}</div>
@@ -117,7 +114,11 @@ export default async function Home() {
         );
       })()}
 
-      {blogPosts.length > 0 && (
+      {blogError ? (
+        <section className="blog" id="blog">
+          <p className="api-error-msg">{blogError}</p>
+        </section>
+      ) : blogPosts.length > 0 && (
         <section className="blog" id="blog">
           <div className="blog-flat-grid">
             {blogPosts.map((post) => {
@@ -127,7 +128,7 @@ export default async function Home() {
                   {imageUrl ? (
                     <>
                       <div className="blog-img blog-img--sm">
-                        <img src={imageUrl} alt={post.title} style={{ width: "100%", height: "auto", display: "block" }} />
+                        <Image src={imageUrl} alt={post.title} width={800} height={500} style={{ width: "100%", height: "auto", display: "block" }} />
                       </div>
                       <div className="blog-overlay blog-overlay--sm">
                         <h3 className="blog-title blog-title--sm">{post.title}</h3>

@@ -13,13 +13,21 @@ import type {
   DeleteBlogPostCollectionResponse,
   DeleteBlogPostResponse,
   DeleteGalleryResponse,
+  DeleteMediaFilesByKeysRequest,
+  DeleteMediaFilesByKeysResponse,
   DeleteMediaFilesRequest,
   DeleteMediaFilesResponse,
+  DeleteUnusedMediaFilesRequest,
+  DeleteUnusedMediaFilesResponse,
   GalleryResponse,
   GetAllQuery,
   GetAllResponse,
   GetAdminBlogPostByIdResponse,
   GetPresignedUploadBulkUrlRequest,
+  ImportUnusedMediaFilesRequest,
+  ImportUnusedMediaFilesResponse,
+  ListUnusedMediaFilesQuery,
+  ListUnusedMediaFilesResponse,
   ListAdminGalleriesResponse,
   ListAdminBlogPostsByCollectionQuery,
   ListAdminBlogPostsByCollectionResponse,
@@ -50,6 +58,21 @@ export interface IContentClient {
   // Wrapper response is generated in src/clients/shared/api/types/content.ts.
   listMediaFiles(query?: GetAllQuery): Promise<GetAllResponse>;
 
+  // Contract method: listUnusedMediaFiles. Admin-only list of object-storage files missing from Content.Files.
+  // Query: src/Modules/Content/DTOs/FileObjects/ListUnusedMediaFilesRequest.cs
+  // Item response: src/Modules/Content/DTOs/FileObjects/UnusedMediaFileResponse.cs
+  listUnusedMediaFiles(query?: ListUnusedMediaFilesQuery): Promise<ListUnusedMediaFilesResponse>;
+
+  // Contract method: deleteUnusedMediaFiles. Admin-only deletion of selected object-storage keys that are still missing from Content.Files.
+  // Request: src/Modules/Content/DTOs/FileObjects/DeleteUnusedMediaFilesRequest.cs
+  // Response: src/Modules/Content/DTOs/FileObjects/DeleteUnusedMediaFilesResponse.cs
+  deleteUnusedMediaFiles(input: DeleteUnusedMediaFilesRequest): Promise<DeleteUnusedMediaFilesResponse>;
+
+  // Contract method: importUnusedMediaFiles. Admin-only import of selected object-storage keys into Content.Files.
+  // Request: src/Modules/Content/DTOs/FileObjects/ImportUnusedMediaFilesRequest.cs
+  // Response: src/Modules/Content/DTOs/FileObjects/ImportUnusedMediaFilesResponse.cs
+  importUnusedMediaFiles(input: ImportUnusedMediaFilesRequest): Promise<ImportUnusedMediaFilesResponse>;
+
   // Request: src/Modules/Content/DTOs/FileObjects/GetPresignedUploadBulkUrlRequest.cs
   // Response: src/Modules/Content/DTOs/FileObjects/PresignedUploadUrlResponse.cs
   getPresignedUploadBulkUrl(input: GetPresignedUploadBulkUrlRequest): Promise<PresignedUploadBulkUrlResponse>;
@@ -61,6 +84,11 @@ export interface IContentClient {
   // Request: src/Modules/Content/DTOs/FileObjects/DeleteMediaFilesRequest.cs
   // No response body. Alias is generated in src/clients/shared/api/types/content.ts.
   deleteMediaFiles(input: DeleteMediaFilesRequest): Promise<DeleteMediaFilesResponse>;
+
+  // Contract method: deleteMediaFilesByKeys. Admin-only registered file deletion by key; rejects keys still referenced by content.
+  // Request: src/Modules/Content/DTOs/FileObjects/DeleteMediaFilesByKeysRequest.cs
+  // Response: src/Modules/Content/DTOs/FileObjects/DeleteMediaFilesByKeysResponse.cs
+  deleteMediaFilesByKeys(input: DeleteMediaFilesByKeysRequest): Promise<DeleteMediaFilesByKeysResponse>;
 
   // Query: src/Modules/Content/DTOs/BlogPosts/ListBlogPostsRequest.cs
   // Item response: src/Modules/Content/DTOs/BlogPosts/BlogPostSummaryResponse.cs

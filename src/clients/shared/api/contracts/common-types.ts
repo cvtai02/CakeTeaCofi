@@ -10,19 +10,24 @@ export type ValidationResponse = {
     };
 }
 
-// SharedKernel.Enums.Currency
+// SharedKernel.EnumsConstants.Currency
 export const currencies = ["VND", "USD"] as const;
 export type CurrencyCode = typeof currencies[number];
 
-// SharedKernel.DTOs.Address
+// SharedKernel.EnumsConstants.CountryCode
+export const countryCodes = ["VN", "US"] as const;
+export type CountryCode = typeof countryCodes[number];
+
+// SharedKernel.ValueObjects.Address
 export type Address = {
     ownerName: string;
     type: string;
     phoneNumber: string;
     email: string;
-    country: string;
-    state?: string | null;
-    city?: string | null;
+    country: CountryCode;
+    administrativeArea?: string | null;
+    locality?: string | null;
+    subLocality?: string | null;
     postalCode?: string | null;
     line1: string;
     line2?: string | null;

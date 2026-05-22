@@ -12,6 +12,8 @@ import {
   LogOutIcon,
   TagIcon,
   ShoppingCartIcon,
+  DatabaseIcon,
+  Building2Icon,
 } from "lucide-react";
 import { type ComponentType, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -108,16 +110,23 @@ const navItems: NavItem[] = [
       { label: "Live",    to: ROUTES.analyticsLive },
     ],
   },
+  { label: "Tenants", to: ROUTES.tenants, icon: Building2Icon },
+  { label: "System", to: ROUTES.system, icon: DatabaseIcon },
   { label: "Settings", to: ROUTES.settings, icon: SettingsIcon },
 ];
 
 function NavItemRow({ item }: { item: NavItem }) {
   const location = useLocation();
   const { state: sidebarState, setOpen: setSidebarOpen } = useSidebar();
-  const isActive =
-    item.to !== ROUTES.dashboard
-      ? location.pathname.startsWith(item.to)
-      : location.pathname === item.to;
+  const isActive = item.subItems
+    ? item.subItems.some(
+        (sub) =>
+          location.pathname === sub.to ||
+          location.pathname.startsWith(sub.to + "/")
+      )
+    : item.to !== ROUTES.dashboard
+    ? location.pathname.startsWith(item.to)
+    : location.pathname === item.to;
 
   const [prevIsActive, setPrevIsActive] = useState(isActive);
   const [open, setOpen] = useState(isActive);

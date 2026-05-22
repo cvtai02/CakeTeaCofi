@@ -8,7 +8,7 @@ $startup = "src/AppHost/AppHost.csproj"
 $context = "$Module.${Module}DbContext"
 $output  = "Infrastructure/Data/Migrations"
 
-$command = "dotnet ef migrations add $Name --project $project -o $output --startup-project $startup --context $context"
+$command = "dotnet ef migrations add $Name --project $project -o $output --startup-project $startup --context $context --no-build"
 
 Write-Host "Adding migration '$Name' for module '$Module'..." -ForegroundColor Cyan
 Invoke-Expression $command
