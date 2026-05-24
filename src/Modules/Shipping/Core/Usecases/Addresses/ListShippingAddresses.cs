@@ -83,6 +83,24 @@ public class ListShippingAddresses
         });
     }
 
+    public Task<ShippingSubLocalitiesResponse> ListSubLocalitiesAsync(
+        ListShippingSubLocalitiesRequest request,
+        CancellationToken ct)
+    {
+        var key = $"{request.AdministrativeAreaCode.Trim()}:{request.LocalityCode.Trim()}";
+        var subLocalities = request.Country == CountryCode.VN
+            ? VietnamSubLocalitiesByLocality.GetValueOrDefault(key, [])
+            : [];
+
+        return Task.FromResult(new ShippingSubLocalitiesResponse
+        {
+            Country = request.Country,
+            AdministrativeAreaCode = request.AdministrativeAreaCode,
+            LocalityCode = request.LocalityCode,
+            SubLocalities = subLocalities
+        });
+    }
+
     private static string GetCountryDisplayName(CountryCode country)
         => country switch
         {
@@ -189,6 +207,8 @@ public class ListShippingAddresses
             Locality("92", "923", "Thốt Nốt", "Quận")
         ]
     };
+
+    private static readonly Dictionary<string, List<ShippingSubLocalityResponse>> VietnamSubLocalitiesByLocality = new();
 
     private static ShippingAdministrativeAreaResponse AdministrativeArea(
         string code,

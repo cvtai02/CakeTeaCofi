@@ -10,6 +10,7 @@ Client contract: [IdentityClient](../../../clients/shared/api/clients/identity.t
 - [SeedRoles](SetupController.cs#L85)
 
 ### User
+- POST `/login` - ASP.NET Identity login with email and password; returns bearer access and refresh tokens.
 - [GetCurrentUser](MinimalApi.cs#L13)
 
 ## DTO References

@@ -10,7 +10,7 @@ public class GetTenantById(TenantManagementDbContext db)
     {
         var tenant = await db.Tenants
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id, ct);
+            .FirstOrDefaultAsync(x => x.Id == id && !x.IsArchived, ct);
 
         return tenant is null ? null : TenantMapper.ToResponse(tenant);
     }

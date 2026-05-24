@@ -19,7 +19,7 @@ public class PaymentController(
     public ActionResult<IReadOnlyList<PaymentMethodResponse>> GetMethods()
         => Ok(listPaymentMethods.Execute());
 
-    [Authorize(Policy = Policies.AuthenticatedUserUp)]
+    [AllowAnonymous]
     [HttpPost("orders/{orderCode}/checkout")]
     public async Task<ActionResult<PaymentTransactionResponse>> CreateCheckout(
         string orderCode,
@@ -34,6 +34,16 @@ public class PaymentController(
         CancellationToken cancellationToken)
     {
         var result = await getPaymentTransactionById.ExecuteAsync(id, cancellationToken);
+        return result is null ? NotFound() : Ok(result);
+    }
+
+    [Authorize(Policy = Policies.TenantAdminUp)]
+    [HttpGet("admin/transactions/{id:int}")]
+    public async Task<ActionResult<PaymentTransactionResponse>> GetAdminTransaction(
+        int id,
+        CancellationToken cancellationToken)
+    {
+        var result = await getPaymentTransactionById.ExecuteAdminAsync(id, cancellationToken);
         return result is null ? NotFound() : Ok(result);
     }
 

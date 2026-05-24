@@ -3,8 +3,12 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./api/admin-api": "./api/admin-api.ts",
+    "./api/customer-api": "./api/customer-api.ts",
     "./api/clients": "./api/clients/index.ts",
     "./api/contracts": "./api/contracts/index.ts",
+    "./api/contracts/admin": "./api/contracts/admin/index.ts",
+    "./api/contracts/customer": "./api/contracts/customer/index.ts",
     "./api/types/*": "./api/types/*.ts"
   },
   "dependencies": {

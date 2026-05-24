@@ -3,6 +3,9 @@ import type {
   ListShippingAddressesQuery,
   ListShippingLocalitiesQuery,
   ListShippingSubLocalitiesQuery,
+  ShippingSubLocalitiesResponse,
+  CreateShippingQuoteRequest,
+  CreateShippingQuoteResponse,
   ProductShippingResponse,
   ShippingAdministrativeAreasResponse,
   ShippingAddressCatalogResponse,
@@ -27,9 +30,10 @@ export interface IShippingClient {
   // Response: src/Modules/Shipping/DTOs/Addresses/ShippingAddressCatalogResponse.cs
   listShippingLocalities(query: ListShippingLocalitiesQuery): Promise<ShippingLocalitiesResponse>;
 
-  // Contract method: listShippingSubLocalities - currently returns 501 Not Implemented.
+  // Contract method: listShippingSubLocalities - public sublocalities by country, administrative area, and locality.
   // Query: src/Modules/Shipping/DTOs/Addresses/ListShippingAddressesRequest.cs
-  listShippingSubLocalities(query: ListShippingSubLocalitiesQuery): Promise<never>;
+  // Response: src/Modules/Shipping/DTOs/Addresses/ShippingAddressCatalogResponse.cs
+  listShippingSubLocalities(query: ListShippingSubLocalitiesQuery): Promise<ShippingSubLocalitiesResponse>;
 
   // Contract method: listShippingAddresses - public shipping address catalog by country.
   // Query: src/Modules/Shipping/DTOs/Addresses/ListShippingAddressesRequest.cs
@@ -40,4 +44,9 @@ export interface IShippingClient {
   // Auth: TenantModeratorUp.
   // Response: src/Modules/Shipping/DTOs/ProductShipping/ProductShippingResponse.cs
   getProductShipping(productId: string): Promise<ProductShippingResponse>;
+
+  // Contract method: createShippingQuote - public package-level quote for selected variants.
+  // Request: src/Modules/Shipping/DTOs/Quotes/CreateShippingQuoteRequest.cs
+  // Response: src/Modules/Shipping/DTOs/Quotes/ShippingQuoteResponse.cs
+  createShippingQuote(input: CreateShippingQuoteRequest): Promise<CreateShippingQuoteResponse>;
 }

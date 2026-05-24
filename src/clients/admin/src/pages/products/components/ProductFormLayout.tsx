@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { ArrowLeftIcon } from "lucide-react";
 import { toast } from "sonner";
 
@@ -60,15 +60,15 @@ export function ProductFormLayout({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { register, control, handleSubmit, watch, getValues, setError, formState: { errors } } = useForm<FormValues>({
+  const { register, control, handleSubmit, getValues, setError, formState: { errors } } = useForm<FormValues>({
     defaultValues: { ...DEFAULT_FORM_VALUES, ...defaultValues },
     mode: "onChange",
   });
 
-  const watchPrice = watch("price");
-  const watchCostPrice = watch("costPrice");
-  const watchTrackInventory = watch("trackInventory");
-  const watchIsPhysical = watch("isPhysical");
+  const watchPrice = useWatch({ control, name: "price" });
+  const watchCostPrice = useWatch({ control, name: "costPrice" });
+  const watchTrackInventory = useWatch({ control, name: "trackInventory" });
+  const watchIsPhysical = useWatch({ control, name: "isPhysical" });
 
   const [options, setOptions] = useState<OptionEntry[]>(initialOptions ?? []);
   const [variantOverrides, setVariantOverrides] = useState<Record<string, VariantOverride>>(initialVariantOverrides ?? {});
@@ -76,9 +76,22 @@ export function ProductFormLayout({
   // (navigation) or an error lets the user retry. Prevents the button flashing enabled
   // between useMutation isPending → false and the subsequent navigate() call.
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  // Selected variant ids — raw state may contain ids for variants that no
+  // longer exist after `options`/`variantOverrides` change. `selectedIds`
+  // below filters those out at render time so we avoid a `setState`-in-effect
+  // synchronization (see react-hooks/set-state-in-effect).
+  const [rawSelectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   const variants = useMemo(() => deriveVariants(options, variantOverrides), [options, variantOverrides]);
+
+  const variantIdSet = useMemo(
+    () => new Set(variants.map((v) => v.localId)),
+    [variants],
+  );
+  const selectedIds = useMemo(
+    () => new Set([...rawSelectedIds].filter((id) => variantIdSet.has(id))),
+    [rawSelectedIds, variantIdSet],
+  );
 
   const selectedVariant = selectedIds.size === 1
     ? variants.find((v) => v.localId === [...selectedIds][0]) ?? null
@@ -117,14 +130,6 @@ export function ProductFormLayout({
     }
     return map;
   }, [variants, activeOptionCount]);
-
-  useEffect(() => {
-    const validIds = new Set(variants.map((v) => v.localId));
-    setSelectedIds((prev) => {
-      const next = new Set([...prev].filter((id) => validIds.has(id)));
-      return next.size === prev.size ? prev : next;
-    });
-  }, [variants]);
 
   // ── Options handlers ──
   const addOption = useCallback(() => {

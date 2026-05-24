@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   BoxIcon,
   ChartColumnBigIcon,
@@ -14,8 +14,10 @@ import {
   ShoppingCartIcon,
   DatabaseIcon,
   Building2Icon,
+  ArrowLeftIcon,
 } from "lucide-react";
-import { type ComponentType, useState } from "react";
+import { type ComponentType, useEffect, useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -59,60 +61,59 @@ type NavItem = {
   to: string;
   icon: ComponentType;
   subItems?: NavSubItem[];
+  requireRole?: "SystemAdmin";
 };
 
-const navItems: NavItem[] = [
-  { label: "Home", to: ROUTES.dashboard, icon: ChartColumnBigIcon },
-  { label: "Orders", to: ROUTES.orders, icon: ClipboardListIcon },
+function buildTenantNavItems(sig: string): NavItem[] {
+  const p = (path: string) => `/${sig}${path}`;
+  return [
+    { label: "Orders", to: p(ROUTES.orders), icon: ClipboardListIcon },
+    {
+      label: "Products",
+      to: p(ROUTES.products),
+      icon: BoxIcon,
+      subItems: [
+        { label: "All Products",    to: p(ROUTES.products) },
+        { label: "Category",        to: p(ROUTES.productCategory) },
+        { label: "Collections",     to: p(ROUTES.productCollections) },
+        { label: "Inventory",       to: p(ROUTES.productInventory) },
+      ],
+    },
+    {
+      label: "Content",
+      to: p(ROUTES.contentFiles),
+      icon: FileTextIcon,
+      subItems: [
+        { label: "Files",            to: p(ROUTES.contentFiles) },
+        { label: "Blogs",            to: p(ROUTES.contentBlogs) },
+        { label: "Blog Collections", to: p(ROUTES.contentBlogCollections) },
+        { label: "Galleries",        to: p(ROUTES.contentGalleries) },
+      ],
+    },
+    { label: "Customers", to: p(ROUTES.customers), icon: UsersIcon },
+    {
+      label: "Marketing",
+      to: `/${sig}/marketing`,
+      icon: GiftIcon,
+    },
+    { label: "Promotion", to: `/${sig}/promotion`, icon: TagIcon },
+    {
+      label: "Analytics",
+      to: `/${sig}/analytics`,
+      icon: ChartColumnBigIcon,
+    },
+    { label: "Settings", to: `/${sig}/settings`, icon: SettingsIcon },
+  ];
+}
+
+const systemNavItems: NavItem[] = [
   {
-    label: "Products",
-    to: ROUTES.products,
-    icon: BoxIcon,
-    subItems: [
-      { label: "All Products",    to: ROUTES.products },
-      { label: "Category",        to: ROUTES.productCategory },
-      { label: "Collections",     to: ROUTES.productCollections },
-      { label: "Inventory",       to: ROUTES.productInventory },
-      { label: "Purchase Orders", to: ROUTES.productPurchaseOrders },
-    ],
+    label: "Manage Tenants",
+    to: ROUTES.tenants,
+    icon: Building2Icon,
+    requireRole: "SystemAdmin",
   },
-  {
-    label: "Content",
-    to: ROUTES.content,
-    icon: FileTextIcon,
-    subItems: [
-      { label: "Files",             to: ROUTES.contentFiles },
-      { label: "Menus",             to: ROUTES.contentMenus },
-      { label: "Blogs Post",        to: ROUTES.contentBlogs },
-      { label: "Blog Collections",  to: ROUTES.contentBlogCollections },
-      { label: "Galleries",         to: ROUTES.contentGalleries },
-      { label: "Metaobjects",       to: ROUTES.contentMetaobjects },
-    ],
-  },
-  { label: "Customers", to: ROUTES.customers, icon: UsersIcon },
-  {
-    label: "Marketing",
-    to: ROUTES.marketing,
-    icon: GiftIcon,
-    subItems: [
-      { label: "Campaigns",   to: ROUTES.marketingCampaigns },
-      { label: "Attribution", to: ROUTES.marketingAttribution },
-      { label: "Automation",  to: ROUTES.marketingAutomation },
-    ],
-  },
-  { label: "Promotion", to: ROUTES.promotion, icon: TagIcon },
-  {
-    label: "Analytics",
-    to: ROUTES.analytics,
-    icon: ChartColumnBigIcon,
-    subItems: [
-      { label: "Reports", to: ROUTES.analyticsReports },
-      { label: "Live",    to: ROUTES.analyticsLive },
-    ],
-  },
-  { label: "Tenants", to: ROUTES.tenants, icon: Building2Icon },
   { label: "System", to: ROUTES.system, icon: DatabaseIcon },
-  { label: "Settings", to: ROUTES.settings, icon: SettingsIcon },
 ];
 
 function NavItemRow({ item }: { item: NavItem }) {
@@ -124,9 +125,8 @@ function NavItemRow({ item }: { item: NavItem }) {
           location.pathname === sub.to ||
           location.pathname.startsWith(sub.to + "/")
       )
-    : item.to !== ROUTES.dashboard
-    ? location.pathname.startsWith(item.to)
-    : location.pathname === item.to;
+    : location.pathname === item.to ||
+      location.pathname.startsWith(item.to + "/");
 
   const [prevIsActive, setPrevIsActive] = useState(isActive);
   const [open, setOpen] = useState(isActive);
@@ -195,8 +195,25 @@ function NavItemRow({ item }: { item: NavItem }) {
 
 export default function AppLayout() {
   const navigate = useNavigate();
-  const { logout, email } = useIdentityStore();
+  const { tenantSignature } = useParams<{ tenantSignature?: string }>();
+  const { logout, email, role } = useIdentityStore();
   const { notifications, unreadCount, markAllRead, markOneRead, clearAll } = useNotificationHub();
+  const queryClient = useQueryClient();
+  const prevTenantRef = useRef<string | undefined>(undefined);
+
+  // Clear the entire query cache whenever the active tenant changes so stale
+  // data from the previous tenant is never shown on the new tenant's pages.
+  useEffect(() => {
+    if (prevTenantRef.current !== undefined && prevTenantRef.current !== tenantSignature) {
+      queryClient.clear();
+    }
+    prevTenantRef.current = tenantSignature;
+  }, [tenantSignature, queryClient]);
+
+  const isTenantContext = Boolean(tenantSignature);
+  const navItems = isTenantContext
+    ? buildTenantNavItems(tenantSignature!)
+    : systemNavItems.filter((item) => !item.requireRole || item.requireRole === role);
 
   const handleSignOut = () => {
     logout();
@@ -208,21 +225,37 @@ export default function AppLayout() {
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon" variant="sidebar">
-        {/* Store header */}
+        {/* Header */}
         <SidebarHeader className="border-b">
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton size="lg" tooltip="My Store">
-                <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold shrink-0">
-                  N
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold text-sm leading-tight">My Store</span>
-                  <span className="text-xs text-muted-foreground truncate">
-                    {email || "admin@store.com"}
-                  </span>
-                </div>
-              </SidebarMenuButton>
+              {isTenantContext ? (
+                <SidebarMenuButton size="lg" tooltip={tenantSignature}>
+                  <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold shrink-0">
+                    {tenantSignature![0]?.toUpperCase()}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-sm leading-tight capitalize">
+                      {tenantSignature}
+                    </span>
+                    <span className="text-xs text-muted-foreground truncate">
+                      {email || "admin@store.com"}
+                    </span>
+                  </div>
+                </SidebarMenuButton>
+              ) : (
+                <SidebarMenuButton size="lg" tooltip="System Admin">
+                  <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold shrink-0">
+                    S
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-sm leading-tight">System Admin</span>
+                    <span className="text-xs text-muted-foreground truncate">
+                      {email || "admin@store.com"}
+                    </span>
+                  </div>
+                </SidebarMenuButton>
+              )}
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
@@ -232,6 +265,17 @@ export default function AppLayout() {
           <SidebarGroup>
             <SidebarGroupContent>
               <SidebarMenu>
+                {isTenantContext && (
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      tooltip="Back to tenants"
+                      render={<NavLink to="/" />}
+                    >
+                      <ArrowLeftIcon />
+                      <span>Back to tenants</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )}
                 {navItems.map((item) => (
                   <NavItemRow key={item.to} item={item} />
                 ))}
@@ -259,8 +303,7 @@ export default function AppLayout() {
         {/* Top bar */}
         <header className="flex h-12 shrink-0 items-center gap-3 border-b bg-background px-4">
           <SidebarTrigger className="-ml-1" />
-          <div className="flex flex-1 items-center gap-2 text-muted-foreground">
-          </div>
+          <div className="flex flex-1 items-center gap-2 text-muted-foreground" />
           <div className="flex items-center gap-2">
             <ModeToggle />
             <DropdownMenu onOpenChange={(open) => { if (open) markAllRead(); }}>
@@ -296,8 +339,9 @@ export default function AppLayout() {
                         className={`flex items-start gap-3 px-3 py-2.5 cursor-pointer border-b last:border-0 transition-colors ${n.isRead ? "hover:bg-muted/50" : "bg-primary/5 hover:bg-primary/10"}`}
                         onClick={() => {
                           markOneRead(n.id);
-                          if (n.entityType === "Order" || n.type === "OrderPlaced") {
-                            navigate(ROUTES.orderDetail(n.entityId!));
+                          if ((n.entityType === "Order" || n.type === "OrderPlaced") && n.entityId) {
+                            const path = ROUTES.orderDetail(n.entityId);
+                            navigate(tenantSignature ? `/${tenantSignature}${path}` : path);
                           }
                         }}
                       >

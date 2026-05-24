@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useContentClient } from "@/components/containers/api-client-provider";
 import { cn } from "@/lib/utils";
-import type { BlogPostSummary } from "@shared/api/contracts/content";
+import type { BlogPostSummary } from "@shared/api/types/content";
 
 interface Props {
   open: boolean;

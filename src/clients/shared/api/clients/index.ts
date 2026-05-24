@@ -1,5 +1,7 @@
 export { AccountClient } from "./account";
+export { AdminApiClient } from "./admin-api";
 export { ContentClient } from "./content";
+export { CustomerApiClient } from "./customer-api";
 export { IdentityClient } from "./identity";
 export { InventoryClient } from "./inventory";
 export { OrderClient } from "./order";

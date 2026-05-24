@@ -542,6 +542,135 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/internal/r2-buckets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": null | components["schemas"]["AppHost.DTOs.R2Buckets.CreateR2BucketRequest"];
+                    "text/json": null | components["schemas"]["AppHost.DTOs.R2Buckets.CreateR2BucketRequest"];
+                    "application/*+json": null | components["schemas"]["AppHost.DTOs.R2Buckets.CreateR2BucketRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["AppHost.DTOs.R2Buckets.R2BucketResponse"];
+                        "application/json": components["schemas"]["AppHost.DTOs.R2Buckets.R2BucketResponse"];
+                        "text/json": components["schemas"]["AppHost.DTOs.R2Buckets.R2BucketResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/internal/r2-buckets/{bucketName}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    customDomain?: components["schemas"]["System.String"];
+                };
+                header?: never;
+                path: {
+                    bucketName: components["schemas"]["System.String"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["AppHost.DTOs.R2Buckets.R2BucketStatusResponse"];
+                        "application/json": components["schemas"]["AppHost.DTOs.R2Buckets.R2BucketStatusResponse"];
+                        "text/json": components["schemas"]["AppHost.DTOs.R2Buckets.R2BucketStatusResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/internal/r2-buckets/{bucketName}/custom-domain/retry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    bucketName: components["schemas"]["System.String"];
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["AppHost.DTOs.R2Buckets.RetryR2CustomDomainRequest"];
+                    "text/json": components["schemas"]["AppHost.DTOs.R2Buckets.RetryR2CustomDomainRequest"];
+                    "application/*+json": components["schemas"]["AppHost.DTOs.R2Buckets.RetryR2CustomDomainRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["AppHost.DTOs.R2Buckets.R2BucketStatusResponse"];
+                        "application/json": components["schemas"]["AppHost.DTOs.R2Buckets.R2BucketStatusResponse"];
+                        "text/json": components["schemas"]["AppHost.DTOs.R2Buckets.R2BucketStatusResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/Account/addresses": {
         parameters: {
             query?: never;
@@ -872,6 +1001,127 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/Account/notifications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    PageNumber?: components["schemas"]["System.Int32"];
+                    PageSize?: components["schemas"]["System.Int32"];
+                    IsRead?: components["schemas"]["System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
+                    Type?: components["schemas"]["System.String"];
+                    EntityType?: components["schemas"]["System.String"];
+                    EntityId?: components["schemas"]["System.String"];
+                    Search?: components["schemas"]["System.String"];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[Account.DTOs.Notifications.NotificationResponse, Account, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "application/json": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[Account.DTOs.Notifications.NotificationResponse, Account, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "text/json": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[Account.DTOs.Notifications.NotificationResponse, Account, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Account/notifications/{id}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Account.DTOs.Notifications.NotificationResponse"];
+                        "application/json": components["schemas"]["Account.DTOs.Notifications.NotificationResponse"];
+                        "text/json": components["schemas"]["Account.DTOs.Notifications.NotificationResponse"];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/api/Account/notifications/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[Account.DTOs.Notifications.NotificationResponse, Account, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "application/json": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[Account.DTOs.Notifications.NotificationResponse, Account, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "text/json": components["schemas"]["SharedKernel.DTOs.PaginatedList`1[[Account.DTOs.Notifications.NotificationResponse, Account, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                    };
+                };
+            };
+        };
         trace?: never;
     };
     "/api/Account/admin/notifications": {
@@ -2559,6 +2809,90 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Order/orders/admin/{code}/ship": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    code: components["schemas"]["System.String"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Order.DTOs.Orders.OrderResponse"];
+                        "application/json": components["schemas"]["Order.DTOs.Orders.OrderResponse"];
+                        "text/json": components["schemas"]["Order.DTOs.Orders.OrderResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Order/orders/admin/{code}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    code: components["schemas"]["System.String"];
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": null | components["schemas"]["Order.DTOs.Orders.CancelOrderRequest"];
+                    "text/json": null | components["schemas"]["Order.DTOs.Orders.CancelOrderRequest"];
+                    "application/*+json": null | components["schemas"]["Order.DTOs.Orders.CancelOrderRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Order.DTOs.Orders.OrderResponse"];
+                        "application/json": components["schemas"]["Order.DTOs.Orders.OrderResponse"];
+                        "text/json": components["schemas"]["Order.DTOs.Orders.OrderResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/Order/orders/{code}": {
         parameters: {
             query?: never;
@@ -2681,6 +3015,45 @@ export interface paths {
         trace?: never;
     };
     "/api/Payment/transactions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Payment.DTOs.PaymentTransactionResponse"];
+                        "application/json": components["schemas"]["Payment.DTOs.PaymentTransactionResponse"];
+                        "text/json": components["schemas"]["Payment.DTOs.PaymentTransactionResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Payment/admin/transactions/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -3818,7 +4191,11 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "text/plain": components["schemas"]["Shipping.DTOs.Addresses.ShippingSubLocalitiesResponse"];
+                        "application/json": components["schemas"]["Shipping.DTOs.Addresses.ShippingSubLocalitiesResponse"];
+                        "text/json": components["schemas"]["Shipping.DTOs.Addresses.ShippingSubLocalitiesResponse"];
+                    };
                 };
             };
         };
@@ -3869,6 +4246,123 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Shipping/quotes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Shipping.DTOs.Quotes.CreateShippingQuoteRequest"];
+                    "text/json": components["schemas"]["Shipping.DTOs.Quotes.CreateShippingQuoteRequest"];
+                    "application/*+json": components["schemas"]["Shipping.DTOs.Quotes.CreateShippingQuoteRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Shipping.DTOs.Quotes.ShippingQuoteResponse"];
+                        "application/json": components["schemas"]["Shipping.DTOs.Quotes.ShippingQuoteResponse"];
+                        "text/json": components["schemas"]["Shipping.DTOs.Quotes.ShippingQuoteResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.CurrentTenantResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.CurrentTenantResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.CurrentTenantResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.SystemAdminDashboardSummaryResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.SystemAdminDashboardSummaryResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.SystemAdminDashboardSummaryResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/TenantManagement/tenants": {
         parameters: {
             query?: never;
@@ -3883,6 +4377,7 @@ export interface paths {
                     PageSize?: components["schemas"]["System.Int32"];
                     Search?: components["schemas"]["System.String"];
                     IsActive?: components["schemas"]["System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
+                    IncludeArchived?: components["schemas"]["System.Boolean"];
                 };
                 header?: never;
                 path?: never;
@@ -3969,8 +4464,505 @@ export interface paths {
                 };
             };
         };
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.UpdateTenantRequest"];
+                    "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.UpdateTenantRequest"];
+                    "application/*+json": components["schemas"]["TenantManagement.DTOs.Tenants.UpdateTenantRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/{id}/logo": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.UpdateTenantLogoRequest"];
+                    "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.UpdateTenantLogoRequest"];
+                    "application/*+json": components["schemas"]["TenantManagement.DTOs.Tenants.UpdateTenantLogoRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/{id}/admin-account": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.UpdateTenantAdminAccountRequest"];
+                    "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.UpdateTenantAdminAccountRequest"];
+                    "application/*+json": components["schemas"]["TenantManagement.DTOs.Tenants.UpdateTenantAdminAccountRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                    };
+                };
+            };
+        };
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.CreateTenantAdminAccountRequest"];
+                    "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.CreateTenantAdminAccountRequest"];
+                    "application/*+json": components["schemas"]["TenantManagement.DTOs.Tenants.CreateTenantAdminAccountRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/{id}/admin-users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["System.Collections.Generic.IReadOnlyList`1[[TenantManagement.DTOs.Tenants.TenantAdminUserResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "application/json": components["schemas"]["System.Collections.Generic.IReadOnlyList`1[[TenantManagement.DTOs.Tenants.TenantAdminUserResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                        "text/json": components["schemas"]["System.Collections.Generic.IReadOnlyList`1[[TenantManagement.DTOs.Tenants.TenantAdminUserResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                    };
+                };
+            };
+        };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/{id}/admin-account/reset-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.ResetTenantAdminPasswordRequest"];
+                    "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.ResetTenantAdminPasswordRequest"];
+                    "application/*+json": components["schemas"]["TenantManagement.DTOs.Tenants.ResetTenantAdminPasswordRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/{id}/admin-account/email": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.ChangeTenantAdminEmailRequest"];
+                    "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.ChangeTenantAdminEmailRequest"];
+                    "application/*+json": components["schemas"]["TenantManagement.DTOs.Tenants.ChangeTenantAdminEmailRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/{id}/admin-account/enabled": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.SetTenantAdminEnabledRequest"];
+                    "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.SetTenantAdminEnabledRequest"];
+                    "application/*+json": components["schemas"]["TenantManagement.DTOs.Tenants.SetTenantAdminEnabledRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/{id}/provisioning-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantProvisioningStatusResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantProvisioningStatusResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantProvisioningStatusResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/{id}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/{id}/deactivate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/TenantManagement/tenants/{id}/archive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: components["schemas"]["System.Int32"];
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "application/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                        "text/json": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"];
+                    };
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -4054,6 +5046,26 @@ export interface components {
             startedAt: components["schemas"]["System.DateTimeOffset"];
             completedAt: components["schemas"]["System.DateTimeOffset"];
             durationSeconds: components["schemas"]["System.Double"];
+        };
+        "AppHost.DTOs.R2Buckets.CreateR2BucketRequest": {
+            bucketName: null | components["schemas"]["System.String"];
+        };
+        "AppHost.DTOs.R2Buckets.R2BucketResponse": {
+            bucketName: components["schemas"]["System.String"];
+            created: components["schemas"]["System.Boolean"];
+            checkedAt: components["schemas"]["System.DateTimeOffset"];
+        };
+        "AppHost.DTOs.R2Buckets.R2BucketStatusResponse": {
+            bucketName: components["schemas"]["System.String"];
+            bucketExists: components["schemas"]["System.Boolean"];
+            customDomain: null | components["schemas"]["System.String"];
+            customDomainAttached: components["schemas"]["System.Boolean"];
+            customDomainEnabled: null | components["schemas"]["System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
+            customDomainStatus: null | components["schemas"]["System.String"];
+            checkedAt: components["schemas"]["System.DateTimeOffset"];
+        };
+        "AppHost.DTOs.R2Buckets.RetryR2CustomDomainRequest": {
+            customDomain: components["schemas"]["System.String"];
         };
         /** @enum {unknown} */
         "Content.Core.Entities.BlogPostStatus": "Draft" | "Published" | "Archived";
@@ -4408,6 +5420,9 @@ export interface components {
             shippingAddress: components["schemas"]["SharedKernel.ValueObjects.Address"];
             items?: components["schemas"]["System.Collections.Generic.List`1[[Order.DTOs.Orders.CreateOrderItemRequest, Order, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
         };
+        "Order.DTOs.Orders.CancelOrderRequest": {
+            reason: null | components["schemas"]["System.String"];
+        };
         "Order.DTOs.Orders.CreateOrderItemRequest": {
             variantId: components["schemas"]["System.String"];
             quantity: components["schemas"]["System.Int32"];
@@ -4435,6 +5450,7 @@ export interface components {
             status: components["schemas"]["Order.Core.Entities.OrderStatus"];
             currencyCode: components["schemas"]["System.String"];
             paymentProvider: components["schemas"]["System.String"];
+            guestCheckoutToken: null | components["schemas"]["System.String"];
             totalAmount: components["schemas"]["System.Decimal"];
             rejectionReason: null | components["schemas"]["System.String"];
             shippingAddress: null | components["schemas"]["SharedKernel.ValueObjects.Address"];
@@ -4457,6 +5473,7 @@ export interface components {
             provider: null | components["schemas"]["System.String"];
             returnUrl: null | components["schemas"]["System.String"];
             cancelUrl: null | components["schemas"]["System.String"];
+            guestCheckoutToken: null | components["schemas"]["System.String"];
         };
         "Payment.DTOs.PaymentMethodResponse": {
             code: components["schemas"]["System.String"];
@@ -5009,6 +6026,19 @@ export interface components {
             region: components["schemas"]["System.String"];
             displayName: components["schemas"]["System.String"];
         };
+        "Shipping.DTOs.Addresses.ShippingSubLocalitiesResponse": {
+            country: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+            administrativeAreaCode: components["schemas"]["System.String"];
+            localityCode: components["schemas"]["System.String"];
+            currentAdministrativeLevel: components["schemas"]["System.String"];
+            subLocalities: components["schemas"]["System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingSubLocalityResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+        };
+        "Shipping.DTOs.Addresses.ShippingSubLocalityResponse": {
+            code: components["schemas"]["System.String"];
+            name: components["schemas"]["System.String"];
+            type: components["schemas"]["System.String"];
+            displayName: components["schemas"]["System.String"];
+        };
         "Shipping.DTOs.ProductShipping.ProductShippingResponse": {
             productId: components["schemas"]["System.String"];
             physicalProduct: components["schemas"]["System.Boolean"];
@@ -5029,6 +6059,34 @@ export interface components {
             length: components["schemas"]["System.Single"];
             packageLevel: components["schemas"]["Shipping.Core.Services.PackageLevel"];
         };
+        "Shipping.DTOs.Quotes.CreateShippingQuoteRequest": {
+            addressFrom: components["schemas"]["Shipping.DTOs.Quotes.ShippingQuoteAddressRequest"];
+            addressTo: components["schemas"]["Shipping.DTOs.Quotes.ShippingQuoteAddressRequest"];
+            items?: components["schemas"]["System.Collections.Generic.List`1[[Shipping.DTOs.Quotes.ShippingQuoteItemRequest, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+        };
+        "Shipping.DTOs.Quotes.ShippingQuoteAddressRequest": {
+            country: components["schemas"]["System.String"];
+            administrativeArea: components["schemas"]["System.String"];
+            locality: components["schemas"]["System.String"];
+            subLocality: components["schemas"]["System.String"];
+            line1: components["schemas"]["System.String"];
+            postalCode: components["schemas"]["System.String"];
+        };
+        "Shipping.DTOs.Quotes.ShippingQuoteItemRequest": {
+            variantId: components["schemas"]["System.String"];
+            quantity?: components["schemas"]["System.Int32"];
+        };
+        "Shipping.DTOs.Quotes.ShippingQuoteLineResponse": {
+            variantId: components["schemas"]["System.String"];
+            packageLevel: components["schemas"]["Shipping.Core.Services.PackageLevel"];
+            quantity: components["schemas"]["System.Int32"];
+            unitPrice: components["schemas"]["System.Decimal"];
+            subtotal: components["schemas"]["System.Decimal"];
+        };
+        "Shipping.DTOs.Quotes.ShippingQuoteResponse": {
+            totalPrice: components["schemas"]["System.Decimal"];
+            lines: components["schemas"]["System.Collections.Generic.List`1[[Shipping.DTOs.Quotes.ShippingQuoteLineResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+        };
         "System.Boolean": boolean;
         "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
             [key: string]: components["schemas"]["System.String"];
@@ -5037,6 +6095,8 @@ export interface components {
             [key: string]: components["schemas"]["System.String[]"];
         };
         "System.Collections.Generic.IReadOnlyList`1[[Payment.DTOs.PaymentMethodResponse, Payment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Payment.DTOs.PaymentMethodResponse"][];
+        "System.Collections.Generic.IReadOnlyList`1[[TenantManagement.DTOs.Tenants.TenantAdminUserResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["TenantManagement.DTOs.Tenants.TenantAdminUserResponse"][];
+        "System.Collections.Generic.IReadOnlyList`1[[TenantManagement.DTOs.Tenants.TenantResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"][];
         "System.Collections.Generic.List`1[[Account.DTOs.AccountAddresses.AccountAddressResponse, Account, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Account.DTOs.AccountAddresses.AccountAddressResponse"][];
         "System.Collections.Generic.List`1[[Account.DTOs.AccountProfiles.AccountProfileResponse, Account, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Account.DTOs.AccountProfiles.AccountProfileResponse"][];
         "System.Collections.Generic.List`1[[Account.DTOs.Notifications.NotificationResponse, Account, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Account.DTOs.Notifications.NotificationResponse"][];
@@ -5080,7 +6140,10 @@ export interface components {
         "System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingCountryResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.Addresses.ShippingCountryResponse"][];
         "System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingLocalityResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.Addresses.ShippingLocalityResponse"][];
         "System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingProvinceResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.Addresses.ShippingProvinceResponse"][];
+        "System.Collections.Generic.List`1[[Shipping.DTOs.Addresses.ShippingSubLocalityResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.Addresses.ShippingSubLocalityResponse"][];
         "System.Collections.Generic.List`1[[Shipping.DTOs.ProductShipping.VariantShippingResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.ProductShipping.VariantShippingResponse"][];
+        "System.Collections.Generic.List`1[[Shipping.DTOs.Quotes.ShippingQuoteItemRequest, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.Quotes.ShippingQuoteItemRequest"][];
+        "System.Collections.Generic.List`1[[Shipping.DTOs.Quotes.ShippingQuoteLineResponse, Shipping, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["Shipping.DTOs.Quotes.ShippingQuoteLineResponse"][];
         "System.Collections.Generic.List`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": components["schemas"]["System.Int32"][];
         "System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": components["schemas"]["System.String"][];
         "System.Collections.Generic.List`1[[TenantManagement.DTOs.Tenants.TenantResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": components["schemas"]["TenantManagement.DTOs.Tenants.TenantResponse"][];
@@ -5119,28 +6182,103 @@ export interface components {
         "System.Single": number;
         "System.String": string;
         "System.String[]": components["schemas"]["System.String"][];
+        "TenantManagement.DTOs.Tenants.ChangeTenantAdminEmailRequest": {
+            email: components["schemas"]["System.String"];
+        };
+        "TenantManagement.DTOs.Tenants.CreateTenantAdminAccountRequest": {
+            email: components["schemas"]["System.String"];
+            password: components["schemas"]["System.String"];
+        };
         "TenantManagement.DTOs.Tenants.CreateTenantRequest": {
             name: components["schemas"]["System.String"];
             signature: components["schemas"]["System.String"];
-            domain: components["schemas"]["System.String"];
-            cdnBaseUrl?: null | components["schemas"]["System.String"];
-            logoKey?: null | components["schemas"]["System.String"];
-            adminDashboardUrl?: null | components["schemas"]["System.String"];
+            domain?: null | components["schemas"]["System.String"];
             countryCode?: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+            email: components["schemas"]["System.String"];
+            password: components["schemas"]["System.String"];
+        };
+        "TenantManagement.DTOs.Tenants.CurrentTenantResponse": {
+            id: components["schemas"]["System.Int32"];
+            name: components["schemas"]["System.String"];
+            domain: components["schemas"]["System.String"];
+            cdnBaseUrl: components["schemas"]["System.String"];
+            logoUrl: null | components["schemas"]["System.String"];
+            countryCode: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
+        };
+        "TenantManagement.DTOs.Tenants.ResetTenantAdminPasswordRequest": {
+            newPassword: components["schemas"]["System.String"];
+        };
+        "TenantManagement.DTOs.Tenants.SetTenantAdminEnabledRequest": {
+            enabled: components["schemas"]["System.Boolean"];
+        };
+        "TenantManagement.DTOs.Tenants.SystemAdminDashboardSummaryResponse": {
+            totalTenants: components["schemas"]["System.Int32"];
+            activeTenants: components["schemas"]["System.Int32"];
+            inactiveTenants: components["schemas"]["System.Int32"];
+            archivedTenants: components["schemas"]["System.Int32"];
+            tenantsMissingLogo: components["schemas"]["System.Int32"];
+            tenantsMissingDomain: components["schemas"]["System.Int32"];
+            tenantsMissingAdminAccount: components["schemas"]["System.Int32"];
+            recentTenants: components["schemas"]["System.Collections.Generic.IReadOnlyList`1[[TenantManagement.DTOs.Tenants.TenantResponse, TenantManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+        };
+        "TenantManagement.DTOs.Tenants.TenantAdminUserResponse": {
+            tenantId: components["schemas"]["System.Int32"];
+            tenantSignature: components["schemas"]["System.String"];
+            identityUserId: components["schemas"]["System.String"];
+            email: null | components["schemas"]["System.String"];
+            userName: null | components["schemas"]["System.String"];
+            displayName: null | components["schemas"]["System.String"];
+            emailConfirmed: components["schemas"]["System.Boolean"];
+            enabled: components["schemas"]["System.Boolean"];
+            lockoutEnd: null | components["schemas"]["System.Nullable`1[[System.DateTimeOffset, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
+        };
+        "TenantManagement.DTOs.Tenants.TenantProvisioningStatusResponse": {
+            tenantId: components["schemas"]["System.Int32"];
+            name: components["schemas"]["System.String"];
+            signature: components["schemas"]["System.String"];
+            domain: null | components["schemas"]["System.String"];
+            cdnBaseUrl: components["schemas"]["System.String"];
+            bucketName: components["schemas"]["System.String"];
+            customDomain: components["schemas"]["System.String"];
+            hasDomain: components["schemas"]["System.Boolean"];
+            hasLogo: components["schemas"]["System.Boolean"];
+            hasAdminAccount: components["schemas"]["System.Boolean"];
+            bucketExists: components["schemas"]["System.Boolean"];
+            customDomainAttached: components["schemas"]["System.Boolean"];
+            customDomainStatus: null | components["schemas"]["System.String"];
+            checkedAt: components["schemas"]["System.DateTimeOffset"];
         };
         "TenantManagement.DTOs.Tenants.TenantResponse": {
             id: components["schemas"]["System.Int32"];
             name: components["schemas"]["System.String"];
             signature: components["schemas"]["System.String"];
-            domain: components["schemas"]["System.String"];
+            domain: null | components["schemas"]["System.String"];
             cdnBaseUrl: components["schemas"]["System.String"];
             logoKey: null | components["schemas"]["System.String"];
             logoUrl: null | components["schemas"]["System.String"];
-            adminDashboardUrl: components["schemas"]["System.String"];
+            adminEmail: null | components["schemas"]["System.String"];
             countryCode: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
             isActive: components["schemas"]["System.Boolean"];
+            isArchived: components["schemas"]["System.Boolean"];
             created: components["schemas"]["System.DateTimeOffset"];
             lastModified: components["schemas"]["System.DateTimeOffset"];
+        };
+        "TenantManagement.DTOs.Tenants.UpdateTenantAdminAccountRequest": {
+            email: null | components["schemas"]["System.String"];
+            password: null | components["schemas"]["System.String"];
+            enabled: null | components["schemas"]["System.Nullable`1[[System.Boolean, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
+            displayName: null | components["schemas"]["System.String"];
+        };
+        "TenantManagement.DTOs.Tenants.UpdateTenantLogoRequest": {
+            logoKey: components["schemas"]["System.String"];
+        };
+        "TenantManagement.DTOs.Tenants.UpdateTenantRequest": {
+            name: components["schemas"]["System.String"];
+            signature: components["schemas"]["System.String"];
+            domain?: null | components["schemas"]["System.String"];
+            cdnBaseUrl?: null | components["schemas"]["System.String"];
+            logoKey?: null | components["schemas"]["System.String"];
+            countryCode?: components["schemas"]["SharedKernel.EnumsConstants.CountryCode"];
         };
     };
     responses: never;

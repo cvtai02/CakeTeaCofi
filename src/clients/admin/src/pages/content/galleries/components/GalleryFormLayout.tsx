@@ -161,7 +161,6 @@ export function GalleryFormLayout({
     handleSubmit,
     setError,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<GalleryFormValues>({
     defaultValues: {
@@ -213,7 +212,7 @@ export function GalleryFormLayout({
   });
 
   const busy = isPending || isSubmitting;
-  const isPublic = watch("isPublic");
+  const isPublic = useWatch({ control, name: "isPublic" });
 
   return (
     <div className="flex min-h-0 flex-col bg-muted/30">

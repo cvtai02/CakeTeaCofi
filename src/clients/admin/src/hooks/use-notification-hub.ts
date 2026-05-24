@@ -2,9 +2,23 @@ import { useEffect, useRef, useState } from "react";
 import * as signalR from "@microsoft/signalr";
 import { useIdentityStore } from "@/stores/identity";
 import { useAccountClient } from "@/components/containers/api-client-provider";
-import type { NotificationResponse } from "@shared/api/contracts/account";
+import { getCurrentTenantSignature } from "@/lib/tenant-context";
+import type { NotificationResponse } from "@shared/api/types/account";
 
-const HUB_URL = `${import.meta.env.VITE_API_BASE_URL}/hubs/notifications`;
+const HUB_URL_BASE = `${import.meta.env.VITE_API_BASE_URL}/hubs/notifications`;
+
+/**
+ * Browser WebSocket flows can't reliably attach custom request headers, so
+ * tenant context for SignalR connections is passed as a query parameter
+ * (`?tenantSignature=<signature>`) per the admin-domain-tenant-context
+ * handoff.
+ */
+function buildHubUrl(): string {
+  const signature = getCurrentTenantSignature();
+  if (!signature) return HUB_URL_BASE;
+  const separator = HUB_URL_BASE.includes("?") ? "&" : "?";
+  return `${HUB_URL_BASE}${separator}tenantSignature=${encodeURIComponent(signature)}`;
+}
 
 export type { NotificationResponse };
 
@@ -38,7 +52,7 @@ export function useNotificationHub() {
     if (!accessToken) return;
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl(HUB_URL, { accessTokenFactory: () => accessToken })
+      .withUrl(buildHubUrl(), { accessTokenFactory: () => accessToken })
       .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Warning)
       .build();

@@ -1,4 +1,5 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { toast } from "sonner";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -14,7 +15,7 @@ import { BlogPostFormLayout } from "./components/BlogPostFormLayout";
 export default function EditBlogPostPage() {
   const { id } = useParams<{ id: string }>();
   const postId = Number(id);
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const contentClient = useContentClient();
 

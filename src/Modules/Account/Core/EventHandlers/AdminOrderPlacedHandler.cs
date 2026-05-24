@@ -41,6 +41,21 @@ public class AdminOrderPlacedHandler(
             JsonSerializer.Serialize(message, PayloadJsonOptions));
 
         db.Notifications.Add(notification);
+
+        if (!string.IsNullOrWhiteSpace(message.CustomerId))
+        {
+            var customerNotification = new Notification();
+            customerNotification.SetRecipient(message.CustomerId, null);
+            customerNotification.SetContent(
+                message.Type,
+                $"Order {message.OrderCode} was placed",
+                $"Your order {message.OrderCode} is now {message.Status}.",
+                "Order",
+                message.OrderCode,
+                JsonSerializer.Serialize(message, PayloadJsonOptions));
+            db.Notifications.Add(customerNotification);
+        }
+
         await db.SaveChangesAsync(ct);
 
         await hubContext.Clients

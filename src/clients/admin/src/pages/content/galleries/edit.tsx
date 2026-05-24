@@ -1,4 +1,5 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { toast } from "sonner";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -13,7 +14,7 @@ import { GalleryFormLayout } from "./components/GalleryFormLayout";
 
 export default function EditGalleryPage() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const contentClient = useContentClient();
 

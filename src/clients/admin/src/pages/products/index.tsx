@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import {
   PackageIcon,
   PlusIcon,
@@ -174,7 +174,7 @@ function SortHead({
 const PAGE_SIZES = [10, 20, 50];
 
 export default function ProductsPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const productCatalogClient = useProductCatalogClient();
 
   const [search, setSearch] = useState("");

@@ -1,11 +1,12 @@
 import { useMemo } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { toast } from "sonner";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useProductCatalogClient } from "@/components/containers/api-client-provider";
 import { ROUTES } from "@/configs/routes";
-import type { ProductResponse } from "@shared/api/contracts/productcatalog";
+import type { ProductResponse } from "@shared/api/types/productcatalog";
 
 import type { CollectionFormValues, PickedItem } from "./components/CollectionFormLayout";
 import { CollectionFormLayout } from "./components/CollectionFormLayout";
@@ -13,7 +14,7 @@ import { CollectionFormLayout } from "./components/CollectionFormLayout";
 export default function EditCollectionPage() {
   const { id } = useParams<{ id: string }>();
   const collectionId = Number(id);
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const productCatalogClient = useProductCatalogClient();
 

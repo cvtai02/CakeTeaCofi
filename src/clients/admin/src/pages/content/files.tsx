@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   FileIcon,
@@ -229,7 +229,7 @@ function UploadDialog({
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ContentFilesPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string>("all");
   const [page, setPage] = useState(1);

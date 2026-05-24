@@ -15,6 +15,12 @@ Codex may work in these backend areas:
 - `src/SharedKernel/` (readonly, ask me if changes)
 
 Codex may read and edit `src/clients/shared/` only when backend contract work requires shared generated types, API clients, or cross-boundary documentation.
+Frontend-facing API client interfaces must be consumed through the categorized contract folders only:
+
+- `src/clients/shared/api/contracts/admin/` for system admin, tenant admin, and tenant moderator surfaces.
+- `src/clients/shared/api/contracts/customer/` for storefront/customer/public-safe surfaces.
+
+Do not instruct Claude or frontend code to import API client interfaces from module-level contract files such as `src/clients/shared/api/contracts/productcatalog.ts`, `content.ts`, `order.ts`, or from the root `contracts/index.ts`. Those module-level contracts are backend-maintained implementation details for composing the categorized admin/customer facades.
 
 ## Planning Requests
 
@@ -43,6 +49,7 @@ If backend work needs a frontend change, Codex should document the required chan
 
 ## Handoff Rules
 - Backend API or contract changes must describe the affected endpoints, request/response shapes, validation behavior, and any shared types changed under `src/clients/shared/`.
+- Frontend handoffs must reference API client interfaces from `src/clients/shared/api/contracts/admin/` or `src/clients/shared/api/contracts/customer/` only. Mention module-level DTO/type files only when describing generated request/response types, not as the frontend API client interface import path.
 - Keep shared contract files stable and reviewable. Do not mix backend refactors with frontend-facing contract changes unless needed.
 - Do not override work from the other assistant. If a file appears outside the allowed scope, leave it untouched and note the handoff needed.
 - Files under `requirements/` are primarily Claude-facing frontend implementation documents. Write them so Claude can implement the frontend from the requirement/handoff plus `src/clients/shared/api/api-types.ts`, without needing to read backend code.

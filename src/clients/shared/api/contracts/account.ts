@@ -11,8 +11,12 @@ import type {
   ListAdminAccountProfilesResponse,
   ListNotificationsQuery,
   ListNotificationsResponse,
+  ListMyNotificationsQuery,
+  ListMyNotificationsResponse,
   MarkAllNotificationsReadResponse,
   MarkNotificationReadResponse,
+  MarkMyNotificationReadResponse,
+  MarkAllMyNotificationsReadResponse,
   SaveAccountAddressRequest,
   UpdateAccountAddressRequest,
   UpdateAccountAddressResponse,
@@ -72,4 +76,17 @@ export interface IAccountClient {
 
   // Response: src/Modules/Account/DTOs/Notifications/NotificationResponse.cs paginated wrapper.
   markAllAdminNotificationsRead(): Promise<MarkAllNotificationsReadResponse>;
+
+  // Contract method: listMyNotifications. Current authenticated user's notification history.
+  // Query: src/Modules/Account/DTOs/Notifications/ListNotificationsRequest.cs
+  // Response: src/Modules/Account/DTOs/Notifications/NotificationResponse.cs paginated wrapper.
+  listMyNotifications(query?: ListMyNotificationsQuery): Promise<ListMyNotificationsResponse>;
+
+  // Contract method: markMyNotificationRead. Marks one current-user notification read.
+  // Response: src/Modules/Account/DTOs/Notifications/NotificationResponse.cs
+  markMyNotificationRead(id: number): Promise<MarkMyNotificationReadResponse>;
+
+  // Contract method: markAllMyNotificationsRead. Marks unread current-user notifications read.
+  // Response: src/Modules/Account/DTOs/Notifications/NotificationResponse.cs paginated wrapper.
+  markAllMyNotificationsRead(): Promise<MarkAllMyNotificationsReadResponse>;
 }

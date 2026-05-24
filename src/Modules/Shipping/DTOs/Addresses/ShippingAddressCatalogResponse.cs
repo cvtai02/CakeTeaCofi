@@ -66,6 +66,23 @@ public class ShippingLocalityResponse
     public string? NextEndpoint { get; set; }
 }
 
+public class ShippingSubLocalitiesResponse
+{
+    public CountryCode Country { get; set; }
+    public string AdministrativeAreaCode { get; set; } = string.Empty;
+    public string LocalityCode { get; set; } = string.Empty;
+    public string CurrentAdministrativeLevel { get; set; } = "SubLocality";
+    public List<ShippingSubLocalityResponse> SubLocalities { get; set; } = [];
+}
+
+public class ShippingSubLocalityResponse
+{
+    public string Code { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string Type { get; set; } = string.Empty;
+    public string DisplayName { get; set; } = string.Empty;
+}
+
 public class ShippingProvinceResponse
 {
     public string Code { get; set; } = string.Empty;

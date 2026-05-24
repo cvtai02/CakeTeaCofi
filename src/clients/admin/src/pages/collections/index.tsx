@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { toast } from "sonner";
 import {
   FolderOpenIcon,
@@ -43,10 +43,10 @@ import { useProductCatalogClient } from "@/components/containers/api-client-prov
 import { AdminErrorState } from "@/components/admin/admin-page";
 import { ROUTES } from "@/configs/routes";
 import { toastApiError } from "@/lib/form-error";
-import type { CollectionResponse } from "@shared/api/contracts/productcatalog";
+import type { CollectionResponse } from "@shared/api/types/productcatalog";
 
 export default function CollectionsPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const productCatalogClient = useProductCatalogClient();
 

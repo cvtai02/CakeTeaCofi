@@ -15,6 +15,8 @@ type CreatePaymentCheckoutOperation =
     Operation<"/api/Payment/orders/{orderCode}/checkout", "post">;
 type GetPaymentTransactionOperation =
     Operation<"/api/Payment/transactions/{id}", "get">;
+type GetAdminPaymentTransactionOperation =
+    Operation<"/api/Payment/admin/transactions/{id}", "get">;
 type PaymentWebhookOperation =
     Operation<"/api/Payment/webhooks/{provider}", "post">;
 type GeneratedPaymentTransactionResponse =
@@ -42,6 +44,10 @@ export type PaymentTransactionResponse =
     Omit<GeneratedPaymentTransactionResponse, "orderId"> & {
         orderCode: string;
     };
+export type GetAdminPaymentTransactionParams =
+    PathParams<GetAdminPaymentTransactionOperation>;
+export type GetAdminPaymentTransactionResponse =
+    PaymentTransactionResponse;
 
 export type PaymentWebhookParams =
     PathParams<PaymentWebhookOperation>;

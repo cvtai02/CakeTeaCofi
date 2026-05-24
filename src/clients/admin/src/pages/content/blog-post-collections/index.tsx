@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { toast } from "sonner";
 import {
   FolderOpenIcon,
@@ -52,12 +52,12 @@ import { useContentClient } from "@/components/containers/api-client-provider";
 import { AdminErrorState } from "@/components/admin/admin-page";
 import { ROUTES } from "@/configs/routes";
 import { toastApiError } from "@/lib/form-error";
-import type { BlogPostCollectionSummaryResponse } from "@shared/api/contracts/content";
+import type { BlogPostCollectionSummaryResponse } from "@shared/api/types/content";
 
 const QUERY_KEY = "blog-post-collections";
 
 export default function BlogPostCollectionsPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const contentClient = useContentClient();
 

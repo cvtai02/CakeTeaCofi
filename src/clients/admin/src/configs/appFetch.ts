@@ -1,14 +1,20 @@
 import { ApiError, ValidationError } from "@shared/api/contracts/common-types";
 import { useIdentityStore } from '@/stores/identity';
+import { getCurrentTenantSignature } from '@/lib/tenant-context';
 
 //override default fetch function to include API_INTERCEPTOR_CONFIG behavior
 export const appFetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     const { accessToken } = useIdentityStore.getState();
+    const tenantSignature = getCurrentTenantSignature();
+    const tenantHeaders: Record<string, string> = tenantSignature
+        ? { 'X-Tenant-Signature': tenantSignature }
+        : {};
     const response = await fetch(input, {
         ...init,
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
+            ...tenantHeaders,
             ...init?.headers,
         },
     });

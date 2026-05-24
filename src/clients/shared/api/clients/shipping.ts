@@ -3,6 +3,9 @@ import type {
   ListShippingAddressesQuery,
   ListShippingLocalitiesQuery,
   ListShippingSubLocalitiesQuery,
+  ShippingSubLocalitiesResponse,
+  CreateShippingQuoteRequest,
+  CreateShippingQuoteResponse,
   ProductShippingResponse,
   ShippingAdministrativeAreasResponse,
   ShippingAddressCatalogResponse,
@@ -39,9 +42,10 @@ export class ShippingClient implements IShippingClient {
     return await response.json();
   }
 
-  async listShippingSubLocalities(query: ListShippingSubLocalitiesQuery): Promise<never> {
+  async listShippingSubLocalities(query: ListShippingSubLocalitiesQuery): Promise<ShippingSubLocalitiesResponse> {
     const response = await this.fetch(`${this.apiBaseUrl}/api/Shipping/addresses/sublocalities${this.toQueryString(query)}`);
-    throw await this.readError(response);
+    if (!response.ok) throw await this.readError(response);
+    return await response.json();
   }
 
   async listShippingAddresses(query?: ListShippingAddressesQuery): Promise<ShippingAddressCatalogResponse> {
@@ -52,6 +56,16 @@ export class ShippingClient implements IShippingClient {
 
   async getProductShipping(productId: string): Promise<ProductShippingResponse> {
     const response = await this.fetch(`${this.apiBaseUrl}/api/Shipping/products/${encodeURIComponent(productId)}`);
+    if (!response.ok) throw await this.readError(response);
+    return await response.json();
+  }
+
+  async createShippingQuote(input: CreateShippingQuoteRequest): Promise<CreateShippingQuoteResponse> {
+    const response = await this.fetch(`${this.apiBaseUrl}/api/Shipping/quotes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(input),
+    });
     if (!response.ok) throw await this.readError(response);
     return await response.json();
   }

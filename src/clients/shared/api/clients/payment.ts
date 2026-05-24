@@ -3,6 +3,7 @@ import type { paths } from "../lib/openapi-types";
 import type {
   CreatePaymentCheckoutRequest,
   CreatePaymentCheckoutResponse,
+  GetAdminPaymentTransactionResponse,
   ListPaymentMethodsResponse,
   PaymentTransactionResponse,
   PaymentWebhookRequest,
@@ -51,6 +52,14 @@ export class PaymentClient implements IPaymentClient {
       `/api/Payment/transactions/${id}`,
       undefined,
       "Payment transaction response was empty.",
+    );
+  }
+
+  async getAdminTransactionById(id: number): Promise<GetAdminPaymentTransactionResponse> {
+    return this.requestJson<GetAdminPaymentTransactionResponse>(
+      `/api/Payment/admin/transactions/${id}`,
+      undefined,
+      "Admin payment transaction response was empty.",
     );
   }
 

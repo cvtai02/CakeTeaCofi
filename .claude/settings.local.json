@@ -33,7 +33,8 @@
       "Bash(xargs grep -l \"card\\\\|Card\\\\|item\\\\|Item\")",
       "Bash(xargs grep -l \"CustomerProductSummary\\\\|product.*card\\\\|products.map\")",
       "Bash(git mv *)",
-      "Bash(grep -E \"unused-files|system/index|system\\\\\\\\\\\\\\\\index|api-client-provider|routes\\\\.tsx|configs/routes|configs\\\\\\\\\\\\\\\\routes|app-layout\")"
+      "Bash(grep -E \"unused-files|system/index|system\\\\\\\\\\\\\\\\index|api-client-provider|routes\\\\.tsx|configs/routes|configs\\\\\\\\\\\\\\\\routes|app-layout\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173)"
     ],
     "deny": [
       "Read(.git/**)",

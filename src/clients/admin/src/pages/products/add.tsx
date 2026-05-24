@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { toast } from "sonner";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -10,7 +10,7 @@ import { buildMediaPayload, buildVariantsPayload } from "./components/helpers";
 import { ProductFormLayout } from "./components/ProductFormLayout";
 
 export default function AddProductPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const productCatalogClient = useProductCatalogClient();
 

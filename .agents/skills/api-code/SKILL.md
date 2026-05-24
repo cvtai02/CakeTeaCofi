@@ -14,6 +14,10 @@ description: Implement/Update API endpoints.
 - `src/Infrastructure/**` and `src/AppHost/**` are limited-scope areas; touch them only when the API task truly requires it.
 - `src/SharedKernel/**` is read-only unless the user explicitly approves changes.
 - `src/clients/shared/**` may be edited only for backend contract work.
+- Frontend-facing API client interfaces are categorized under:
+  - `src/clients/shared/api/contracts/admin/` for system admin, tenant admin, and tenant moderator surfaces
+  - `src/clients/shared/api/contracts/customer/` for storefront/customer/public-safe surfaces
+- Do not tell Claude/frontend to import API client interfaces from module-level contract files such as `src/clients/shared/api/contracts/productcatalog.ts`, `content.ts`, `order.ts`, or from `src/clients/shared/api/contracts/index.ts`. Those files are backend-maintained composition details for the categorized facades.
 
 # Frontend Boundary
 - Do not read, edit, move, delete, format, lint, test, or generate files in:
@@ -42,15 +46,18 @@ description: Implement/Update API endpoints.
 5. Update API clients for frontend when backend API shape changes:
    - type aliases live in `src/clients/shared/api/types/<modulename>.ts`
    - shared client implementation lives in `src/clients/shared/api/clients/<modulename>.ts`
-   - interface contracts live in `src/clients/shared/api/contracts/<modulename>.ts`
+   - module-level interface contracts live in `src/clients/shared/api/contracts/<modulename>.ts` only as backend-maintained building blocks
+   - frontend-facing categorized interface contracts live in `src/clients/shared/api/contracts/admin/` and `src/clients/shared/api/contracts/customer/`
    - comments above each interface method should point to the exact backend DTO `.cs` file for each request/response type
    - comments above added or changed interface methods should also mention the contract method name and short behavior note
+   - when adding/removing methods, update the categorized admin/customer facade contracts when the method belongs to that audience
    - do not edit `src/clients/shared/api/lib/**`
    - check if there is any typescript warning/error in updated files.
 
 6. Write a Frontend-handoff document under `requirements/frontend-handoff/`.
    - Use the title format `<feature>.md`.
    - Keep these handoffs focused on API behavior and frontend UX.
-   - Mention the API client contract file path and the client methods should be used.
+   - Mention only categorized API client contract paths for frontend imports: `src/clients/shared/api/contracts/admin/` or `src/clients/shared/api/contracts/customer/`.
+   - Mention which categorized client methods should be used.
    - Tell Claude to move the file to `requirements/frontend-handoff/done/` after implementation.
    - Do not edit files already under a `done/` folder.

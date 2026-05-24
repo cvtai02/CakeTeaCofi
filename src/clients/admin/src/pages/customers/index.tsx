@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { PlusIcon, SearchIcon, UsersIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -35,7 +35,7 @@ type StatusFilter = "all" | "Active" | "Suspended" | "Archived";
 const PAGE_SIZE = 20;
 
 export default function CustomersPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const accountClient = useAccountClient();
 
   const [search, setSearch] = useState("");

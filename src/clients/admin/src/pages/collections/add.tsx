@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -9,7 +9,7 @@ import type { CollectionFormValues } from "./components/CollectionFormLayout";
 import { CollectionFormLayout } from "./components/CollectionFormLayout";
 
 export default function AddCollectionPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const productCatalogClient = useProductCatalogClient();
 

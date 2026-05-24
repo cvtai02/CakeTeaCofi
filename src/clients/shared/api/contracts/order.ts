@@ -4,6 +4,9 @@ import type {
   CreateOrderRequest,
   CreateOrderResponse,
   GetAdminOrderByCodeResponse,
+  ShipAdminOrderResponse,
+  CancelAdminOrderRequest,
+  CancelAdminOrderResponse,
   ListAdminOrdersQuery,
   ListAdminOrdersResponse,
   ListOrdersQuery,
@@ -15,7 +18,7 @@ export * from "../types/order"
 
 export interface IOrderClient {
   // Request: src/Modules/Order/DTOs/Orders/CreateOrderRequest.cs
-  // Response: src/Modules/Order/DTOs/Orders/OrderResponse.cs
+  // Response: src/Modules/Order/DTOs/Orders/OrderResponse.cs. Guest response includes checkout token once.
   createOrder(input: CreateOrderRequest): Promise<CreateOrderResponse>;
 
   // Auth: AuthenticatedUserUp. Returns only the current user's order.
@@ -41,4 +44,13 @@ export interface IOrderClient {
   // Contract method: getAdminOrderByCode. Tenant admin order detail.
   // Response: src/Modules/Order/DTOs/Orders/OrderResponse.cs
   getAdminOrderByCode(code: string): Promise<GetAdminOrderByCodeResponse>;
+
+  // Contract method: shipAdminOrder. Tenant admin marks a paid order shipped.
+  // Response: src/Modules/Order/DTOs/Orders/OrderResponse.cs
+  shipAdminOrder(code: string): Promise<ShipAdminOrderResponse>;
+
+  // Contract method: cancelAdminOrder. Tenant admin cancels an order with optional reason.
+  // Request: src/Modules/Order/DTOs/Orders/CancelOrderRequest.cs
+  // Response: src/Modules/Order/DTOs/Orders/OrderResponse.cs
+  cancelAdminOrder(code: string, input?: CancelAdminOrderRequest): Promise<CancelAdminOrderResponse>;
 }

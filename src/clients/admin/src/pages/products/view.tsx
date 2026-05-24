@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { ArrowLeftIcon, PencilIcon, Trash2Icon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -30,7 +31,7 @@ type Tab = "overview" | "variants" | "media" | "inventory" | "shipping";
 export default function ProductViewPage() {
   const { id } = useParams<{ id: string }>();
   const productId = id!;
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);

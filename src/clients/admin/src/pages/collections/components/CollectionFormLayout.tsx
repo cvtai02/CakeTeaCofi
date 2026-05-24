@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Textarea } from "@/components/ui/textarea";
 import { applyValidationErrors } from "@/lib/form-error";
-import type { ProductResponse } from "@shared/api/contracts/productcatalog";
+import type { ProductResponse } from "@shared/api/types/productcatalog";
 
 import { ProductPickerModal } from "./ProductPickerModal";
 

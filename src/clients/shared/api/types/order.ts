@@ -10,6 +10,10 @@ type CreateOrderOperation =
     OrderPaths["/api/Order/orders"]["post"];
 type GetOrderOperation =
     OrderPaths["/api/Order/orders/{code}"]["get"];
+type ShipAdminOrderOperation =
+    OrderPaths["/api/Order/orders/admin/{code}/ship"]["post"];
+type CancelAdminOrderOperation =
+    OrderPaths["/api/Order/orders/admin/{code}/cancel"]["post"];
 
 export type ListOrdersQuery = QueryParams<ListOrdersOperation>;
 type GeneratedListOrdersResponse = JsonResponse<ListOrdersOperation>;
@@ -46,3 +50,6 @@ export type AdminCreateOrderResponse = CreateOrderResponse;
 export type ListAdminOrdersQuery = ListOrdersQuery;
 export type ListAdminOrdersResponse = ListOrdersResponse;
 export type GetAdminOrderByCodeResponse = OrderResponse;
+export type ShipAdminOrderResponse = JsonResponse<ShipAdminOrderOperation>;
+export type CancelAdminOrderRequest = JsonRequestBody<CancelAdminOrderOperation>;
+export type CancelAdminOrderResponse = JsonResponse<CancelAdminOrderOperation>;

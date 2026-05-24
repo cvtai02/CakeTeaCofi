@@ -6,14 +6,14 @@
 Client contract: [ContentClient](../../../clients/shared/api/clients/content.ts), [IContentClient](../../../clients/shared/api/contracts/content.ts)
 
 ### FileObject
-- GET `api/Content/file-objects` - [ListMediaFilesRequest](../DTOs/FileObjects/ListMediaFilesRequest.cs), [MediaFileResponse](../DTOs/FileObjects/MediaFileResponse.cs)
+- GET `api/Content/file-objects` - TenantAdminUp; [ListMediaFilesRequest](../DTOs/FileObjects/ListMediaFilesRequest.cs), [MediaFileResponse](../DTOs/FileObjects/MediaFileResponse.cs)
 - GET `api/Content/file-objects/unused` - TenantAdminUp; [ListUnusedMediaFilesRequest](../DTOs/FileObjects/ListUnusedMediaFilesRequest.cs), [UnusedMediaFileResponse](../DTOs/FileObjects/UnusedMediaFileResponse.cs)
 - DELETE `api/Content/file-objects/unused` - TenantAdminUp; [DeleteUnusedMediaFilesRequest](../DTOs/FileObjects/DeleteUnusedMediaFilesRequest.cs), [DeleteUnusedMediaFilesResponse](../DTOs/FileObjects/DeleteUnusedMediaFilesRequest.cs). Deletes selected object-storage keys only when they are still missing from Content.Files.
 - POST `api/Content/file-objects/unused/import` - TenantAdminUp; [ImportUnusedMediaFilesRequest](../DTOs/FileObjects/ImportUnusedMediaFilesRequest.cs), [ImportUnusedMediaFilesResponse](../DTOs/FileObjects/ImportUnusedMediaFilesRequest.cs). Imports selected object-storage keys into Content.Files.
 - DELETE `api/Content/file-objects/by-keys` - TenantAdminUp; [DeleteMediaFilesByKeysRequest](../DTOs/FileObjects/DeleteMediaFilesByKeysRequest.cs), [DeleteMediaFilesByKeysResponse](../DTOs/FileObjects/DeleteMediaFilesByKeysRequest.cs). Deletes registered media files by key when they are not referenced.
-- POST `api/Content/file-objects/presigned-upload` - [GetPresignedUploadBulkUrlRequest](../DTOs/FileObjects/GetPresignedUploadBulkUrlRequest.cs), [PresignedUploadUrlResponse](../DTOs/FileObjects/PresignedUploadUrlResponse.cs)
-- POST `api/Content/file-objects/confirm-upload` - [ConfirmUploadRequest](../DTOs/FileObjects/ConfirmUploadRequest.cs), [UploadResponse](../DTOs/FileObjects/UploadResponse.cs)
-- DELETE `api/Content/file-objects` - [DeleteMediaFilesRequest](../DTOs/FileObjects/DeleteMediaFilesRequest.cs)
+- POST `api/Content/file-objects/presigned-upload` - TenantAdminUp; [GetPresignedUploadBulkUrlRequest](../DTOs/FileObjects/GetPresignedUploadBulkUrlRequest.cs), [PresignedUploadUrlResponse](../DTOs/FileObjects/PresignedUploadUrlResponse.cs)
+- POST `api/Content/file-objects/confirm-upload` - TenantAdminUp; [ConfirmUploadRequest](../DTOs/FileObjects/ConfirmUploadRequest.cs), [UploadResponse](../DTOs/FileObjects/UploadResponse.cs)
+- DELETE `api/Content/file-objects` - TenantAdminUp; [DeleteMediaFilesRequest](../DTOs/FileObjects/DeleteMediaFilesRequest.cs)
 
 ### BlogPost
 - [GetPublished](BlogPostController.cs#L23)

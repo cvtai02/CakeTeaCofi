@@ -43,6 +43,10 @@ namespace Order.Infrastructure.Data.Migrations
                     b.Property<string>("CustomerId")
                         .HasColumnType("text");
 
+                    b.Property<string>("GuestCheckoutTokenHash")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 

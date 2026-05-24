@@ -19,7 +19,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { applyValidationErrors } from "@/lib/form-error";
-import type { BlogPostSummary } from "@shared/api/contracts/content";
+import type { BlogPostSummary } from "@shared/api/types/content";
 
 import { BlogPostPickerModal } from "./BlogPostPickerModal";
 

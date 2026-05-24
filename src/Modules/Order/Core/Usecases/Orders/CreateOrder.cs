@@ -6,6 +6,7 @@ using SharedKernel.Abstractions.Services;
 using SharedKernel.ValueObjects;
 using SharedKernel.EnumsConstants;
 using SharedKernel.Exceptions;
+using System.Text;
 
 namespace Order.Core.Usecases.Orders;
 
@@ -50,6 +51,7 @@ public class CreateOrder(
         order.SetCurrency(currencyCode);
         order.SetPaymentProvider(paymentProvider);
         order.SetShippingAddress(NormalizeAddress(request.ShippingAddress!));
+        var guestCheckoutToken = SetGuestCheckoutTokenIfNeeded(order);
 
         foreach (var item in request.Items)
         {
@@ -81,7 +83,7 @@ public class CreateOrder(
         });
         await db.SaveChangesAsync(ct);
 
-        var response = OrderMapper.ToResponse(order);
+        var response = OrderMapper.ToResponse(order, guestCheckoutToken);
         return response;
     }
 
@@ -210,4 +212,17 @@ public class CreateOrder(
         RandomNumberGenerator.Fill(bytes);
         return $"{DateTime.UtcNow:yyMMddHHmmss}{Convert.ToHexString(bytes)}";
     }
+
+    private static string? SetGuestCheckoutTokenIfNeeded(Entities.Order order)
+    {
+        if (!string.IsNullOrWhiteSpace(order.CustomerId))
+            return null;
+
+        var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
+        order.SetGuestCheckoutTokenHash(HashToken(token));
+        return token;
+    }
+
+    internal static string HashToken(string token)
+        => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(token.Trim())));
 }

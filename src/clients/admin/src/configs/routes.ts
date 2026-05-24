@@ -1,12 +1,19 @@
 // Absolute routes — single source of truth for all navigation in the admin client.
+//
+// System-admin routes are root-level (/tenants, /system).
+// Tenant-scoped routes are prefixed by useTenantNavigate() at call time, so
+// they stay as bare paths here (e.g. "/products" becomes "/<sig>/products").
 export const ROUTES = {
   root: "/",
   notAuthorized: "/403",
   signin: "/signin",
   signup: "/signup",
-  dashboard: "/dashboard",
 
-  // Products
+  // System admin (root-level, no tenant prefix)
+  tenants: "/tenants",
+  system: "/system",
+
+  // Tenant-scoped (bare paths; useTenantNavigate prepends /<sig>)
   products: "/products",
   productNew: "/products/new",
   productDetail: (id: string) => `/products/${id}`,
@@ -16,15 +23,10 @@ export const ROUTES = {
   collectionNew: "/collections/new",
   collectionEdit: (id: number | string) => `/collections/${id}/edit`,
   productInventory: "/inventory",
-  productPurchaseOrders: "/products/purchase-orders",
 
-  // Content
-  content: "/content",
   contentFiles: "/files",
   contentUnusedFiles: "/unused-files",
-  contentMenus: "/menus",
   contentBlogs: "/blogs",
-  contentMetaobjects: "/metaobjects",
   contentBlogNew: "/blogs/new",
   contentBlogEdit: (id: number | string) => `/blogs/${id}/edit`,
   contentBlogCollections: "/blog-collections",
@@ -34,40 +36,15 @@ export const ROUTES = {
   contentGalleryNew: "/galleries/new",
   contentGalleryEdit: (id: number | string) => `/galleries/${id}/edit`,
 
-  // Customers
   customers: "/customers",
   customerNew: "/customers/new",
   customerDetail: (id: number | string) => `/customers/${id}`,
 
-  // Marketing
-  marketing: "/marketing",
-  marketingCampaigns: "/marketing/campaigns",
-  marketingAttribution: "/marketing/attribution",
-  marketingAutomation: "/marketing/automation",
-
-  // Promotion
-  promotion: "/promotion",
-
-  // Analytics
-  analytics: "/analytics",
-  analyticsReports: "/analytics/reports",
-  analyticsLive: "/analytics/live",
-
-  // Orders & Settings
   orders: "/orders",
   orderDetail: (id: string) => `/orders/${id}`,
   orderCreate: "/orders/new",
+
+  paymentTransactionDetail: (id: number | string) => `/payments/transactions/${id}`,
+
   settings: "/settings",
-
-  // System
-  system: "/system",
-  tenants: "/tenants",
-  tenantDetail: (id: number | string) => `/tenants/${id}`,
-
-  // Legacy — kept to avoid breaking existing references
-  categories: "/categories",
-  contents: "/contents",
-  inventory: "/inventory",
-  promotions: "/promotions",
-  reviews: "/reviews",
 } as const;

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -9,7 +9,7 @@ import type { GalleryFormValues } from "./components/GalleryFormLayout";
 import { GalleryFormLayout } from "./components/GalleryFormLayout";
 
 export default function AddGalleryPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const contentClient = useContentClient();
 

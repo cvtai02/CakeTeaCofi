@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import {
   FileTextIcon,
   FolderOpenIcon,
@@ -26,7 +26,7 @@ import { useContentClient } from "@/components/containers/api-client-provider";
 import { AdminErrorState } from "@/components/admin/admin-page";
 import { ROUTES } from "@/configs/routes";
 import { cn } from "@/lib/utils";
-import type { AdminBlogPostCollectionGroupResponse, BlogPostSummary } from "@shared/api/contracts/content";
+import type { AdminBlogPostCollectionGroupResponse, BlogPostSummary } from "@shared/api/types/content";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -47,7 +47,7 @@ function StatusBadge({ status }: { status: PostStatus }) {
 // ─── Post row ─────────────────────────────────────────────────────────────────
 
 function PostRow({ post }: { post: BlogPostSummary }) {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
 
   return (
     <button
@@ -79,7 +79,7 @@ function PostRow({ post }: { post: BlogPostSummary }) {
 // ─── Collection group ────────────────────────────────────────────────────────
 
 function CollectionGroup({ group }: { group: AdminBlogPostCollectionGroupResponse }) {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const [expanded, setExpanded] = useState(true);
 
   return (
@@ -156,7 +156,7 @@ type StatusFilter = "all" | "Draft" | "Published" | "Archived";
 type VisibilityFilter = "all" | "public" | "private";
 
 export default function AdminBlogsPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const contentClient = useContentClient();
 
   const [search, setSearch] = useState("");

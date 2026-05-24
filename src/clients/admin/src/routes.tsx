@@ -1,4 +1,4 @@
-import { Navigate, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { type ReactNode } from "react";
 import AppLayout from "@/components/containers/app-layout";
 import { PrivateRoute } from "@/components/containers/private-route";
@@ -11,7 +11,6 @@ import Unauthorize from "./pages/common/403";
 const Signup = LazyPage(() => import("@/pages/signup"));
 const Login = LazyPage(() => import("@/pages/login"));
 const NotFound = LazyPage(() => import("@/pages/common/404"));
-// const Dashboard = LazyPage(() => import("@/pages/dashboard"));
 const Products = LazyPage(() => import("@/pages/products"));
 const AddProduct = LazyPage(() => import("@/pages/products/add"));
 const EditProduct = LazyPage(() => import("@/pages/products/edit"));
@@ -37,59 +36,62 @@ const OrderDetail = LazyPage(() => import("@/pages/orders/detail"));
 const AdminCreateOrder = LazyPage(() => import("@/pages/orders/create"));
 const SystemTools = LazyPage(() => import("@/pages/system"));
 const Tenants = LazyPage(() => import("@/pages/tenants"));
+const PaymentTransactionDetail = LazyPage(
+  () => import("@/pages/payments/transaction-detail"),
+);
 const Customers = LazyPage(() => import("@/pages/customers"));
 const AddCustomer = LazyPage(() => import("@/pages/customers/add"));
 const CustomerDetail = LazyPage(() => import("@/pages/customers/detail"));
-// const Promotions = LazyPage(() => import("@/pages/promotions"));
-// const Reviews = LazyPage(() => import("@/pages/reviews"));
-// const Settings = LazyPage(() => import("@/pages/settings"));
+const TenantDashboard = LazyPage(() => import("@/pages/dashboard"));
 
 const AppRoutes: ReactNode =
   <Route errorElement={<ErrorPage />}>
-    <Route path={ROUTES.root} element={<Navigate to={ROUTES.dashboard} replace />} />
-
-    <Route element={<PrivateRoute />}>
-      <Route path={ROUTES.root} element={<AppLayout />}>
-        <Route index element={<Navigate to={ROUTES.dashboard} replace />} />
-        {/* <Route path={ROUTES.dashboard} element={<Dashboard />} /> */}
-        <Route path={ROUTES.products} element={<Products />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.productNew} element={<AddProduct />} errorElement={<ErrorPage />} />
-        <Route path="/products/:id" element={<ViewProduct />} errorElement={<ErrorPage />} />
-        <Route path="/products/:id/edit" element={<EditProduct />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.productInventory} element={<Inventory />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.productCategory} element={<Categories />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.productCollections} element={<Collections />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.collectionNew} element={<AddCollection />} errorElement={<ErrorPage />} />
-        <Route path="/collections/:id/edit" element={<EditCollection />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.contentFiles} element={<ContentFilesPage />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.contentUnusedFiles} element={<ContentUnusedFilesPage />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.contentBlogCollections} element={<BlogPostCollections />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.contentBlogCollectionNew} element={<AddBlogPostCollection />} errorElement={<ErrorPage />} />
-        <Route path="/blog-collections/:id/edit" element={<EditBlogPostCollection />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.contentBlogs} element={<AdminBlogsPage />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.contentBlogNew} element={<AddBlogPostPage />} errorElement={<ErrorPage />} />
-        <Route path="/blogs/:id/edit" element={<EditBlogPostPage />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.contentGalleries} element={<AdminGalleriesPage />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.contentGalleryNew} element={<AddGalleryPage />} errorElement={<ErrorPage />} />
-        <Route path="/galleries/:id/edit" element={<EditGalleryPage />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.orders} element={<Orders />} errorElement={<ErrorPage />} />
-        <Route path="/orders/new" element={<AdminCreateOrder />} errorElement={<ErrorPage />} />
-        <Route path="/orders/:id" element={<OrderDetail />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.customers} element={<Customers />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.customerNew} element={<AddCustomer />} errorElement={<ErrorPage />} />
-        <Route path="/customers/:id" element={<CustomerDetail />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.system} element={<SystemTools />} errorElement={<ErrorPage />} />
-        <Route path={ROUTES.tenants} element={<Tenants />} errorElement={<ErrorPage />} />
-        {/* <Route path={ROUTES.promotions} element={<Promotions />} /> */}
-        {/* <Route path={ROUTES.reviews} element={<Reviews />} /> */}
-        {/* <Route path={ROUTES.settings} element={<Settings />} /> */}
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Route>
-
+    {/* Public routes */}
     <Route path={ROUTES.signin} element={<Login />} />
     <Route path={ROUTES.signup} element={<Signup />} />
     <Route path={ROUTES.notAuthorized} element={<Unauthorize />} />
+
+    <Route element={<PrivateRoute />}>
+      {/* System-admin routes (no tenant prefix) */}
+      <Route element={<AppLayout />}>
+        <Route index element={<Tenants />} errorElement={<ErrorPage />} />
+        <Route path={ROUTES.tenants} element={<Tenants />} errorElement={<ErrorPage />} />
+        <Route path={ROUTES.system} element={<SystemTools />} errorElement={<ErrorPage />} />
+      </Route>
+
+      {/* Tenant-scoped routes — all live under /:tenantSignature */}
+      <Route path="/:tenantSignature" element={<AppLayout />}>
+        <Route index element={<TenantDashboard />} errorElement={<ErrorPage />} />
+        <Route path="products" element={<Products />} errorElement={<ErrorPage />} />
+        <Route path="products/new" element={<AddProduct />} errorElement={<ErrorPage />} />
+        <Route path="products/:id" element={<ViewProduct />} errorElement={<ErrorPage />} />
+        <Route path="products/:id/edit" element={<EditProduct />} errorElement={<ErrorPage />} />
+        <Route path="inventory" element={<Inventory />} errorElement={<ErrorPage />} />
+        <Route path="categories" element={<Categories />} errorElement={<ErrorPage />} />
+        <Route path="collections" element={<Collections />} errorElement={<ErrorPage />} />
+        <Route path="collections/new" element={<AddCollection />} errorElement={<ErrorPage />} />
+        <Route path="collections/:id/edit" element={<EditCollection />} errorElement={<ErrorPage />} />
+        <Route path="files" element={<ContentFilesPage />} errorElement={<ErrorPage />} />
+        <Route path="unused-files" element={<ContentUnusedFilesPage />} errorElement={<ErrorPage />} />
+        <Route path="blog-collections" element={<BlogPostCollections />} errorElement={<ErrorPage />} />
+        <Route path="blog-collections/new" element={<AddBlogPostCollection />} errorElement={<ErrorPage />} />
+        <Route path="blog-collections/:id/edit" element={<EditBlogPostCollection />} errorElement={<ErrorPage />} />
+        <Route path="blogs" element={<AdminBlogsPage />} errorElement={<ErrorPage />} />
+        <Route path="blogs/new" element={<AddBlogPostPage />} errorElement={<ErrorPage />} />
+        <Route path="blogs/:id/edit" element={<EditBlogPostPage />} errorElement={<ErrorPage />} />
+        <Route path="galleries" element={<AdminGalleriesPage />} errorElement={<ErrorPage />} />
+        <Route path="galleries/new" element={<AddGalleryPage />} errorElement={<ErrorPage />} />
+        <Route path="galleries/:id/edit" element={<EditGalleryPage />} errorElement={<ErrorPage />} />
+        <Route path="orders" element={<Orders />} errorElement={<ErrorPage />} />
+        <Route path="orders/new" element={<AdminCreateOrder />} errorElement={<ErrorPage />} />
+        <Route path="orders/:id" element={<OrderDetail />} errorElement={<ErrorPage />} />
+        <Route path="customers" element={<Customers />} errorElement={<ErrorPage />} />
+        <Route path="customers/new" element={<AddCustomer />} errorElement={<ErrorPage />} />
+        <Route path="customers/:id" element={<CustomerDetail />} errorElement={<ErrorPage />} />
+        <Route path="payments/transactions/:id" element={<PaymentTransactionDetail />} errorElement={<ErrorPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Route>
   </Route>
 
 export default AppRoutes;

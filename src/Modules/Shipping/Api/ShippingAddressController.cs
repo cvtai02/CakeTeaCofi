@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shipping.Core.Usecases.Addresses;
 using Shipping.DTOs.Addresses;
@@ -28,12 +27,10 @@ public class ShippingAddressController(
         => Ok(await listShippingAddresses.ListLocalitiesAsync(request, cancellationToken));
 
     [HttpGet("sublocalities")]
-    public ActionResult GetSubLocalities(
-        [FromQuery] ListShippingSubLocalitiesRequest request)
-        => Problem(
-            title: "Shipping sublocality lookup is not implemented.",
-            detail: "Only country, administrative area, and locality lookup are currently available.",
-            statusCode: StatusCodes.Status501NotImplemented);
+    public async Task<ActionResult<ShippingSubLocalitiesResponse>> GetSubLocalities(
+        [FromQuery] ListShippingSubLocalitiesRequest request,
+        CancellationToken cancellationToken)
+        => Ok(await listShippingAddresses.ListSubLocalitiesAsync(request, cancellationToken));
 
     [HttpGet]
     public async Task<ActionResult<ShippingAddressCatalogResponse>> GetAll(

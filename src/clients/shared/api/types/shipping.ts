@@ -1,5 +1,5 @@
 import type { paths } from "../lib/openapi-types";
-import type { JsonResponse, QueryParams } from "./path-type-helpers";
+import type { JsonRequestBody, JsonResponse, QueryParams } from "./path-type-helpers";
 
 type ShippingPaths = paths;
 type Operation<TPath extends string, TMethod extends string> =
@@ -19,6 +19,8 @@ type ListShippingLocalitiesOperation =
     Operation<"/api/Shipping/addresses/localities", "get">;
 type ListShippingSubLocalitiesOperation =
     Operation<"/api/Shipping/addresses/sublocalities", "get">;
+type CreateShippingQuoteOperation =
+    Operation<"/api/Shipping/quotes", "post">;
 
 export type PackageLevel = "Lite" | "Standard" | "Large" | "Bulky" | "Oversize";
 
@@ -46,6 +48,14 @@ export type ShippingLocalityResponse =
     ShippingLocalitiesResponse["localities"][number];
 export type ListShippingSubLocalitiesQuery =
     QueryParams<ListShippingSubLocalitiesOperation>;
+export type ShippingSubLocalitiesResponse =
+    JsonResponse<ListShippingSubLocalitiesOperation>;
+export type ShippingSubLocalityResponse =
+    ShippingSubLocalitiesResponse["subLocalities"][number];
+export type CreateShippingQuoteRequest =
+    JsonRequestBody<CreateShippingQuoteOperation>;
+export type CreateShippingQuoteResponse =
+    JsonResponse<CreateShippingQuoteOperation>;
 
 export type ProductShippingResponse = {
     productId: string;

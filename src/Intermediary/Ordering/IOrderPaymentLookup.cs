@@ -2,7 +2,10 @@ namespace Intermediary.Ordering;
 
 public interface IOrderPaymentLookup
 {
-    Task<OrderPaymentInfo?> GetOrderForCheckoutAsync(string orderCode, CancellationToken cancellationToken = default);
+    Task<OrderPaymentInfo?> GetOrderForCheckoutAsync(
+        string orderCode,
+        string? guestCheckoutToken = null,
+        CancellationToken cancellationToken = default);
 }
 
 public sealed record OrderPaymentInfo(

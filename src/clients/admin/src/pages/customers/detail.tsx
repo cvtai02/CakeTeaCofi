@@ -1,4 +1,5 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { ArrowLeftIcon, UsersIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -26,7 +27,7 @@ function LabeledValue({ label, value }: { label: string; value: React.ReactNode 
 export default function CustomerDetailPage() {
   const { id } = useParams<{ id: string }>();
   const customerId = Number(id);
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const accountClient = useAccountClient();
 
   const { data: customer, isLoading, isError } = useQuery({

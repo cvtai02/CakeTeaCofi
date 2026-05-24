@@ -19,6 +19,7 @@ public class FileObjectController(
     ImportUnusedMediaFiles importUnusedMediaFiles,
     DeleteMediaFilesByKeys deleteMediaFilesByKeys) : ControllerBase
 {
+    [Authorize(Policy = Policies.TenantAdminUp)]
     [HttpGet]
     public async Task<ActionResult<PaginatedList<MediaFileResponse>>> GetAll(
         [FromQuery] ListMediaFilesRequest request, CancellationToken cancellationToken)
@@ -51,16 +52,19 @@ public class FileObjectController(
         CancellationToken cancellationToken)
         => Ok(await deleteMediaFilesByKeys.ExecuteAsync(request, cancellationToken));
 
+    [Authorize(Policy = Policies.TenantAdminUp)]
     [HttpPost("presigned-upload")]
     public async Task<ActionResult<PresignedUploadBulkUrlResponse>> GetPresignedUploadBulkUrl(
         [FromBody] GetPresignedUploadBulkUrlRequest request, CancellationToken cancellationToken)
         => Ok(await getPresignedUpload.ExecuteAsync(request, cancellationToken));
 
+    [Authorize(Policy = Policies.TenantAdminUp)]
     [HttpPost("confirm-upload")]
     public async Task<ActionResult<ConfirmUploadResponse>> ConfirmUpload(
         [FromBody] ConfirmUploadRequest request, CancellationToken cancellationToken)
         => Ok(await confirmUpload.ExecuteAsync(request, cancellationToken));
 
+    [Authorize(Policy = Policies.TenantAdminUp)]
     [HttpDelete]
     public async Task<IActionResult> Delete(
         [FromBody] DeleteMediaFilesRequest request, CancellationToken cancellationToken)

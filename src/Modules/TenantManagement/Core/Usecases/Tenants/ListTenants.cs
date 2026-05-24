@@ -11,13 +11,16 @@ public class ListTenants(TenantManagementDbContext db)
     {
         var query = db.Tenants.AsNoTracking().AsQueryable();
 
+        if (!request.IncludeArchived)
+            query = query.Where(x => !x.IsArchived);
+
         if (!string.IsNullOrWhiteSpace(request.Search))
         {
             var search = request.Search.Trim().ToLowerInvariant();
             query = query.Where(x =>
                 x.Name.ToLower().Contains(search) ||
                 x.Signature.ToLower().Contains(search) ||
-                x.Domain.ToLower().Contains(search));
+                (x.Domain != null && x.Domain.ToLower().Contains(search)));
         }
 
         if (request.IsActive.HasValue)

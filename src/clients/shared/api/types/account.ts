@@ -27,6 +27,12 @@ type GetAdminAccountProfileByIdOperation =
     Operation<"/api/Account/admin/profiles/{id}", "get">;
 type UpdateAdminAccountProfileOperation =
     Operation<"/api/Account/admin/profiles/{id}", "put">;
+type ListMyNotificationsOperation =
+    Operation<"/api/Account/notifications", "get">;
+type MarkMyNotificationReadOperation =
+    Operation<"/api/Account/notifications/{id}/read", "patch">;
+type MarkAllMyNotificationsReadOperation =
+    Operation<"/api/Account/notifications/read", "patch">;
 
 export const accountTypes = ["Customer", "TenantAdmin", "TenantStaff"] as const;
 export type AccountType = typeof accountTypes[number];
@@ -125,3 +131,7 @@ export type ListNotificationsResponse = {
 
 export type MarkNotificationReadResponse = NotificationResponse;
 export type MarkAllNotificationsReadResponse = ListNotificationsResponse;
+export type ListMyNotificationsQuery = QueryParams<ListMyNotificationsOperation>;
+export type ListMyNotificationsResponse = JsonResponse<ListMyNotificationsOperation>;
+export type MarkMyNotificationReadResponse = JsonResponse<MarkMyNotificationReadOperation>;
+export type MarkAllMyNotificationsReadResponse = JsonResponse<MarkAllMyNotificationsReadOperation>;

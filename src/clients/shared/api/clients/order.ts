@@ -4,6 +4,9 @@ import type {
   CreateOrderRequest,
   CreateOrderResponse,
   GetAdminOrderByCodeResponse,
+  ShipAdminOrderResponse,
+  CancelAdminOrderRequest,
+  CancelAdminOrderResponse,
   ListAdminOrdersQuery,
   ListAdminOrdersResponse,
   ListOrdersQuery,
@@ -76,6 +79,26 @@ export class OrderClient implements IOrderClient {
       `/api/Order/orders/admin/${encodeURIComponent(code)}`,
       undefined,
       "Admin order response was empty.",
+    );
+  }
+
+  async shipAdminOrder(code: string): Promise<ShipAdminOrderResponse> {
+    return this.requestJson<ShipAdminOrderResponse>(
+      `/api/Order/orders/admin/${encodeURIComponent(code)}/ship`,
+      { method: "POST" },
+      "Ship order response was empty.",
+    );
+  }
+
+  async cancelAdminOrder(code: string, input?: CancelAdminOrderRequest): Promise<CancelAdminOrderResponse> {
+    return this.requestJson<CancelAdminOrderResponse>(
+      `/api/Order/orders/admin/${encodeURIComponent(code)}/cancel`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input ?? {}),
+      },
+      "Cancel order response was empty.",
     );
   }
 

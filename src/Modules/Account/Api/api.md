@@ -28,3 +28,8 @@ Client contract: [AccountClient](../../../clients/shared/api/clients/account.ts)
 - Hub: `/hubs/notifications`
 - Auth: `TenantAdminUp` required
 - Server event emitted when an order is placed: `NotificationReceived`
+
+### Current Customer Notifications
+- `GET /api/Account/notifications` - auth: `AuthenticatedUserUp`. DTOs: [ListNotificationsRequest](../DTOs/Notifications/ListNotificationsRequest.cs), [NotificationResponse](../DTOs/Notifications/NotificationResponse.cs). Lists notifications addressed to the current user.
+- `PATCH /api/Account/notifications/{id}/read` - auth: `AuthenticatedUserUp`. Marks one current-user notification read.
+- `PATCH /api/Account/notifications/read` - auth: `AuthenticatedUserUp`. Marks unread current-user notifications read.

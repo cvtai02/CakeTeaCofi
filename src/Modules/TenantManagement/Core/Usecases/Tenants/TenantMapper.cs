@@ -14,9 +14,10 @@ internal static class TenantMapper
         CdnBaseUrl = tenant.CdnBaseUrl,
         LogoKey = tenant.LogoKey,
         LogoUrl = BuildLogoUrl(tenant),
-        AdminDashboardUrl = tenant.AdminDashboardUrl,
+        AdminEmail = tenant.AdminEmail,
         CountryCode = tenant.CountryCode,
         IsActive = tenant.IsActive,
+        IsArchived = tenant.IsArchived,
         Created = tenant.Created,
         LastModified = tenant.LastModified
     };

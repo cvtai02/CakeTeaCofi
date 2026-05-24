@@ -57,7 +57,7 @@ public static class InfrastructureInjection
 
             // use CloudflareR2 for all modules, can use factory later if want to support multiple providers
             services.AddScoped<IFileManager, CloudflareR2>();
-            services.AddSingleton<IDatabaseBackupService, PostgresR2DatabaseBackupService>();
+            services.AddScoped<IDatabaseBackupService, PostgresR2DatabaseBackupService>();
 
             // EventBus
             services.AddScoped<IPublisher, Mediator>();

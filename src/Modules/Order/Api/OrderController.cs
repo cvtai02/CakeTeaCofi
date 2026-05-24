@@ -13,7 +13,9 @@ public class OrderController(
     CreateOrder createOrder,
     AdminCreateOrder adminCreateOrder,
     GetOrderByCode getOrderByCode,
-    ListOrders listOrders) : ControllerBase
+    ListOrders listOrders,
+    ShipOrder shipOrder,
+    CancelOrder cancelOrder) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult<OrderResponse>> Create(
@@ -46,6 +48,25 @@ public class OrderController(
     public async Task<ActionResult<OrderResponse>> GetAdminByCode(string code, CancellationToken cancellationToken)
     {
         var result = await getOrderByCode.ExecuteAdminAsync(code, cancellationToken);
+        return result is null ? NotFound() : Ok(result);
+    }
+
+    [Authorize(Policy = Policies.TenantAdminUp)]
+    [HttpPost("admin/{code}/ship")]
+    public async Task<ActionResult<OrderResponse>> Ship(string code, CancellationToken cancellationToken)
+    {
+        var result = await shipOrder.ExecuteAsync(code, cancellationToken);
+        return result is null ? NotFound() : Ok(result);
+    }
+
+    [Authorize(Policy = Policies.TenantAdminUp)]
+    [HttpPost("admin/{code}/cancel")]
+    public async Task<ActionResult<OrderResponse>> Cancel(
+        string code,
+        [FromBody] CancelOrderRequest? request,
+        CancellationToken cancellationToken)
+    {
+        var result = await cancelOrder.ExecuteAsync(code, request, cancellationToken);
         return result is null ? NotFound() : Ok(result);
     }
 

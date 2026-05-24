@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import {
   WarehouseIcon,
   SearchIcon,
@@ -199,7 +199,7 @@ function InventoryRow({
 const PAGE_SIZES = [20, 50, 100];
 
 export default function InventoryPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const productCatalogClient = useProductCatalogClient();
   const inventoryClient = useInventoryClient();
 

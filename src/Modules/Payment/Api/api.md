@@ -11,13 +11,17 @@ Client contract: [PaymentClient](../../../clients/shared/api/clients/payment.ts)
   - Lists supported payment methods.
 
 - `POST /api/Payment/orders/{orderCode}/checkout`
-  - Authorization: authenticated user.
+  - Authorization: public for guest checkout token flow; authenticated customer checkout remains ownership-checked.
   - `orderCode` is the order code string.
-  - Creates or returns an active checkout transaction for a pending-payment order owned by the current user.
+  - Creates or returns an active checkout transaction for a pending-payment order owned by the current user, or an anonymous order with a valid guest checkout token.
 
 - `GET /api/Payment/transactions/{id}`
   - Authorization: authenticated user.
-  - Returns a non-deleted payment transaction.
+  - Returns a non-deleted payment transaction owned by the current user.
+
+- `GET /api/Payment/admin/transactions/{id}`
+  - Authorization: TenantAdminUp.
+  - Returns a non-deleted tenant payment transaction for admin workflows.
 
 - `POST /api/Payment/webhooks/{provider}`
   - Authorization: public provider callback.

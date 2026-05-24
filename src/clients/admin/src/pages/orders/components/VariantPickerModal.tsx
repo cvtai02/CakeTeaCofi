@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProductCatalogClient } from "@/components/containers/api-client-provider";
 import { cn } from "@/lib/utils";
-import type { ProductResponse, VariantResponse } from "@shared/api/contracts/productcatalog";
+import type { ProductResponse, VariantResponse } from "@shared/api/types/productcatalog";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 

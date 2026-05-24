@@ -6,10 +6,12 @@
 Client contract: [OrderClient](../../../clients/shared/api/clients/order.ts), [IOrderClient](../../../clients/shared/api/contracts/order.ts)
 
 ### Order
-- `POST /api/Order/orders` - auth: none currently. DTOs: [CreateOrderRequest](../DTOs/Orders/CreateOrderRequest.cs), [OrderResponse](../DTOs/Orders/OrderResponse.cs). Creates a customer order with code and submits inventory reservation.
+- `POST /api/Order/orders` - auth: public. DTOs: [CreateOrderRequest](../DTOs/Orders/CreateOrderRequest.cs), [OrderResponse](../DTOs/Orders/OrderResponse.cs). Creates an order and submits inventory reservation; anonymous order responses include a one-time guest checkout token.
 - `POST /api/Order/orders/admin` - auth: `TenantAdminUp`. DTOs: [AdminCreateOrderRequest](../DTOs/Orders/AdminCreateOrderRequest.cs), [OrderResponse](../DTOs/Orders/OrderResponse.cs). Creates an order for a selected customer profile.
 - `GET /api/Order/orders/admin` - auth: `TenantAdminUp`. DTOs: [ListOrdersRequest](../DTOs/Orders/ListOrdersRequest.cs), [OrderSummaryResponse](../DTOs/Orders/OrderSummaryResponse.cs). Lists tenant orders for admin.
 - `GET /api/Order/orders/admin/{code}` - auth: `TenantAdminUp`. DTOs: [OrderResponse](../DTOs/Orders/OrderResponse.cs). Gets admin order detail by code.
+- `POST /api/Order/orders/admin/{code}/ship` - auth: `TenantAdminUp`. DTO: [OrderResponse](../DTOs/Orders/OrderResponse.cs). Marks a placed COD order or paid order shipped.
+- `POST /api/Order/orders/admin/{code}/cancel` - auth: `TenantAdminUp`. DTOs: [CancelOrderRequest](../DTOs/Orders/CancelOrderRequest.cs), [OrderResponse](../DTOs/Orders/OrderResponse.cs). Cancels an order while its state allows cancellation.
 - `GET /api/Order/orders/{code}` - auth: `AuthenticatedUserUp`. DTOs: [OrderResponse](../DTOs/Orders/OrderResponse.cs). Gets current user's order detail by code.
 - `GET /api/Order/orders` - auth: `AuthenticatedUserUp`. DTOs: [ListOrdersRequest](../DTOs/Orders/ListOrdersRequest.cs), [OrderSummaryResponse](../DTOs/Orders/OrderSummaryResponse.cs). Lists current user's orders.
 

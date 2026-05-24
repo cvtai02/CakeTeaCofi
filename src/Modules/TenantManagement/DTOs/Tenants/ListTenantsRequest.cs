@@ -13,4 +13,6 @@ public class ListTenantsRequest
     public string? Search { get; set; }
 
     public bool? IsActive { get; set; }
+
+    public bool IncludeArchived { get; set; }
 }

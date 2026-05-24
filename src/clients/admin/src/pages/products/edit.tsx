@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { toast } from "sonner";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -14,7 +15,7 @@ import { ProductFormLayout } from "./components/ProductFormLayout";
 export default function EditProductPage() {
   const { id } = useParams<{ id: string }>();
   const productId = id!;
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const productCatalogClient = useProductCatalogClient();
 

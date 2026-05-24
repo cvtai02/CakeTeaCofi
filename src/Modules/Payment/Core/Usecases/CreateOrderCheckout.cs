@@ -24,17 +24,16 @@ public class CreateOrderCheckout(
         request ??= new CreateCheckoutRequest();
         var normalizedOrderCode = string.IsNullOrWhiteSpace(orderCode) ? string.Empty : orderCode.Trim();
 
-        var order = await orderLookup.GetOrderForCheckoutAsync(normalizedOrderCode, ct);
+        var order = await orderLookup.GetOrderForCheckoutAsync(
+            normalizedOrderCode,
+            request.GuestCheckoutToken,
+            ct);
 
         if (order is null)
             throw Validation("orderCode", "Order does not exist.");
 
-        if (string.IsNullOrWhiteSpace(order.CustomerId))
-        {
-            throw Validation("orderCode", "Anonymous orders cannot be checked out from this endpoint.");
-        }
-
-        if (!string.Equals(order.CustomerId, user.Id, StringComparison.Ordinal))
+        if (!string.IsNullOrWhiteSpace(order.CustomerId) &&
+            !string.Equals(order.CustomerId, user.Id, StringComparison.Ordinal))
         {
             throw Validation("orderCode", "Order does not belong to the current user.");
         }

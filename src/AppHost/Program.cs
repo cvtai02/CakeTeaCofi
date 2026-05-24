@@ -1,4 +1,5 @@
 using AppHost.Buildings;
+using AppHost.Specifications;
 using Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Scalar.AspNetCore;
@@ -29,6 +30,7 @@ app.UseCors(policy => policy
 .UseAuthorization()
 .UseExceptionHandler();
 
+app.UseMiddleware<TenantResolutionMiddleware>();
 app.UseModules();
 app.MapControllers();
 app.MapGet("/health", () => { return Results.Ok("Healthy"); }).WithName("HealthCheck");

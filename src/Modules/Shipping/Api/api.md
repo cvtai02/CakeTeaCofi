@@ -8,9 +8,12 @@ Client contract: [ShippingClient](../../../clients/shared/api/clients/shipping.t
 ### ProductShipping
 - `GET /api/Shipping/products/{productId}` - auth: `TenantModeratorUp`. DTOs: [ProductShippingResponse](../DTOs/ProductShipping/ProductShippingResponse.cs).
 
+### Quote
+- `POST /api/Shipping/quotes` - auth: public. DTOs: [CreateShippingQuoteRequest](../DTOs/Quotes/CreateShippingQuoteRequest.cs), [ShippingQuoteResponse](../DTOs/Quotes/ShippingQuoteResponse.cs). Calculates a package-level quote from selected variant shipping data and origin/destination address inputs.
+
 ### Addresses
 - `GET /api/Shipping/addresses/countries` - public country list from `CountryCode`, with supported-country flags and next administrative-area endpoint. DTO: [ShippingAddressCatalogResponse](../DTOs/Addresses/ShippingAddressCatalogResponse.cs).
 - `GET /api/Shipping/addresses/administrative-areas` - public administrative-area list by country. DTOs: [ListShippingAddressesRequest](../DTOs/Addresses/ListShippingAddressesRequest.cs), [ShippingAddressCatalogResponse](../DTOs/Addresses/ShippingAddressCatalogResponse.cs).
 - `GET /api/Shipping/addresses/localities` - public locality list by country and administrative area. DTOs: [ListShippingAddressesRequest](../DTOs/Addresses/ListShippingAddressesRequest.cs), [ShippingAddressCatalogResponse](../DTOs/Addresses/ShippingAddressCatalogResponse.cs).
-- `GET /api/Shipping/addresses/sublocalities` - public sublocality lookup endpoint, currently returns `501 Not Implemented`. DTO: [ListShippingAddressesRequest](../DTOs/Addresses/ListShippingAddressesRequest.cs).
+- `GET /api/Shipping/addresses/sublocalities` - public sublocality lookup by country, administrative area, and locality. DTOs: [ListShippingAddressesRequest](../DTOs/Addresses/ListShippingAddressesRequest.cs), [ShippingAddressCatalogResponse](../DTOs/Addresses/ShippingAddressCatalogResponse.cs). Returns an empty list when the hardcoded catalog has no sublocality rows yet.
 - `GET /api/Shipping/addresses` - compatibility alias for administrative-area catalog by country. DTOs: [ListShippingAddressesRequest](../DTOs/Addresses/ListShippingAddressesRequest.cs), [ShippingAddressCatalogResponse](../DTOs/Addresses/ShippingAddressCatalogResponse.cs).

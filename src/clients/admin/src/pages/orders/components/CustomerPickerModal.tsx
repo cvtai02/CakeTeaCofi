@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAccountClient } from "@/components/containers/api-client-provider";
 import { cn } from "@/lib/utils";
-import type { AccountProfileResponse } from "@shared/api/contracts/account";
+import type { AccountProfileResponse } from "@shared/api/types/account";
 
 interface Props {
   open: boolean;

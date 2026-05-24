@@ -1,5 +1,7 @@
 using Identity.Api;
 using Identity.Core.Entities;
+using Identity.Core.Services;
+using Intermediary.Tenants;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -25,6 +27,7 @@ public class IdentityModule(IHostApplicationBuilder b) : Module(b)
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<IdentityDbContext>()
             .AddDefaultTokenProviders();
+        Services.AddScoped<ITenantAdminAccountProvisioner, TenantAdminAccountProvisioner>();
 
         Services.Configure<BearerTokenOptions>(IdentityConstants.BearerScheme, options =>
         {

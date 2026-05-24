@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { ClipboardListIcon, PlusIcon, SearchIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -43,7 +43,7 @@ type StatusFilter =
 const PAGE_SIZE = 20;
 
 export default function OrdersPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const orderClient = useOrderClient();
 
   const [search, setSearch] = useState("");

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -9,7 +9,7 @@ import type { BlogPostCollectionFormValues } from "./components/BlogPostCollecti
 import { BlogPostCollectionFormLayout } from "./components/BlogPostCollectionFormLayout";
 
 export default function AddBlogPostCollectionPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const contentClient = useContentClient();
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { toast } from "sonner";
 import {
   ArrowLeftIcon,
@@ -29,7 +29,7 @@ import {
 import { applyValidationErrors } from "@/lib/form-error";
 import { ROUTES } from "@/configs/routes";
 import { ApiError } from "@shared/api/contracts/common-types";
-import type { AccountProfileResponse } from "@shared/api/contracts/account";
+import type { AccountProfileResponse } from "@shared/api/types/account";
 
 import { CustomerPickerModal } from "./components/CustomerPickerModal";
 import { VariantPickerModal, type SelectedVariantItem } from "./components/VariantPickerModal";
@@ -52,7 +52,7 @@ type ShippingAddressValues = {
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function AdminCreateOrderPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const orderClient = useOrderClient();
   const paymentClient = usePaymentClient();

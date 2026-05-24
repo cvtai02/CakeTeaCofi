@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { ArrowLeftIcon, UsersIcon } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
@@ -29,7 +29,7 @@ type FormValues = {
 };
 
 export default function AddCustomerPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const queryClient = useQueryClient();
   const accountClient = useAccountClient();
 

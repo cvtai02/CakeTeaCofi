@@ -23,6 +23,7 @@ public class OrderDbContext : TenancyDbContext
             builder.HasKey(order => order.Code);
             builder.Property(order => order.Code).HasMaxLength(64);
             builder.Property(order => order.CurrencyCode).HasMaxLength(3);
+            builder.Property(order => order.GuestCheckoutTokenHash).HasMaxLength(128);
             builder.Property(order => order.RejectionReason).HasMaxLength(2000);
             builder.Property(order => order.TotalAmount).HasPrecision(18, 2);
             builder.OwnsOne(order => order.ShippingAddress, sa =>

@@ -10,7 +10,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import type { IInventoryClient, ImportVariantInventoryRequest } from "@shared/api/contracts/inventory";
+import type { IAdminApiClient } from "@shared/api/contracts/admin";
+import type { ImportVariantInventoryRequest } from "@shared/api/types/inventory";
+
+type IInventoryClient = IAdminApiClient["inventory"];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

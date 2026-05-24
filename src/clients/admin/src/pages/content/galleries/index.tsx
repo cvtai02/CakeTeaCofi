@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useTenantNavigate } from "@/hooks/use-tenant-navigate";
 import { GalleryHorizontalIcon, PencilIcon, PlusIcon, SearchIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -16,7 +16,7 @@ import type { GallerySummaryResponse } from "@shared/api/types/content";
 // ─── Row ─────────────────────────────────────────────────────────────────────
 
 function GalleryRow({ gallery }: { gallery: GallerySummaryResponse }) {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
 
   return (
     <button
@@ -56,7 +56,7 @@ function GalleryRow({ gallery }: { gallery: GallerySummaryResponse }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function AdminGalleriesPage() {
-  const navigate = useNavigate();
+  const navigate = useTenantNavigate();
   const contentClient = useContentClient();
 
   const [search, setSearch] = useState("");

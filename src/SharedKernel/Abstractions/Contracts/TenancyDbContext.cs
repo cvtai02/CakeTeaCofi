@@ -8,6 +8,7 @@ namespace SharedKernel.Abstractions.Contracts;
 public abstract class TenancyDbContext : DbContext
 {
     protected readonly ITenant _tenant;
+    public int CurrentTenantId => _tenant.Id;
 
     protected TenancyDbContext(DbContextOptions options, ITenant? tenant) : base(options)
     {
@@ -29,10 +30,9 @@ public abstract class TenancyDbContext : DbContext
 
             var param = Expression.Parameter(entityType.ClrType, "x");
             var tenantIdProp = Expression.Property(param, nameof(Entity.TenantId));
-            var filter = Expression.Lambda(
-                Expression.Equal(tenantIdProp, Expression.Constant(_tenant.Id)),
-                param
-            );
+            var context = Expression.Constant(this);
+            var tenantId = Expression.Property(context, nameof(CurrentTenantId));
+            var filter = Expression.Lambda(Expression.Equal(tenantIdProp, tenantId), param);
             modelBuilder.Entity(entityType.ClrType).HasQueryFilter(filter);
         }
     }

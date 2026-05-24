@@ -13,8 +13,12 @@ import type {
   ListAdminAccountProfilesResponse,
   ListNotificationsQuery,
   ListNotificationsResponse,
+  ListMyNotificationsQuery,
+  ListMyNotificationsResponse,
   MarkAllNotificationsReadResponse,
   MarkNotificationReadResponse,
+  MarkMyNotificationReadResponse,
+  MarkAllMyNotificationsReadResponse,
   SaveAccountAddressRequest,
   UpdateAccountAddressRequest,
   UpdateAccountAddressResponse,
@@ -139,6 +143,30 @@ export class AccountClient implements IAccountClient {
   async markAllAdminNotificationsRead(): Promise<MarkAllNotificationsReadResponse> {
     return this.requestJson<MarkAllNotificationsReadResponse>(
       "/api/Account/admin/notifications/read",
+      { method: "PATCH" },
+      "Mark all notifications read response was empty.",
+    );
+  }
+
+  async listMyNotifications(query?: ListMyNotificationsQuery): Promise<ListMyNotificationsResponse> {
+    return this.requestJson<ListMyNotificationsResponse>(
+      `/api/Account/notifications${this.toQueryString(query)}`,
+      undefined,
+      "Notifications response was empty.",
+    );
+  }
+
+  async markMyNotificationRead(id: number): Promise<MarkMyNotificationReadResponse> {
+    return this.requestJson<MarkMyNotificationReadResponse>(
+      `/api/Account/notifications/${id}/read`,
+      { method: "PATCH" },
+      "Mark notification read response was empty.",
+    );
+  }
+
+  async markAllMyNotificationsRead(): Promise<MarkAllMyNotificationsReadResponse> {
+    return this.requestJson<MarkAllMyNotificationsReadResponse>(
+      "/api/Account/notifications/read",
       { method: "PATCH" },
       "Mark all notifications read response was empty.",
     );

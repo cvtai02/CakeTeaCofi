@@ -1,71 +1,47 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useMemo, type ReactNode } from "react";
-import {
-  AccountClient,
-  ContentClient,
-  IdentityClient,
-  InventoryClient,
-  OrderClient,
-  PaymentClient,
-  ProductCatalogClient,
-  SystemClient,
-  TenantManagementClient,
-} from "@shared/api/clients";
-import type {
-  IAccountClient,
-  IContentClient,
-  IIdentityClient,
-  IInventoryClient,
-  IOrderClient,
-  IPaymentClient,
-  IProductCatalogClient,
-  ISystemClient,
-  ITenantManagementClient,
-} from "@shared/api/contracts";
+import { AdminApiClient } from "@shared/api/admin-api";
+import type { IAdminApiClient } from "@shared/api/contracts/admin";
+import { IdentityClient } from "@shared/api/clients";
 import { appFetch } from "@/configs/appFetch";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 const API_IDENTITY_URL = import.meta.env.VITE_API_IDENTITY_URL as string;
 
-type ApiClients = {
-  account: IAccountClient;
-  content: IContentClient;
-  identity: IIdentityClient;
-  inventory: IInventoryClient;
-  order: IOrderClient;
-  payment: IPaymentClient;
-  productCatalog: IProductCatalogClient;
-  system: ISystemClient;
-  tenantManagement: ITenantManagementClient;
-};
-
-const ApiClientContext = createContext<ApiClients | null>(null);
+const ApiClientContext = createContext<IAdminApiClient | null>(null);
 
 export function ApiClientProvider({ children }: { children: ReactNode }) {
-  const clients = useMemo<ApiClients>(
-    () => ({
-      account: new AccountClient(appFetch, API_BASE_URL),
-      content: new ContentClient(appFetch, API_BASE_URL),
-      identity: new IdentityClient(appFetch, API_IDENTITY_URL),
-      inventory: new InventoryClient(appFetch, API_BASE_URL),
-      order: new OrderClient(appFetch, API_BASE_URL),
-      payment: new PaymentClient(appFetch, API_BASE_URL),
-      productCatalog: new ProductCatalogClient(appFetch, API_BASE_URL),
-      system: new SystemClient(appFetch, API_BASE_URL),
-      tenantManagement: new TenantManagementClient(appFetch, API_BASE_URL),
-    }),
-    []
-  );
+  const adminApi = useMemo<IAdminApiClient>(() => {
+    const composed = new AdminApiClient(appFetch, API_BASE_URL);
+    // Identity is hosted on a separate URL in this app. Until the shared
+    // AdminApiClient supports a dedicated identity URL (see
+    // requirements/backend-handoff/admin-api-client-identity-url.md), override
+    // the identity field with an IdentityClient pointed at API_IDENTITY_URL.
+    const identity = new IdentityClient(appFetch, API_IDENTITY_URL);
+    return {
+      account: composed.account,
+      content: composed.content,
+      identity,
+      inventory: composed.inventory,
+      order: composed.order,
+      payment: composed.payment,
+      productCatalog: composed.productCatalog,
+      shipping: composed.shipping,
+      system: composed.system,
+      tenantManagement: composed.tenantManagement,
+    };
+  }, []);
 
-  return <ApiClientContext.Provider value={clients}>{children}</ApiClientContext.Provider>;
+  return <ApiClientContext.Provider value={adminApi}>{children}</ApiClientContext.Provider>;
 }
 
-function useApiClients(): ApiClients {
+function useApiClients(): IAdminApiClient {
   const ctx = useContext(ApiClientContext);
   if (!ctx) throw new Error("useApiClients must be used inside ApiClientProvider");
   return ctx;
 }
 
+export const useAdminApi = () => useApiClients();
 export const useAccountClient = () => useApiClients().account;
 export const useContentClient = () => useApiClients().content;
 export const useIdentityClient = () => useApiClients().identity;
@@ -73,5 +49,6 @@ export const useInventoryClient = () => useApiClients().inventory;
 export const useOrderClient = () => useApiClients().order;
 export const usePaymentClient = () => useApiClients().payment;
 export const useProductCatalogClient = () => useApiClients().productCatalog;
+export const useShippingClient = () => useApiClients().shipping;
 export const useSystemClient = () => useApiClients().system;
 export const useTenantManagementClient = () => useApiClients().tenantManagement;

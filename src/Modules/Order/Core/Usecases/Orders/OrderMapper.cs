@@ -4,13 +4,14 @@ namespace Order.Core.Usecases.Orders;
 
 internal static class OrderMapper
 {
-    internal static OrderResponse ToResponse(Entities.Order order) => new()
+    internal static OrderResponse ToResponse(Entities.Order order, string? guestCheckoutToken = null) => new()
     {
         Code = order.Code,
         CustomerId = order.CustomerId,
         Status = order.Status,
         CurrencyCode = order.CurrencyCode,
         PaymentProvider = order.PaymentProvider,
+        GuestCheckoutToken = guestCheckoutToken,
         TotalAmount = order.TotalAmount,
         RejectionReason = order.RejectionReason,
         ShippingAddress = order.ShippingAddress,
